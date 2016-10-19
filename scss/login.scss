@@ -1,0 +1,54 @@
+.login-wrapper{
+  background: url(../img/login.jpg) no-repeat center center;
+  background-size: cover;
+}
+
+.login-inputs-wrapper{
+  background: rgba(255, 255, 255, .7);
+  width: 92%;
+  border-radius: 5px;
+  margin:0 auto;
+  overflow: hidden;
+  padding:15px 0 20px;
+}
+
+.logo{
+  min-height: 100px;
+  background: url(../img/logo.png) no-repeat center center, rgba(255, 255,255,0.4);
+  background-size: contain;
+  margin-bottom: 10vh;
+}
+
+.login-header{
+  color: $orange;
+  font-size:35px;
+  text-align: center;
+  margin-bottom: 5vh;
+}
+
+.input-login{
+  background: rgba(255,255,255,.5);
+  border: none;
+}
+
+.login-sub-header{
+  color: #ffffff;
+}
+
+.login-button-login{
+  background: $orange;
+  border-radius: initial;
+  font-size: 25px;
+  color: #ffffff;
+}
+
+.checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before {
+  background: #fa6800;
+  border-color: #fa6800;
+}
+
+.login-forgot-sign-up{
+  display: inline-block;
+  width:49%;
+  padding:10px 15px;
+}
