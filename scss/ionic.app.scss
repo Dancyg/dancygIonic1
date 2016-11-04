@@ -1,5 +1,6 @@
-$orange: #fa6800;
-$dar-gray: #444;
+$orange: #FF9500;
+$gray: #4c4c4c;
+$light-gray: #f8f8f8;
 
 
 // The path for our ionicons font files, relative to the built CSS in www/css
@@ -8,6 +9,11 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 @import "login";
+@import "signup";
+@import "general";
+@import "rules";
+@import "support";
+@import "home";
 
 
 

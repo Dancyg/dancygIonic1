@@ -9818,7 +9818,7 @@ a.button {
   margin-bottom: 10vh; }
 
 .login-header {
-  color: #fa6800;
+  color: #FF9500;
   font-size: 35px;
   text-align: center;
   margin-bottom: 5vh; }
@@ -9834,7 +9834,13 @@ a.button {
   background: #fa6800;
   border-radius: initial;
   font-size: 25px;
-  color: #ffffff; }
+  color: #ffffff;
+  width: 100%;
+  border: none;
+  height: 45px;
+  outline: none;
+  margin: 25px 0 10px;
+  line-height: 45px; }
 
 .checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before {
   background: #fa6800;
@@ -9842,5 +9848,127 @@ a.button {
 
 .login-forgot-sign-up {
   display: inline-block;
-  width: 49%;
-  padding: 10px 15px; }
+  width: 100%;
+  padding: 10px 15px;
+  color: #444; }
+
+.signup-wrapper {
+  background: url(../img/signup.jpg) no-repeat center center;
+  background-size: cover; }
+
+body {
+  font-family: Lato, sans-serif; }
+
+.header-custom {
+  color: #FF9500;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  background: url(../img/logo-horse.png) center center no-repeat, #696969;
+  background-size: 48px; }
+
+.footer-custom {
+  background: #696969;
+  color: #FF9500;
+  opacity: 1; }
+
+.button-logo {
+  background: url(../img/logo-horse.png) 100% 100% no-repeat;
+  width: 28px;
+  height: 28px;
+  background-size: cover; }
+
+.link-header-custom {
+  display: inline-block;
+  color: #FF9500;
+  text-decoration: none;
+  border: 1px solid #ff9500 !important;
+  padding: 5px 5px !important;
+  border-radius: 3px !important;
+  font-weight: bold;
+  font-size: 15px !important; }
+
+.tab-item.tab-item-active, .tab-item.active, .tab-item.activated {
+  background: #ff9500;
+  color: #696969; }
+
+.tab-nav {
+  padding-top: 0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); }
+
+.spinner svg {
+  width: 48px;
+  height: 48px;
+  stroke: #FF9500; }
+
+.back-button-custom {
+  display: block !important;
+  color: #ff9500 !important;
+  border: 1px solid #ff9500 !important;
+  padding: 0 5px !important;
+  border-radius: 3px !important; }
+
+.gambling-responsibly-container {
+  font-size: 20px;
+  line-height: 30px;
+  background: #ffffff;
+  color: #4c4c4c; }
+  .gambling-responsibly-container h4 {
+    font-weight: bold;
+    color: #4c4c4c;
+    margin: 20px 0; }
+
+p:first-letter {
+  padding-left: 15px; }
+
+.rules-main-header {
+  height: 348px;
+  padding: 127px 0;
+  background: url(../img/stop_gambl.jpg) center center no-repeat;
+  background-size: cover;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 47px; }
+
+.support-wrapper {
+  background: #f8f8f8; }
+
+.support-inputs-wrapper {
+  background: dimgray;
+  width: 92%;
+  border-radius: 5px;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 15px 0 20px;
+  margin-top: 40px; }
+
+.support-info {
+  color: #f8f8f8; }
+
+.input-support {
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  margin: 0;
+  border-bottom: 1px solid #696969; }
+
+.blog-item-custom {
+  height: 120px; }
+  .blog-item-custom a {
+    min-height: 120px !important;
+    padding-top: 15px !important;
+    padding-right: 120px !important; }
+    .blog-item-custom a img {
+      min-height: 90px !important;
+      min-width: 90px !important;
+      top: 12px !important;
+      right: 15px !important; }
+    .blog-item-custom a h2 {
+      overflow: hidden;
+      text-overflow: initial;
+      white-space: normal;
+      font-size: 20px; }
+
+.blog-image {
+  min-width: 100%; }
+
+.blog-container-custom {
+  font-size: 1.3em;
+  line-height: 1.7em; }

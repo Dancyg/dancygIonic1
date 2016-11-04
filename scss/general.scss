@@ -1,0 +1,58 @@
+body{
+  font-family:Lato, sans-serif;
+}
+
+.header-custom{
+  color: $orange;
+  box-shadow: 0 0 5px rgba(0,0,0,.5);
+  background: url(../img/logo-horse.png) center center no-repeat, #696969;
+  background-size: 48px;
+}
+
+.footer-custom{
+  background: #696969;
+  color: $orange;
+  opacity:1;
+}
+
+.button-logo{
+  background: url(../img/logo-horse.png) 100% 100% no-repeat;
+  width: 28px;
+  height: 28px;
+  background-size: cover;
+}
+
+.link-header-custom{
+  display: inline-block;
+  color: #FF9500;
+  text-decoration: none;
+  border: 1px solid #ff9500 !important;
+  padding: 5px 5px !important;
+  border-radius: 3px !important;
+  font-weight: bold;
+  font-size: 15px !important;
+}
+
+.tab-item.tab-item-active, .tab-item.active, .tab-item.activated {
+  background: #ff9500;
+  color: #696969;
+}
+
+.tab-nav{
+  padding-top: 0;
+  box-shadow: 0 0 5px rgba(0,0,0,.5);
+}
+
+.spinner svg{
+  width: 48px;
+  height: 48px;
+  stroke: $orange;
+}
+
+.back-button-custom{
+  display: block !important;
+  color: #ff9500 !important;
+  border: 1px solid #ff9500 !important;
+  padding: 0 5px !important;
+  border-radius: 3px !important;
+}

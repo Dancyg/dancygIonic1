@@ -23,67 +23,94 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider, $compileProvider) {
+  $ionicConfigProvider.navBar.alignTitle("center"); //Places them at the bottom for all OS
+  $ionicConfigProvider.tabs.position("bottom"); //Places them at the bottom for all OS
+  $ionicConfigProvider.tabs.style("standard"); //Makes them all look the same across all OS
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
+
+  $httpProvider.defaults.headers.common = {};
+  $httpProvider.defaults.headers.post = {};
+  $httpProvider.defaults.headers.put = {};
+  $httpProvider.defaults.headers.patch = {};
+
+  // $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|content):|data:image\//);
+
   $stateProvider
 
     .state('login', {
       url: '/login',
-      templateUrl: 'templates/login.html'
+      templateUrl: 'templates/login.html',
+      controller:'LoginCtrl'
+    })
+
+    .state('signup', {
+      url: '/signup',
+      templateUrl: 'templates/signup.html'
     })
 
   // setup an abstract state for the tabs directive
-    .state('tab', {
+  .state('tab', {
     url: '/tab',
+    abstract: true,
     templateUrl: 'templates/tabs.html'
   })
 
   // Each tab has its own nav history stack:
 
-  .state('tab.dash', {
-    url: '/dash',
+  .state('tab.home', {
+    url: '/home',
     views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
+      'tab-home': {
+        templateUrl: 'templates/tab-home.html',
+        controller: 'BlogCtrl'
+      }
+    }
+  })
+    .state('tab.blog', {
+    url: '/home/:blogID',
+    views: {
+      'tab-home': {
+        templateUrl: 'templates/blog.html',
+        controller: 'OneBlogCtrl'
       }
     }
   })
 
-  .state('tab.chats', {
-      url: '/chats',
+  .state('tab.tipsters', {
+      url: '/tipsters',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
+        'tab-tipsters': {
+          templateUrl: 'templates/tab-my-tipsters.html',
+          controller: 'TipstersCtrl'
         }
       }
     })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
+    .state('tab.support', {
+      url: '/support',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
+        'tab-support': {
+          templateUrl: 'templates/tab-support.html',
+          controller: ''
         }
       }
     })
 
-  .state('tab.account', {
-    url: '/account',
+  .state('tab.rules', {
+    url: '/rules',
     views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
+      'tab-rules': {
+        templateUrl: 'templates/tab-rules.html',
+        controller: ''
       }
     }
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/tab/home');
 
 });

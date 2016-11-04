@@ -1,0 +1,39 @@
+.blog-item-custom{
+  height:120px;
+
+
+  a{
+    min-height:120px !important;
+    padding-top: 15px !important;
+    padding-right: 120px !important;
+
+    img{
+      min-height:90px !important;
+      min-width:90px !important;
+      top:12px !important;
+      right:15px !important;
+    }
+
+    h2{
+      overflow: hidden;
+      text-overflow: initial;
+      white-space: normal;
+      font-size: 20px;
+    }
+
+  }
+
+}
+
+.blog-image{
+  min-width:100%;
+}
+
+.blog-title{
+  //text-align: center;
+}
+
+.blog-container-custom{
+  font-size: 1.3em;
+  line-height: 1.7em;
+}
