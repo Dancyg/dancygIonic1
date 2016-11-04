@@ -13,13 +13,15 @@
   <ion-content>
 
     <ion-list>
-      <ion-item class=" item-thumbnail-right blog-item-custom"
+      <ion-item class=" item-image blog-item-custom"
                 ng-repeat="blog in blogs" type="item-text-wrap"
                 type="item-text-wrap" href="#/tab/home/{{blog.id}}"
       >
 
         <img ng-src="{{blog.thumbnail || '//:0' }}" />
-        <h2 ng-bind-html="blog.title()"></h2>
+        <span class="blog-gradient"></span>
+        <h2 ng-bind-html="blog.title()"
+        ></h2>
 
       </ion-item>
     </ion-list>

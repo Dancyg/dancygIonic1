@@ -68,7 +68,7 @@ angular.module('starter.controllers', ['ngSanitize'])
           $scope.blogs = res.data.posts.map(function (blog, i) {
             return {
               id:blog.id,
-              thumbnail: blog.thumbnail,
+              thumbnail: blog.thumbnail_images.medium.url,
               title: function () {
                 return $sce.trustAsHtml(blog.title);
               }
