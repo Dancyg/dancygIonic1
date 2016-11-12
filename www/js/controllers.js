@@ -1,5 +1,5 @@
 var LOGIN = "https://members.bettinggods.com/api/login";
-var BLOGS = "https://bettinggods.com/api/get_recent_posts/";
+var BLOGS = "https://bettinggods.com/api/get_recent_posts/?page=";
 var BLOG = "https://bettinggods.com/api/get_post/?id=";
 
 angular.module('starter.controllers', ['ngSanitize'])
@@ -57,31 +57,49 @@ angular.module('starter.controllers', ['ngSanitize'])
         //   alert(JSON.stringify(res.data));
         // })
   })
-  .controller("BlogCtrl", function ($scope, $http, $ionicPopup, Loading, $sce) {
+  .controller("BlogCtrl", function ($scope, $http, $ionicPopup, Loading, $sce, $timeout) {
+
     $scope.domParser = new DOMParser();
     Loading.start();
 
-    $http.post(BLOGS, {count: 3})
-      .then(
-        function (res) {
-          Loading.hide();
-          $scope.blogs = res.data.posts.map(function (blog, i) {
-            return {
-              id:blog.id,
-              thumbnail: blog.thumbnail_images.medium.url,
-              title: function () {
-                return $sce.trustAsHtml(blog.title);
-              }
-            }
-          });
-          console.log(res.data)
+    $scope.page = 1;
+    $scope.lastPage = '';
+    $scope.loadBlogs = function (page){
+      $scope.blogs = $scope.blogs || {};
+      var url = BLOGS + page;
+      $http.post(url, {count: 3})
+        .then(
+          function (res) {
+            Loading.hide();
 
-        },
-        function (res) {
-          Loading.hide();
-          console.log("error", res.data);
-        }
-      );
+            res.data.posts.forEach(function (blog, i) {
+              $scope.blogs[10000000 - blog.id] = {
+                id         : blog.id,
+                thumbnail  : blog.thumbnail_images.medium.url,
+                title      : function () { return $sce.trustAsHtml(blog.title) }
+              }
+            });
+
+            console.log($scope.blogs);
+            $scope.$broadcast('scroll.refreshComplete');
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+            $scope.lastPage = res.data.pages;
+
+          },
+          function (res) {
+            Loading.hide();
+            console.log("error", res.data);
+            $scope.$broadcast('scroll.refreshComplete');
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+          }
+        );
+    }
+
+    $scope.loadBlogs($scope.page);
+
+    $scope.loadMoreBlogs = function () {
+      $scope.loadBlogs(++$scope.page)
+    }
 
 
   })

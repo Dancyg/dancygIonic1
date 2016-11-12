@@ -1,34 +1,28 @@
 .blog-item-custom{
   height:auto;
-  position: relative;
-
+  min-height:170px !important;
 
   a{
     z-index: 20;
     min-height:100%;
-    padding: 10px !important;
-
-
-
-    img{
-      display: block;
-      min-height:90px !important;
-      min-width:90px !important;
-      top:12px !important;
-      right:15px !important;
-      max-width:100%;
-    }
+    padding: 0 !important;
 
     .blog-gradient{
       display: block;
-      position: absolute;
       z-index: 15;
-      width: 95%;
-      height: 90%;
-      bottom: 10px;
-      background: -moz-linear-gradient(top, rgba(89, 89, 89, 0) 52%, rgba(89, 89, 89, 0.45) 74%, rgba(0, 0, 0, 0.98) 100%);
-      background: -webkit-linear-gradient(top, rgba(89, 89, 89, 0) 52%, rgba(89, 89, 89, 0.45) 74%, rgba(0, 0, 0, 0.98) 100%);
-      background: linear-gradient(to bottom, rgba(89, 89, 89, 0) 52%, rgba(89, 89, 89, 0.45) 74%, rgba(0, 0, 0, 0.98) 100%);
+      width: 100%;
+      height: auto;
+      min-height:170px;
+      background-size:cover;
+      position: relative;
+
+      .image-hidden{
+        display: block;
+        min-height:90px !important;
+        min-width:90px !important;
+        max-width:100%;
+        visibility: hidden;
+      }
     }
 
     h2{
@@ -49,17 +43,4 @@
 
   }
 
-}
-
-.blog-image{
-  min-width:100%;
-}
-
-.blog-title{
-  //text-align: center;
-}
-
-.blog-container-custom{
-  font-size: 1.3em;
-  line-height: 1.7em;
 }
