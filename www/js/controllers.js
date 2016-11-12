@@ -1,6 +1,6 @@
-var LOGIN = "https://members.bettinggods.com/api/login";
-var BLOGS = "https://bettinggods.com/api/get_recent_posts/?page=";
-var BLOG = "https://bettinggods.com/api/get_post/?id=";
+var LOGIN      = "https://members.bettinggods.com/api/login";
+var BLOGS      = "https://bettinggods.com/api/get_recent_posts/?page=";
+var BLOG       = "https://bettinggods.com/api/get_post/?id=";
 
 angular.module('starter.controllers', ['ngSanitize'])
 
@@ -57,33 +57,40 @@ angular.module('starter.controllers', ['ngSanitize'])
         //   alert(JSON.stringify(res.data));
         // })
   })
-  .controller("BlogCtrl", function ($scope, $http, $ionicPopup, Loading, $sce, $timeout) {
+  .controller("BlogCtrl", function ($scope, $http, $ionicPopup, Loading, $sce, $ionicPopover, Categories) {
 
     $scope.domParser = new DOMParser();
     Loading.start();
 
     $scope.page = 1;
     $scope.lastPage = '';
-    $scope.loadBlogs = function (page){
-      $scope.blogs = $scope.blogs || {};
-      var url = BLOGS + page;
+    $scope.currentCategoryId = '';
+
+    $scope.loadBlogs = function (page, blogs, catId){
+      $scope.blogs = blogs || {};
+
+
+      if(catId){
+        $scope.currentCategoryId = catId;
+      }
+      var url = BLOGS + page + '&cat=' + $scope.currentCategoryId;
       $http.post(url, {count: 3})
         .then(
           function (res) {
             Loading.hide();
 
             res.data.posts.forEach(function (blog, i) {
-              $scope.blogs[10000000 - blog.id] = {
+              $scope.blogs[1 - 1 / blog.id] = {
                 id         : blog.id,
                 thumbnail  : blog.thumbnail_images.medium.url,
                 title      : function () { return $sce.trustAsHtml(blog.title) }
               }
             });
 
-            console.log($scope.blogs);
             $scope.$broadcast('scroll.refreshComplete');
             $scope.$broadcast('scroll.infiniteScrollComplete');
             $scope.lastPage = res.data.pages;
+            console.log($scope.blogs)
 
           },
           function (res) {
@@ -98,8 +105,48 @@ angular.module('starter.controllers', ['ngSanitize'])
     $scope.loadBlogs($scope.page);
 
     $scope.loadMoreBlogs = function () {
-      $scope.loadBlogs(++$scope.page)
+      $scope.loadBlogs(++$scope.page, $scope.blogs)
     }
+
+    $scope.currentCategory = 'All';
+    $scope.chooseCategory = function (name, id) {
+      $scope.currentCategory = name;
+      $scope.blogs = {};
+      $scope.page = 1
+      $scope.loadBlogs($scope.page, $scope.blogs, id);
+      $scope.closePopover();
+      Loading.start();
+    };
+
+    Categories.get(function (categories) {
+      $scope.categories = categories;
+
+      var template = '<ion-popover-view class="popover-custom">' +
+        '<ion-content> ' +
+        '<div class="category-item">' +
+        '<h4 ng-click="chooseCategory(\'All\', \' \')">All</h4>' +
+        '</div> ' +
+        '<div ng-repeat="cat in categories" class="category-item" ng-click="chooseCategory(cat.title, cat.id)">' +
+          '<h4 >{{cat.title}}</h4>' +
+        '</div> ' +
+        '</ion-content> ' +
+        '</ion-popover-view>';
+
+
+
+      $scope.popover = $ionicPopover.fromTemplate(template, {
+        scope: $scope
+      });
+
+      $scope.openPopover = function($event) {
+        $scope.popover.show($event);
+      };
+      $scope.closePopover = function() {
+        $scope.popover.hide();
+      };
+    });
+
+
 
 
   })

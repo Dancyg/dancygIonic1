@@ -1,3 +1,37 @@
+.categories-button, .categories-button:active{
+  z-index: 30;
+  color: #FF9500;
+  border-radius: 3px !important;
+  font-weight: bold;
+  font-size: 15px !important;
+  background: transparent;
+  outline:none;
+}
+
+.popover-arrow:after{
+  background: rgb(95, 95, 95) !important;
+}
+
+.popover-custom{
+  background: rgb(95, 95, 95);
+  width: 80vw;
+  height: 70vh;
+
+  .category-item{
+    padding: 10px 15px !important;
+    border-bottom: 1px solid #999;
+
+    h4{
+      color: $orange !important;
+      font-weight:bold !important;
+    }
+
+  }
+  .category-item:hover{
+    background: rgb(120, 120, 120);
+  }
+}
+
 .blog-item-custom{
   height:auto;
   min-height:170px !important;
