@@ -1,4 +1,4 @@
-var LOGIN      = "https://members.bettinggods.com/api/login";
+var LOGIN      = "https://members.bettinggods.com/api/login/";
 var BLOGS      = "https://bettinggods.com/api/get_recent_posts/?page=";
 var BLOG       = "https://bettinggods.com/api/get_post/?id=";
 
@@ -26,7 +26,7 @@ angular.module('starter.controllers', ['ngSanitize'])
     };
 
     $scope.submit = function () {
-      Loading.start();
+      // Loading.start();
       var formData = new FormData();
       for (var key in $scope.data) {
         formData.append(key, $scope.data[key]);
@@ -35,18 +35,20 @@ angular.module('starter.controllers', ['ngSanitize'])
       $http.post(LOGIN, formData)
         .then(
           function (res){
-            console.log(res);
-            Loading.hide();
-            $state.go("tab.home");
+
+            // Loading.hide();
+            // $state.go("tab.home");
+            console.log(JSON.stringify(res.data.status));
 
         },
           function (res) {
-            var text = res.data.error;
-            if(!text){
-              text = "Please check your credentials and network connection."
-            }
-            Loading.hide();
-            $scope.alert(text);
+          console.log(JSON.stringify(res));
+            // var text = res.data.error;
+            // if(!text){
+            //   text = "Please check your credentials and network connection."
+            // }
+            // Loading.hide();
+            // $scope.alert(text);
           }
         );
     }
@@ -57,13 +59,13 @@ angular.module('starter.controllers', ['ngSanitize'])
         //   alert(JSON.stringify(res.data));
         // })
   })
-  .controller("BlogCtrl", function ($scope, $http, $ionicPopup, Loading, $sce, $ionicPopover, Categories) {
+  .controller("BlogCtrl", function ($scope, $http, $ionicPopup, Loading, $sce, $ionicPopover, Categories,  $ionicScrollDelegate, $rootScope) {
 
     $scope.domParser = new DOMParser();
     Loading.start();
 
     $scope.page = 1;
-    $scope.lastPage = '';
+    $scope.lastPage = 2;
     $scope.currentCategoryId = '';
 
     $scope.loadBlogs = function (page, blogs, catId){
@@ -90,7 +92,7 @@ angular.module('starter.controllers', ['ngSanitize'])
             $scope.$broadcast('scroll.refreshComplete');
             $scope.$broadcast('scroll.infiniteScrollComplete');
             $scope.lastPage = res.data.pages;
-            console.log($scope.blogs)
+            console.log($scope.lastPage )
 
           },
           function (res) {
@@ -110,42 +112,26 @@ angular.module('starter.controllers', ['ngSanitize'])
 
     $scope.currentCategory = 'All';
     $scope.chooseCategory = function (name, id) {
+      $scope.notShown = !$scope.notShown;
       $scope.currentCategory = name;
       $scope.blogs = {};
       $scope.page = 1
       $scope.loadBlogs($scope.page, $scope.blogs, id);
-      $scope.closePopover();
       Loading.start();
     };
 
     Categories.get(function (categories) {
       $scope.categories = categories;
-
-      var template = '<ion-popover-view class="popover-custom">' +
-        '<ion-content> ' +
-        '<div class="category-item">' +
-        '<h4 ng-click="chooseCategory(\'All\', \' \')">All</h4>' +
-        '</div> ' +
-        '<div ng-repeat="cat in categories" class="category-item" ng-click="chooseCategory(cat.title, cat.id)">' +
-          '<h4 >{{cat.title}}</h4>' +
-        '</div> ' +
-        '</ion-content> ' +
-        '</ion-popover-view>';
-
-
-
-      $scope.popover = $ionicPopover.fromTemplate(template, {
-        scope: $scope
-      });
-
-      $scope.openPopover = function($event) {
-        $scope.popover.show($event);
-      };
-      $scope.closePopover = function() {
-        $scope.popover.hide();
-      };
     });
 
+    $rootScope.slideHeader = false;
+    $rootScope.slideHeaderPrevious = 0;
+
+    $scope.notShown = true;
+
+    $scope.showCategories = function () {
+      $scope.notShown = !$scope.notShown;
+    }
 
 
 
@@ -170,4 +156,23 @@ angular.module('starter.controllers', ['ngSanitize'])
           }
         );
 
-  });
+  })
+  .directive('scrollWatch', function($rootScope) {
+  return function(scope, elem, attr) {
+    var start = 0;
+    var threshold = 50;
+
+    elem.bind('scroll', function(e) {
+      if(e.detail.scrollTop - start > threshold) {
+        $rootScope.slideHeader = true;
+      } else {
+        $rootScope.slideHeader = false;
+      }
+      if ($rootScope.slideHeaderPrevious >= e.detail.scrollTop - start) {
+        $rootScope.slideHeader = false;
+      }
+      $rootScope.slideHeaderPrevious = e.detail.scrollTop - start;
+      $rootScope.$apply();
+    });
+  };
+});
