@@ -5,8 +5,8 @@ body{
 .header-custom{
   color: $orange;
   box-shadow: 0 0 5px rgba(0,0,0,.5);
-  background: url(../img/logo-horse.png) left center no-repeat, #696969;
-  background-size: 44px;
+  background: url(../img/logo-horse.png) 5px center no-repeat, #696969;
+  background-size: 42px;
 }
 
 .footer-custom{
@@ -51,7 +51,10 @@ body{
 .back-button-custom{
   display: block !important;
   color: #ff9500 !important;
-  border: 1px solid #ff9500 !important;
   padding: 0 5px !important;
-  border-radius: 3px !important;
+  margin-left: 45px;
+}
+
+.scroll-refresher{
+  top:-15px !important;
 }

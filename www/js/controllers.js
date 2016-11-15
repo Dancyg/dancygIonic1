@@ -72,7 +72,7 @@ angular.module('starter.controllers', ['ngSanitize'])
       $scope.blogs = blogs || {};
 
 
-      if(catId){
+      if(catId || catId === ''){
         $scope.currentCategoryId = catId;
       }
       var url = BLOGS + page + '&cat=' + $scope.currentCategoryId;
@@ -92,7 +92,6 @@ angular.module('starter.controllers', ['ngSanitize'])
             $scope.$broadcast('scroll.refreshComplete');
             $scope.$broadcast('scroll.infiniteScrollComplete');
             $scope.lastPage = res.data.pages;
-            console.log($scope.lastPage )
 
           },
           function (res) {
@@ -112,7 +111,6 @@ angular.module('starter.controllers', ['ngSanitize'])
 
     $scope.currentCategory = 'All';
     $scope.chooseCategory = function (name, id) {
-      $scope.notShown = !$scope.notShown;
       $scope.currentCategory = name;
       $scope.blogs = {};
       $scope.page = 1
@@ -133,6 +131,23 @@ angular.module('starter.controllers', ['ngSanitize'])
       $scope.notShown = !$scope.notShown;
     }
 
+    $scope.onScrollHide = function() {
+      var top = $ionicScrollDelegate.$getByHandle('small').getScrollPosition().top;
+      var start = 0;
+      var threshold = 50;
+
+      if(top - start > threshold) {
+        $rootScope.slideHeader = true;
+      } else {
+        $rootScope.slideHeader = false;
+      }
+      if ($rootScope.slideHeaderPrevious >= top - start) {
+        $rootScope.slideHeader = false;
+      }
+      $rootScope.slideHeaderPrevious = top - start;
+      $rootScope.$apply();
+    };
+
 
 
   })
@@ -146,9 +161,8 @@ angular.module('starter.controllers', ['ngSanitize'])
             Loading.hide();
             console.log(res.data)
             $scope.blog = res.data.post;
-            $scope.content = function() {
-              return $sce.trustAsHtml(res.data.post.content);
-            };
+            $scope.title = function () { return $sce.trustAsHtml(res.data.post.title) };
+            $scope.content = function() { return $sce.trustAsHtml(res.data.post.content) };
           },
           function (res) {
             Loading.hide();
@@ -156,23 +170,4 @@ angular.module('starter.controllers', ['ngSanitize'])
           }
         );
 
-  })
-  .directive('scrollWatch', function($rootScope) {
-  return function(scope, elem, attr) {
-    var start = 0;
-    var threshold = 50;
-
-    elem.bind('scroll', function(e) {
-      if(e.detail.scrollTop - start > threshold) {
-        $rootScope.slideHeader = true;
-      } else {
-        $rootScope.slideHeader = false;
-      }
-      if ($rootScope.slideHeaderPrevious >= e.detail.scrollTop - start) {
-        $rootScope.slideHeader = false;
-      }
-      $rootScope.slideHeaderPrevious = e.detail.scrollTop - start;
-      $rootScope.$apply();
-    });
-  };
-});
+  });

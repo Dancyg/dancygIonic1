@@ -9862,8 +9862,8 @@ body {
 .header-custom {
   color: #FF9500;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-  background: url(../img/logo-horse.png) left center no-repeat, #696969;
-  background-size: 44px; }
+  background: url(../img/logo-horse.png) 5px center no-repeat, #696969;
+  background-size: 42px; }
 
 .footer-custom {
   background: #696969;
@@ -9901,9 +9901,11 @@ body {
 .back-button-custom {
   display: block !important;
   color: #ff9500 !important;
-  border: 1px solid #ff9500 !important;
   padding: 0 5px !important;
-  border-radius: 3px !important; }
+  margin-left: 45px; }
+
+.scroll-refresher {
+  top: -15px !important; }
 
 .gambling-responsibly-container {
   font-size: 20px;
@@ -9937,7 +9939,7 @@ p:first-letter {
   margin: 0 auto;
   overflow: hidden;
   padding: 15px 0 20px;
-  margin-top: 40px; }
+  margin-top: 20px; }
 
 .support-info {
   color: #f8f8f8; }
@@ -9994,8 +9996,7 @@ p:first-letter {
 .bar-subheader {
   z-index: 1 !important;
   transition: top 0.25s ease;
-  background: #3e70a7;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); }
+  background: #3e70a7; }
   .bar-subheader h1 {
     color: #FF9500; }
 
@@ -10011,11 +10012,18 @@ body.bar-subheader-slide-away .has-subheader {
   top: 44px !important; }
 
 .bar-custom-subheader {
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   position: relative; }
   .bar-custom-subheader .categories.not-shown {
     height: 0;
-    transition: height .4s ease-in-out; }
+    transition: height .3s ease-in-out;
+    box-shadow: none; }
+  .bar-custom-subheader .custom-sandwich {
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+    top: 7px;
+    color: #ff9500;
+    font-size: 31px; }
   .bar-custom-subheader .categories {
     position: absolute;
     top: 44px;
@@ -10024,13 +10032,17 @@ body.bar-subheader-slide-away .has-subheader {
     left: 0;
     height: 60vh;
     overflow: auto;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    transition: height .4s ease-in-out; }
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.5);
+    transition: height .3s ease-in-out;
+    border-top: 1px solid #999; }
     .bar-custom-subheader .categories .category-item {
-      border-top: 1px solid #999;
-      padding: 10px 15px; }
+      border-bottom: 1px solid #999;
+      padding: 2px 10px; }
       .bar-custom-subheader .categories .category-item h4 {
         color: #FF9500;
         text-align: center; }
     .bar-custom-subheader .categories .category-item:hover {
       background: #155ba6; }
+
+.blog-image {
+  width: 100%; }

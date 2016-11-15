@@ -3,7 +3,7 @@
   <ion-nav-bar class="header-custom">
 
     <ion-nav-back-button class="button-clear back-button-custom">
-      <i class="ion-arrow-left-c"></i> Back
+      <i class="ion-chevron-left"></i> Back
     </ion-nav-back-button>
 
     <ion-nav-buttons class="buttons-header-custom" side="right">
@@ -18,8 +18,7 @@
   <ion-content class="padding blog-container-custom">
 
     <img ng-src="{{blog.thumbnail_images.medium.url}}" class="blog-image" >
-    <h3>{{blog.title}}</h3>
-    <p ng-bind-html="content()">
-    </p>
+    <h3 ng-bind-html="title()"></h3>
+    <p  ng-bind-html="content()"></p>
   </ion-content>
 </ion-view>
