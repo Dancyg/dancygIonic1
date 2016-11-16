@@ -6,22 +6,27 @@ navigation history that also transitions its views in and out.
 <ion-tabs class="tabs-icon-top">
 
   <!-- Home Tab -->
-  <ion-tab class="footer-custom" title="Blogs" icon-off="ion-document-text" icon-on="ion-document-text"   href="#/tab/home">
+  <ion-tab ng-if="true" class="footer-custom" title="Blogs" icon-off="ion-document-text" icon-on="ion-document-text"   href="#/tab/home">
     <ion-nav-view name="tab-home"></ion-nav-view>
   </ion-tab>
 
 <!--Tipsters tab-->
-  <ion-tab class="footer-custom" title="My Tipsters"  icon-off="ion-arrow-graph-up-right" icon-on="ion-arrow-graph-up-right" href="#/tab/tipsters">
+  <ion-tab ng-if="token" class="footer-custom" title="My Tipsters"  icon-off="ion-arrow-graph-up-right" icon-on="ion-arrow-graph-up-right" href="#/tab/tipsters">
+    <ion-nav-view name="tab-tipsters"></ion-nav-view>
+  </ion-tab>
+
+  <!--Tipsters tab-->
+  <ion-tab ng-if="!token" class="footer-custom" title="Buy Tipsters"  icon-off="ion-arrow-graph-up-right" icon-on="ion-arrow-graph-up-right" href="#/tab/tipsters">
     <ion-nav-view name="tab-tipsters"></ion-nav-view>
   </ion-tab>
 
   <!-- Rules Tab -->
-  <ion-tab class="footer-custom" title="Be Responsible" icon-off="ion-alert" icon-on="ion-alert"  href="#/tab/rules">
+  <ion-tab ng-if="true" class="footer-custom" title="Be Responsible" icon-off="ion-alert" icon-on="ion-alert"  href="#/tab/rules">
     <ion-nav-view name="tab-rules"></ion-nav-view>
   </ion-tab>
 
   <!-- Help Tab -->
-  <ion-tab class="footer-custom" title="Support"  icon-off="ion-information-circled" icon-on="ion-information-circled" href="#/tab/support">
+  <ion-tab ng-if="true" class="footer-custom" title="Support"  icon-off="ion-information-circled" icon-on="ion-information-circled" href="#/tab/support">
     <ion-nav-view name="tab-support"></ion-nav-view>
   </ion-tab>
 

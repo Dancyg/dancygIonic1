@@ -2,7 +2,7 @@
 .bar-subheader {
   z-index: 1 !important;
   transition: top 0.25s ease;
-  background: $blue-lighter;
+  background: #464646;
 
   h1{
     color: $orange;
@@ -47,17 +47,17 @@ body.bar-subheader-slide-away {
     position: absolute;
     top: 44px;
     width: 100%;
-    background: $blue-lighter;
+    background: rgba(0, 0, 0, 0.83);
     left: 0;
-    height: 60vh;
+    height: calc(100vh - 137px);
     overflow: auto;
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.5);
     transition: height .3s ease-in-out;
-    border-top: 1px solid #999;
+    border-top: 1px solid #616161;;
 
 
     .category-item {
-      border-bottom: 1px solid #999;
+      border-bottom: 1px solid #3e3e3e;;
       padding: 2px 10px;
 
       h4 {
@@ -67,7 +67,7 @@ body.bar-subheader-slide-away {
     }
 
     .category-item:hover{
-      background: $blue;
+      background: #3e3e3e;
     }
   }
 }

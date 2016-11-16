@@ -32,4 +32,33 @@ angular.module('starter.services', [])
     }
   }
 
+}).factory('Alert', function ($ionicPopup) {
+
+  return {
+    failed: function(header, text) {
+      var alertPopup = $ionicPopup.alert({
+        title: header,
+        template: text,
+        buttons: [
+          {
+            text: '<b>Ok</b>',
+            type: 'button-assertive'
+          }
+        ]
+      });
+    },
+    success: function(header, text) {
+      var alertPopup = $ionicPopup.alert({
+        title: header,
+        template: text,
+        buttons: [
+          {
+            text: '<b>Ok</b>',
+            type: 'button-balanced'
+          }
+        ]
+      });
+    }
+  }
+
 });

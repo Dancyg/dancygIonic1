@@ -9848,7 +9848,7 @@ a.button {
 
 .login-forgot-sign-up {
   display: inline-block;
-  width: 100%;
+  width: 49%;
   padding: 10px 15px;
   color: #444; }
 
@@ -9996,7 +9996,7 @@ p:first-letter {
 .bar-subheader {
   z-index: 1 !important;
   transition: top 0.25s ease;
-  background: #3e70a7; }
+  background: #464646; }
   .bar-subheader h1 {
     color: #FF9500; }
 
@@ -10028,21 +10028,21 @@ body.bar-subheader-slide-away .has-subheader {
     position: absolute;
     top: 44px;
     width: 100%;
-    background: #3e70a7;
+    background: rgba(0, 0, 0, 0.83);
     left: 0;
-    height: 60vh;
+    height: calc(100vh - 137px);
     overflow: auto;
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.5);
     transition: height .3s ease-in-out;
-    border-top: 1px solid #999; }
+    border-top: 1px solid #616161; }
     .bar-custom-subheader .categories .category-item {
-      border-bottom: 1px solid #999;
+      border-bottom: 1px solid #3e3e3e;
       padding: 2px 10px; }
       .bar-custom-subheader .categories .category-item h4 {
         color: #FF9500;
         text-align: center; }
     .bar-custom-subheader .categories .category-item:hover {
-      background: #155ba6; }
+      background: #3e3e3e; }
 
 .blog-image {
   width: 100%; }
