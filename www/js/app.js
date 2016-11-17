@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+var bet = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform, $rootScope) {
   $ionicPlatform.ready(function() {
@@ -21,7 +21,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       StatusBar.styleDefault();
     }
 
-    $rootScope.token = !!window.localStorage.getItem('token');
+    $rootScope.token = window.localStorage.getItem('token');
+    $rootScope.logout = function () {
+      window.localStorage.removeItem('token');
+      $rootScope.token = window.localStorage.getItem('token');
+    }
   });
 })
 
@@ -54,7 +58,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
     .state('signup', {
       url: '/signup',
-      templateUrl: 'templates/signup.html'
+      templateUrl: 'templates/signup.html',
+      controller:'SignupCtrl'
     })
 
   // setup an abstract state for the tabs directive
@@ -85,12 +90,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   })
 
+  .state('tab.buy-tipsters', {
+      url: '/buy-tipsters',
+      views: {
+        'tab-buy-tipsters': {
+          templateUrl: 'templates/tab-buy-tipsters.html',
+          controller: 'BuyTipstersCtrl'
+        }
+      }
+    })
   .state('tab.tipsters', {
       url: '/tipsters',
       views: {
         'tab-tipsters': {
           templateUrl: 'templates/tab-my-tipsters.html',
-          controller: 'TipstersCtrl'
+          controller: 'MyTipstersCtrl'
         }
       }
     })
@@ -99,7 +113,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       views: {
         'tab-support': {
           templateUrl: 'templates/tab-support.html',
-          controller: ''
+          controller: 'SupportCtrl'
         }
       }
     })
@@ -109,7 +123,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     views: {
       'tab-rules': {
         templateUrl: 'templates/tab-rules.html',
-        controller: ''
+        controller: 'ResponsibleCtrl'
       }
     }
   });

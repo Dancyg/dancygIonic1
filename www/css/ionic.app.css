@@ -9818,10 +9818,10 @@ a.button {
   margin-bottom: 10vh; }
 
 .login-header {
-  color: #FF9500;
+  color: #fa6800;
   font-size: 35px;
   text-align: center;
-  margin-bottom: 5vh; }
+  margin: 3vh 0 !important; }
 
 .input-login {
   background: rgba(255, 255, 255, 0.5);
@@ -9850,7 +9850,8 @@ a.button {
   display: inline-block;
   width: 49%;
   padding: 10px 15px;
-  color: #444; }
+  font-size: 16px;
+  color: #464646; }
 
 .signup-wrapper {
   background: url(../img/signup.jpg) no-repeat center center;
@@ -9907,6 +9908,9 @@ body {
 .scroll-refresher {
   top: -15px !important; }
 
+.hidden {
+  display: none; }
+
 .gambling-responsibly-container {
   font-size: 20px;
   line-height: 30px;
@@ -9916,6 +9920,8 @@ body {
     font-weight: bold;
     color: #4c4c4c;
     margin: 20px 0; }
+  .gambling-responsibly-container img {
+    width: 100%; }
 
 p:first-letter {
   padding-left: 15px; }
@@ -9933,22 +9939,24 @@ p:first-letter {
   background: #f8f8f8; }
 
 .support-inputs-wrapper {
-  background: dimgray;
-  width: 92%;
-  border-radius: 5px;
-  margin: 0 auto;
+  background: #444;
   overflow: hidden;
-  padding: 15px 0 20px;
-  margin-top: 20px; }
+  height: calc(100vh - 93px); }
 
 .support-info {
   color: #f8f8f8; }
 
 .input-support {
-  background: rgba(255, 255, 255, 0.5);
+  background: #efefef;
   border: none;
   margin: 0;
-  border-bottom: 1px solid #696969; }
+  border-bottom: 1px solid #d6d6d6; }
+
+.support-header {
+  color: #fa6800;
+  font-size: 35px;
+  text-align: center;
+  margin: 1.5vh 0 !important; }
 
 .scroll-top {
   display: inline-block;
@@ -10041,8 +10049,6 @@ body.bar-subheader-slide-away .has-subheader {
       .bar-custom-subheader .categories .category-item h4 {
         color: #FF9500;
         text-align: center; }
-    .bar-custom-subheader .categories .category-item:hover {
-      background: #3e3e3e; }
 
 .blog-image {
   width: 100%; }

@@ -2,47 +2,30 @@
   <ion-nav-bar class="header-custom">
 
     <ion-nav-buttons class="buttons-header-custom" side="right">
-      <a class="link-header-custom" href="#/login">
-        <span >Logout</span>
+
+      <span class="link-header-custom"
+            ng-show="token"
+            ng-click="logout()"
+      >Logout</span>
+
+      <a class="link-header-custom"
+         href="#/login"
+         ng-show="!token"
+      >
+        <span >Login</span>
+      </a>
+      <a class="link-header-custom"
+         href="#/signup"
+         ng-show="!token"
+      >
+        <span >Sign up</span>
       </a>
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content class="contact-wrapper">
-    <h2 class="text-center rules-main-header">How To Gamble Responsibly</h2>
-    <div class="padding gambling-responsibly-container">
-    <p>Obviously at Betting Gods, we’re constantly encouraging our punters to place a large number of bets on a regular basis – that’s what we do. However, it would be a fallacy to think that this means we’re encouraging irresponsible gambling. On the contrary, we consider our style of gambling to be about as responsible as it gets; but that doesn’t mean we’re not due a reminder every now and again of what makes a responsible gambler (and what doesn’t).</p>
 
-      <p>While groups such as the Senet Group (http://www.senetgroup.org.uk/) work very hard to promote responsible gambling standards throughout the industry, gambling addiction is still a big issue in the UK, with a survey by the Gambling Commission finding that 18-24 year olds are most likely to be at risk of problems. More and more bookies and exchanges are getting on-board with the responsible gambling messages pushed by the Senet Group, but at the end of the day, the only person who can ensure that your gambling habits are responsible, safe, and sustainable is you.</p>
+    <h2 class="text-center rules-main-header" ng-show="loaded" ng-bind-html="title()"></h2>
+    <div class="padding gambling-responsibly-container" ng-bind-html="content()"></div>
 
-      <h4>Only gamble what you can afford to lose</h4>
-
-      <p>This can’t be stressed enough. While at Betting Gods we do see gambling as a way to make money rather than lose it, it’s also important to stress that no form of gambling could ever be risk-free, or it wouldn’t be gambling. When you gamble, no matter how trusted or experienced you or your tipster are, you’re putting your money at risk. For this reason, we only advocate that our customers bet money that they can afford to lose. If you’re not flush, sticking to the £10 stakes that we base our tipster’s stats on is definitely a good idea.</p>
-
-      <h4>Consider your winnings a long-term investment</h4>
-
-      <p>Your attitude to gambling – and, even moreso, your attitude to winning – will have a big effect on how responsible your gambling habits are. Gambling ‘windfalls’ are rare outside of movies and TV, and are not something to be relied upon by successful regular gamblers. In reality, gambling is about the long game; placing lots of bets, many of which will lose, with a view to making a net profit overall. Some months you may make a loss, and some months you might just break even. What matters is your long-term profits.</p>
-
-      <p>It’s important to understand, when making regular bets, that this does not mean a regular income. The money you make from gambling cannot be relied upon, and is therefore best considered to be a long-term investment along the same lines as stocks and shares investments. If you’ve ever spoken to anyone in finance about stocks and shares, you’ll know it’s not recommended to put your money into them unless you’re happy to leave it there for five years or more. Gambling is just the same; not touching your gambling money, including your winnings, is the only way you guarantee that you’ll be able to weather the rough patches as well as the smooth ones.</p>
-
-      <h4>Keep calm and carry on</h4>
-
-      <p>A big part of responsible gambling is keeping your cool and maintaining a professional distance from your punts. While many people think that being ‘responsible’ means pulling out when you’re losing, that’s not really true; in fact, it’s the opposite. As a professional, the best thing you can do whether you’re winning or losing is to keep your cool and carry on regardless; both wins and losses are expected in any gambling system, even the most successful. Altering your course when you make a win or a loss is the opposite of the rational, reasoned decision-making that should drive successful regular gamblers.</p>
-
-      <h4>If you feel yourself slipping…</h4>
-
-      <p>Gambling is a slippery slope. There’s no denying it, and even the most professional and stoic of gamblers must sometimes get caught up in the whirlwind of adrenaline and excitement that drives the industry. Luckily, today we experience a heightened public awareness of gambling addictions, and there are organisations and charities out there which offer help to people who need it.Gamble Responsibly</p>
-
-      <p>GambleAware (http://www.gambleaware.co.uk/) is one such organisation which exists to provide education and support for those who feel they may have a problem with gambling. They offer online tools such as quizzes and calculators to assist gamblers in assessing their own habits, and plenty of information for gamblers and their families on how to recognise and treat gambling addictions.</p>
-
-      <p>If you think you really do have a problem, you probably want to go straight to GamCare (http://www.gamcare.org.uk/). GamCare offers both face-to-face and online counselling sessions for anyone going through the difficulties of a gambling problem, which includes both gamblers and their partners and loved ones.</p>
-
-      <p>My number one piece of advice to those who feel themselves slipping out of the professional mindset is not to wait before taking action. Whether you decide that the best action is to change your system, take a break from the game, or seek help from one of the organisations above, do it straight away, before your problems have a chance to get worse.</p>
-
-      <h4>When the fun stops…</h4>
-
-      <p>We’ve all seen the posters in bookie windows: “When the fun stops, STOP.” It sounds like a slogan, but it’s got a good ring of truth to it, too. As a professional gambler, you’re not in the game to have fun, but when it starts to feel stressful, you’re not doing it properly. If you find that you’re relying upon the money you make, or starting to feel the sting of every loss, it may be time to take a different tack. Professional gambling relies on cool nerves and calm thoughts, and the moment you let yourself get caught up in the emotional rollercoaster of the punt, you’re making yourself vulnerable to impulse wagers and risky bets.</p>
-
-      <h4>Stay cool, keep your perspective, and don’t hesitate to ask for support if you need it.</h4>
-      </div>
   </ion-content>
 </ion-view>

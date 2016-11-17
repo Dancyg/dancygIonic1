@@ -5,17 +5,19 @@
       <h3 class="login-header">Sign Up</h3>
       <label class="item item-input input-login">
         <span class="input-label">Full name</span>
-        <input type="text">
+        <input type="text" ng-model="data.login">
       </label>
       <label class="item item-input input-login">
         <span class="input-label">Email</span>
-        <input type="password">
+        <input type="tel" ng-model="data.email">
       </label>
-      <a href="#/tab/home">
-        <button class="login-button-login">
+
+        <button class="login-button-login"
+                ng-click="register()"
+        >
           Sign Up
         </button>
-      </a>
+
       <div>
         <a href="#/login"><span class="login-forgot-sign-up text-center">Login</span></a>
         <a href="#/tab/home"><span class="login-forgot-sign-up text-center">Blogs</span></a>

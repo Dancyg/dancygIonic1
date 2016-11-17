@@ -6,9 +6,22 @@
       <i class="ion-chevron-left"></i> Back
     </ion-nav-back-button>
 
-    <ion-nav-buttons class="buttons-header-custom" side="right">
-      <a class="link-header-custom" href="#/login">
-        <span >Logout</span>
+      <span class="link-header-custom"
+            ng-show="token"
+            ng-click="logout()"
+      >Logout</span>
+
+      <a class="link-header-custom"
+         href="#/login"
+         ng-show="!token"
+      >
+        <span >Login</span>
+      </a>
+      <a class="link-header-custom"
+         href="#/signup"
+         ng-show="!token"
+      >
+        <span >Sign up</span>
       </a>
     </ion-nav-buttons>
 
