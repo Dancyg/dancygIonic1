@@ -1,5 +1,4 @@
 controllers.controller("BlogCtrl", function ($scope, $http, $ionicPopup, Loading, $sce, $ionicPopover, Categories,  $ionicScrollDelegate, $rootScope, Alert) {
-  $scope.domParser = new DOMParser();
   Loading.start();
 
   $scope.page = 1;
@@ -14,7 +13,7 @@ controllers.controller("BlogCtrl", function ($scope, $http, $ionicPopup, Loading
       $scope.currentCategoryId = catId;
     }
     var url = BLOGS + page + '&cat=' + $scope.currentCategoryId;
-    $http.post(url, {count: 3})
+    $http.get(url)
       .then(
         function (res) {
           Loading.hide();
@@ -35,13 +34,14 @@ controllers.controller("BlogCtrl", function ($scope, $http, $ionicPopup, Loading
         function (res) {
           Loading.hide();
           console.log("error", res.data);
+          Alert.failed('Error', 'Please check your internet connection.')
           $scope.$broadcast('scroll.refreshComplete');
           $scope.$broadcast('scroll.infiniteScrollComplete');
         }
       );
   }
 
-  $scope.loadBlogs($scope.page);
+  $scope.loadBlogs(1);
 
   $scope.loadMoreBlogs = function () {
     $scope.loadBlogs(++$scope.page, $scope.blogs)

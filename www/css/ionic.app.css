@@ -9905,9 +9905,6 @@ body {
   padding: 0 5px !important;
   margin-left: 45px; }
 
-.scroll-refresher {
-  top: -15px !important; }
-
 .hidden {
   display: none; }
 
@@ -9929,8 +9926,7 @@ p:first-letter {
 .rules-main-header {
   height: 348px;
   padding: 127px 0;
-  background: url(../img/stop_gambl.jpg) center center no-repeat;
-  background-size: cover;
+  background-size: cover !important;
   color: #ffffff;
   font-weight: bold;
   font-size: 47px; }
@@ -9958,21 +9954,24 @@ p:first-letter {
   text-align: center;
   margin: 1.5vh 0 !important; }
 
-.scroll-top {
+.blogs .scroll-top {
   display: inline-block;
   z-index: 60;
   width: 30px;
   height: 30px; }
 
-.blog-item-custom {
+.blogs .scroll-refresher {
+  top: -15px !important; }
+
+.blogs .blog-item-custom {
   height: auto;
   min-height: 170px !important;
   border: none; }
-  .blog-item-custom a {
+  .blogs .blog-item-custom a {
     z-index: 20;
     min-height: 100%;
     padding: 0 !important; }
-    .blog-item-custom a .blog-gradient {
+    .blogs .blog-item-custom a .blog-gradient {
       display: block;
       z-index: 15;
       width: 100%;
@@ -9980,13 +9979,13 @@ p:first-letter {
       min-height: 170px;
       background-size: cover;
       position: relative; }
-      .blog-item-custom a .blog-gradient .image-hidden {
+      .blogs .blog-item-custom a .blog-gradient .image-hidden {
         display: block;
         min-height: 90px !important;
         min-width: 90px !important;
         max-width: 100%;
         visibility: hidden; }
-    .blog-item-custom a h2 {
+    .blogs .blog-item-custom a h2 {
       overflow: hidden;
       text-overflow: initial;
       white-space: normal;
@@ -10052,3 +10051,81 @@ body.bar-subheader-slide-away .has-subheader {
 
 .blog-image {
   width: 100%; }
+
+.buy-tips .tip-item {
+  position: relative;
+  background: linear-gradient(to bottom, white 0%, #131207 100%), #444;
+  color: #fff;
+  border: none; }
+  .buy-tips .tip-item .tip-header {
+    font-size: 1.6em;
+    margin: 10px 0;
+    color: #fff; }
+  .buy-tips .tip-item img {
+    width: 90% !important;
+    margin-top: 40px !important;
+    border-radius: 3px; }
+  .buy-tips .tip-item .tip-content {
+    overflow: initial;
+    font-size: 1.05em;
+    text-overflow: initial;
+    white-space: normal;
+    color: #fff;
+    margin: 10px 0 !important;
+    padding: 10px; }
+  .buy-tips .tip-item .tip-profit {
+    color: #1CA721; }
+  .buy-tips .tip-item .visit-tip-button {
+    margin-bottom: 40px;
+    background: #fa6800;
+    color: #fff;
+    font-size: 1.05em;
+    font-weight: bold; }
+
+.my-tips .tip-item {
+  position: relative;
+  background: linear-gradient(to bottom, white 0%, #131207 100%), #444;
+  color: #fff;
+  border: none; }
+  .my-tips .tip-item a {
+    padding: 0;
+    margin: 0;
+    background: transparent; }
+    .my-tips .tip-item a .tip-header {
+      font-size: 1.6em;
+      margin: 10px 0;
+      color: #fff; }
+    .my-tips .tip-item a img {
+      width: 90% !important;
+      margin-top: 40px !important;
+      border-radius: 3px; }
+    .my-tips .tip-item a .tip-content {
+      overflow: initial;
+      font-size: 1.05em;
+      text-overflow: initial;
+      white-space: normal;
+      color: #fff;
+      margin: 10px 0 40px !important;
+      padding: 10px; }
+    .my-tips .tip-item a .tip-profit {
+      color: #1CA721; }
+    .my-tips .tip-item a .visit-tip-button {
+      margin-bottom: 40px;
+      background: #fa6800;
+      color: #fff;
+      font-size: 1.05em;
+      font-weight: bold; }
+  .my-tips .tip-item a:active, .my-tips .tip-item a:hover {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important; }
+
+.my-tip a {
+  background: linear-gradient(to bottom, white 0%, #f6f6f6 47%, #ededed 100%); }
+  .my-tip a h2 {
+    font-size: 1.07em;
+    padding: 20px; }
+
+.one-tip-content {
+  font-size: 1.3em;
+  line-height: 150%; }

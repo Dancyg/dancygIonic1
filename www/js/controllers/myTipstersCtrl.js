@@ -1,16 +1,52 @@
 var TIPSTERS_CATEGORIES = 'https://members.bettinggods.com/api/get_categories';
 
-controllers.controller('MyTipstersCtrl', function ($scope, $http, Loading, Alert, $rootScope) {
-  var url = TIPSTERS_CATEGORIES + $rootScope.token;
-    $http.post(TIPSTERS_CATEGORIES, {
+controllers.controller('MyTipstersCtrl', function ($scope, $http, $rootScope, Loading, $sce, $ionicPlatform,Alert) {
+  Loading.start();
+  $scope.page = 1;
+  $scope.lastPage = 2;
+
+  $scope.getTips = function(page, tips){
+    var header = {
       cookie: $rootScope.token
-    })
-      .then(function (res) {
-        Loading.hide();
-        console.log(res)
-        // Alert.success('Success', 'Your registration request has been sent. The response will sent to your mail.')
-      }, function (err) {
-        Loading.hide();
-        Alert.failed('Error', 'Request has not been sent.')
-      })
+    };
+    var formData = new FormData();
+    for (var key in header) {
+      formData.append(key, header[key]);
+    }
+
+    $scope.tips = tips || {};
+    $http.post(TIPSTERS_CATEGORIES, formData)
+      .then(
+        function (res) {
+          res.data.categories.forEach(function (tip, i) {
+            $scope.tips[1 - 1 / tip.id] = {
+              id         : tip.id,
+              thumbnail  : tip.image,
+              title      : tip.title,
+              description: tip.description
+            }
+          });
+          $scope.lastPage = res.data.pages;
+          console.log(res);
+          $scope.$broadcast('scroll.refreshComplete');
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+          Loading.hide();
+
+        },
+        function (res) {
+          Loading.hide();
+          Alert.failed('Error', 'Please check your internet connection.');
+          $scope.$broadcast('scroll.refreshComplete');
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+        }
+      );
+  };
+
+  $scope.getTips(1);
+
+  $scope.loadMoreTips = function () {
+    $scope.getTips(++$scope.page, $scope.tips);
+  };
+
+
 });

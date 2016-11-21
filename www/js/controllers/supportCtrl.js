@@ -14,7 +14,11 @@ controllers.controller('SupportCtrl', function ($scope, $http, Alert, Loading) {
     }else {
       console.log($scope.data);
       Loading.start();
-      $http.post(SUPPORT, $scope.data)
+      $http.get(SUPPORT +
+        '?name=' + $scope.data.name +
+        '&email=' + $scope.data.email +
+        '&subject=' + $scope.data.subject +
+        '&message=' + $scope.data.message)
         .then(function (res) {
           Loading.hide();
           Alert.success('Success', 'Your request has been sent. The response will sent to your mail.')

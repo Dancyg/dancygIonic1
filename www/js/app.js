@@ -5,9 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-var bet = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+var bet = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
 
-.run(function($ionicPlatform, $rootScope) {
+.run(function($ionicPlatform, $rootScope, $state) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -25,6 +25,7 @@ var bet = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
     $rootScope.logout = function () {
       window.localStorage.removeItem('token');
       $rootScope.token = window.localStorage.getItem('token');
+      $state.go('tab.buy-tipsters');
     }
   });
 })
@@ -71,11 +72,11 @@ var bet = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
 
   // Each tab has its own nav history stack:
 
-  .state('tab.home', {
+  .state('tab.blogs', {
     url: '/home',
     views: {
       'tab-home': {
-        templateUrl: 'templates/tab-home.html',
+        templateUrl: 'templates/tab-blogs.html',
         controller: 'BlogCtrl'
       }
     }
@@ -89,7 +90,7 @@ var bet = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
       }
     }
   })
-
+//BUY TIPSTERS
   .state('tab.buy-tipsters', {
       url: '/buy-tipsters',
       views: {
@@ -99,6 +100,7 @@ var bet = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
         }
       }
     })
+    //OWN TIPSTERS
   .state('tab.tipsters', {
       url: '/tipsters',
       views: {
@@ -108,7 +110,26 @@ var bet = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
         }
       }
     })
-    .state('tab.support', {
+  .state('tab.tipsters1', {
+      url: '/tipst/:recent',
+      views: {
+        'tab-tipsters': {
+          templateUrl: 'templates/tab-my-tipster.html',
+          controller: 'MyTipsterCtrl'
+        }
+      }
+    })
+  .state('tab.tipsters2', {
+      url: '/tip/:id',
+      views: {
+        'tab-tipsters': {
+          templateUrl: 'templates/tab-my-tipster-tip.html',
+          controller: 'OneTipsterCtrl'
+        }
+      }
+    })
+    //SUPPORT
+  .state('tab.support', {
       url: '/support',
       views: {
         'tab-support': {
@@ -117,7 +138,7 @@ var bet = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
         }
       }
     })
-
+//RESPONSIBILITY
   .state('tab.rules', {
     url: '/rules',
     views: {

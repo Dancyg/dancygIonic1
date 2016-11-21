@@ -26,7 +26,38 @@
 
 
 
-  <ion-content>
-    <h1>Buy Tipsters</h1>
+  <ion-content class="has-header buy-tips">
+    <ion-refresher on-refresh="getTips(1, tips)"
+                   pulling-icon="ion-chevron-down"
+                   spinner="lines"
+    ></ion-refresher>
+    <div>
+      <ion-item class="item-image tip-item"
+                ng-repeat="tip in tips"
+                type="item-text-wrap"
+      >
+
+        <img ng-src="{{tip.thumbnail}}"
+             class=""
+        />
+        <h2 ng-bind-html="tip.title()" class="tip-header"></h2>
+        <div ng-bind-html="tip.description()"></div>
+        <button class="button visit-tip-button"
+                ng-click="buyTipster(tip.url)"
+        >
+          Visit This Tipster
+        </button>
+
+      </ion-item>
+
+    </div>
+
+    <ion-infinite-scroll spinner="lines"
+                         on-infinite="loadMoreTips()"
+                         distance="1%"
+                         ng-if="page < lastPage && page != lastPage"
+                         immediate-check="false"
+    ></ion-infinite-scroll>
+
   </ion-content>
 </ion-view>

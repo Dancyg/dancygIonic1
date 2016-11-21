@@ -8,6 +8,7 @@ controllers.controller("ResponsibleCtrl", function ($scope, $http, $sce, Loading
     .then(function (res) {
       $scope.title = function () { return $sce.trustAsHtml(res.data.post.title) };
       $scope.content = function () { return $sce.trustAsHtml(res.data.post.content) };
+      $scope.imgUrl = res.data.post.thumbnail_images.medium.url;
       $scope.loaded = true;
       Loading.hide();
     }, function (err) {

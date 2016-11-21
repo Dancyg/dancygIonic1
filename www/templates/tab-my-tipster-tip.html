@@ -1,8 +1,12 @@
 <ion-view>
+
   <ion-nav-bar class="header-custom">
 
-    <ion-nav-buttons class="buttons-header-custom" side="right">
+    <ion-nav-back-button class="button-clear back-button-custom">
+      <i class="ion-chevron-left"></i> Back
+    </ion-nav-back-button>
 
+    <ion-nav-buttons class="buttons-header-custom" side="right">
       <span class="link-header-custom"
             ng-show="token"
             ng-click="logout()"
@@ -21,14 +25,12 @@
         <span >Sign up</span>
       </a>
     </ion-nav-buttons>
+
+
   </ion-nav-bar>
-  <ion-content class="contact-wrapper">
 
-    <h2 class="text-center rules-main-header"
-        ng-show="loaded" ng-bind-html="title()"
-        style="background: linear-gradient(to bottom, transparent 0%, rgb(19, 18, 7) 100%), url({{imgUrl}}) center center no-repeat"
-    ></h2>
-    <div class="padding gambling-responsibly-container" ng-bind-html="content()"></div>
+  <ion-content class="padding blog-container-custom">
 
+    <div ng-bind-html="content()" class="one-tip-content"></div>
   </ion-content>
 </ion-view>

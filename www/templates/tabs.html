@@ -11,8 +11,16 @@ navigation history that also transitions its views in and out.
   </ion-tab>
 
 <!--Tipsters tab-->
-  <ion-tab class="footer-custom " title="{{token ? 'My Tipsters' : 'Buy Tipsters'}}"  icon-off="ion-arrow-graph-up-right" icon-on="ion-arrow-graph-up-right" href="{{token ? '#/tab/tipsters' : '#/tab/buy-tipsters'}}">
-    <ion-nav-view ng-if="token" name="tab-tipsters"></ion-nav-view>
+  <ion-tab hidden="{{token === null}}" class="footer-custom " title='My Tipsters'
+           icon-off="ion-arrow-graph-up-right" icon-on="ion-arrow-graph-up-right"
+           href='#/tab/tipsters'>
+    <ion-nav-view name="tab-tipsters"></ion-nav-view>
+  </ion-tab>
+
+  <ion-tab hidden="{{token !== null}}" class="footer-custom " title='Tipsters'
+           icon-off="ion-arrow-graph-up-right" icon-on="ion-arrow-graph-up-right"
+           href='#/tab/buy-tipsters'>
+    <ion-nav-view name="tab-buy-tipsters"></ion-nav-view>
   </ion-tab>
 
   <!-- Rules Tab -->

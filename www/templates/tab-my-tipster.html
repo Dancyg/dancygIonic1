@@ -1,8 +1,12 @@
 <ion-view>
+
   <ion-nav-bar class="header-custom">
 
-    <ion-nav-buttons class="buttons-header-custom" side="right">
+    <ion-nav-back-button class="button-clear back-button-custom">
+      <i class="ion-chevron-left"></i> Back
+    </ion-nav-back-button>
 
+    <ion-nav-buttons class="buttons-header-custom" side="right">
       <span class="link-header-custom"
             ng-show="token"
             ng-click="logout()"
@@ -22,28 +26,23 @@
       </a>
     </ion-nav-buttons>
 
+
   </ion-nav-bar>
 
+  <ion-content class="blog-container-custom my-tip">
 
-
-  <ion-content class="has-header my-tips">
     <ion-refresher on-refresh="getTips(1, tips)"
                    pulling-icon="ion-chevron-down"
                    spinner="lines"
     ></ion-refresher>
     <div>
-      <ion-item class="item-image tip-item"
+      <ion-item class="tip-item item-icon-right"
                 ng-repeat="tip in tips"
                 type="item-text-wrap"
-                href="#/tab/tipst/{{tip.id}}"
+                href="#/tab/tip/{{tip.id}}"
       >
-
-        <img ng-src="{{tip.thumbnail}}"
-             class=""
-        />
         <h2 class="tip-header">{{tip.title}}</h2>
-        <div class='tip-content'> {{tip.description}}</div>
-
+        <i class="icon ion-chevron-right icon-accessory icon-tip"></i>
       </ion-item>
 
     </div>
@@ -54,6 +53,5 @@
                          ng-if="page < lastPage && page != lastPage"
                          immediate-check="false"
     ></ion-infinite-scroll>
-
   </ion-content>
 </ion-view>

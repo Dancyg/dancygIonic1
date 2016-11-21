@@ -1,3 +1,5 @@
+
+
 controllers.controller("LoginCtrl", function ($scope, $http, $ionicPopup, $state, Loading, $rootScope ) {
 
   $scope.data= {
@@ -39,7 +41,7 @@ controllers.controller("LoginCtrl", function ($scope, $http, $ionicPopup, $state
             $rootScope.token = window.localStorage.getItem('token');
 
             Loading.hide();
-            $state.go("tab.home");
+            $state.go("tab.blogs");
 
           },
           function (res) {
