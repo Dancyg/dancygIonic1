@@ -46,10 +46,11 @@
       }
     }
 
-    a:active, a:hover{
+    a.activated{
       padding: 0 !important;
       margin: 0 !important;
       background: transparent !important;
+      border:none;
     }
 
   }

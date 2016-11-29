@@ -2,23 +2,23 @@
   <ion-content class="login-wrapper">
 
     <div class="logo"></div>
-    <div class="login-inputs-wrapper">
+    <div class="login-inputs-wrapper" focus>
 
       <h3 class="login-header">Login</h3>
 
       <label class="item item-input input-login">
         <span class="input-label" >Username or email</span>
-        <input type="text" ng-model="data.username">
+        <input type="text" ng-model="data.username"  class="logins"/>
       </label>
 
       <label class="item item-input input-login">
         <span class="input-label" >Password</span>
-        <input type="password" ng-model="data.password">
+        <input type="password" ng-model="data.password"  class="logins"/>
       </label>
 
-      <ion-checkbox ng-model="data.remember" checked="data.remember" class="input-login">Remember me</ion-checkbox>
+      <ion-checkbox ng-model="data.remember" checked="data.remember" class="input-login logins" focus>Remember me</ion-checkbox>
 
-      <button class="login-button-login" ng-click="submit()">
+      <button class="login-button-login logins" ng-click="submit()" >
         Login
       </button>
 

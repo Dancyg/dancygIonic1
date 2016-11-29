@@ -61,4 +61,33 @@ angular.module('starter.services', [])
     }
   }
 
-});
+}).directive('focus', function() {
+    return {
+      restrict: 'A',
+      link: function ($scope, element, attrs) {
+
+        element.bind('keydown', function(e) {
+          var code = e.keyCode || e.which;
+          if (code === 13) {
+            e.preventDefault();
+            var pageElements = document.querySelectorAll('.logins'),
+              element = e.srcElement,
+              focusNext = false,
+              len = pageElements.length;
+            console.log(pageElements)
+            for (var i = 0; i < len; i++) {
+              var elem = pageElements[i];
+              if (focusNext) {
+                if (elem.style.display !== 'none') {
+                  elem.focus();
+                  break;
+                }
+              } else if (elem === e.srcElement) {
+                focusNext = true;
+              }
+            }
+          }
+        });
+      }
+    }
+  });

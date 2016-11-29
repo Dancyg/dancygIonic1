@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 var bet = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
 
-.run(function($ionicPlatform, $rootScope, $state) {
+.run(function($ionicPlatform, $rootScope, $state, $ionicHistory) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -25,7 +25,7 @@ var bet = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
     $rootScope.logout = function () {
       window.localStorage.removeItem('token');
       $rootScope.token = window.localStorage.getItem('token');
-      $state.go('tab.buy-tipsters');
+      if ($ionicHistory.currentStateName() === 'tab.tipsters') { $state.go('tab.buy-tipsters') };
     }
   });
 })
@@ -34,6 +34,8 @@ var bet = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
   $ionicConfigProvider.navBar.alignTitle("center"); //Places them at the bottom for all OS
   $ionicConfigProvider.tabs.position("bottom"); //Places them at the bottom for all OS
   $ionicConfigProvider.tabs.style("standard"); //Makes them all look the same across all OS
+
+  $ionicConfigProvider.scrolling.jsScrolling(false);
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router

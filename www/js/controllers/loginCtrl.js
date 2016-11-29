@@ -37,11 +37,20 @@ controllers.controller("LoginCtrl", function ($scope, $http, $ionicPopup, $state
         .then(
           function (res) {
             console.log(res.data);
-            window.localStorage.setItem('token', res.data.cookie);
-            $rootScope.token = window.localStorage.getItem('token');
+            if (res.data.status === 'error'){
+              var text = res.data.error;
+              if (!text) {
+                text = "Please check your credentials and network connection."
+              }
+              Loading.hide();
+              $scope.alert(text);
+            } else {
+              window.localStorage.setItem('token', res.data.cookie);
+              $rootScope.token = window.localStorage.getItem('token');
 
-            Loading.hide();
-            $state.go("tab.blogs");
+              Loading.hide();
+              $state.go("tab.blogs");
+            }
 
           },
           function (res) {

@@ -9855,7 +9855,8 @@ a.button {
 
 .signup-wrapper {
   background: url(../img/signup.jpg) no-repeat center center;
-  background-size: cover; }
+  background-size: cover;
+  z-index: -1; }
 
 body {
   font-family: Lato, sans-serif; }
@@ -10115,10 +10116,11 @@ body.bar-subheader-slide-away .has-subheader {
       color: #fff;
       font-size: 1.05em;
       font-weight: bold; }
-  .my-tips .tip-item a:active, .my-tips .tip-item a:hover {
+  .my-tips .tip-item a.activated {
     padding: 0 !important;
     margin: 0 !important;
-    background: transparent !important; }
+    background: transparent !important;
+    border: none; }
 
 .my-tip a {
   background: linear-gradient(to bottom, white 0%, #f6f6f6 47%, #ededed 100%); }
