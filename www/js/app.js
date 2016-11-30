@@ -25,7 +25,10 @@ var bet = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
     $rootScope.logout = function () {
       window.localStorage.removeItem('token');
       $rootScope.token = window.localStorage.getItem('token');
-      if ($ionicHistory.currentStateName() === 'tab.tipsters') { $state.go('tab.buy-tipsters') };
+      var currentTab = $ionicHistory.currentStateName();
+      if (currentTab === 'tab.tipsters' || currentTab === 'tab.tipsters1'|| currentTab === 'tab.tipsters2') {
+        $state.go('tab.buy-tipsters')
+      }
     }
   });
 })

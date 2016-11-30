@@ -9801,7 +9801,8 @@ a.button {
 
 .login-wrapper {
   background: url(../img/login.jpg) no-repeat center center;
-  background-size: cover; }
+  background-size: cover;
+  z-index: -1; }
 
 .login-inputs-wrapper {
   background: rgba(255, 255, 255, 0.7);
