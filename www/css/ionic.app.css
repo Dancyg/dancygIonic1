@@ -9866,7 +9866,7 @@ body {
   color: #FF9500;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   background: url(../img/logo-horse.png) 5px center no-repeat, #696969;
-  background-size: 42px; }
+  background-size: 43px; }
 
 .footer-custom {
   background: #696969;
@@ -9939,7 +9939,7 @@ p:first-letter {
 .support-inputs-wrapper {
   background: #444;
   overflow: hidden;
-  height: calc(100vh - 93px); }
+  min-height: calc(100vh - 93px); }
 
 .support-info {
   color: #f8f8f8; }
@@ -9955,6 +9955,16 @@ p:first-letter {
   font-size: 35px;
   text-align: center;
   margin: 1.5vh 0 !important; }
+
+.textarea-logins {
+  width: 100%;
+  min-height: 60px;
+  padding: 5px;
+  background: #efefef;
+  resize: none; }
+
+.input-label {
+  width: 20% !important; }
 
 .blogs .scroll-top {
   display: inline-block;
@@ -10132,3 +10142,14 @@ body.bar-subheader-slide-away .has-subheader {
 .one-tip-content {
   font-size: 1.3em;
   line-height: 150%; }
+
+.platform-ios .has-subheader {
+  top: 54px !important; }
+  .platform-ios .has-subheader .scroll {
+    padding-top: 54px !important; }
+
+.platform-ios .scroll-refresher {
+  top: -10px !important; }
+
+.platform-ios .categories {
+  height: calc(100vh - 147px); }

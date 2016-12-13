@@ -5,7 +5,8 @@ controllers.controller("LoginCtrl", function ($scope, $http, $ionicPopup, $state
   $scope.data= {
     username :"",
     password :"",
-    remember :false
+    remember :false,
+    api_call: true
   };
 
   $scope.alert = function(text) {

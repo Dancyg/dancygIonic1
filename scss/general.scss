@@ -1,28 +1,28 @@
-body{
-  font-family:Lato, sans-serif;
+body {
+  font-family: Lato, sans-serif;
 }
 
-.header-custom{
+.header-custom {
   color: $orange;
-  box-shadow: 0 0 5px rgba(0,0,0,.5);
+  box-shadow: 0 0 5px rgba(0, 0, 0, .5);
   background: url(../img/logo-horse.png) 5px center no-repeat, #696969;
-  background-size: 42px;
+  background-size: 43px;
 }
 
-.footer-custom{
+.footer-custom {
   background: #696969;
   color: $orange;
-  opacity:1;
+  opacity: 1;
 }
 
-.button-logo{
+.button-logo {
   background: url(../img/logo-horse.png) 100% 100% no-repeat;
   width: 28px;
   height: 28px;
   background-size: cover;
 }
 
-.link-header-custom{
+.link-header-custom {
   display: inline-block;
   color: #FF9500;
   text-decoration: none;
@@ -37,25 +37,24 @@ body{
   color: #696969;
 }
 
-.tab-nav{
+.tab-nav {
   padding-top: 0;
-  box-shadow: 0 0 5px rgba(0,0,0,.5);
+  box-shadow: 0 0 5px rgba(0, 0, 0, .5);
 }
 
-.spinner svg{
+.spinner svg {
   width: 48px;
   height: 48px;
   stroke: $orange;
 }
 
-.back-button-custom{
+.back-button-custom {
   display: block !important;
   color: #ff9500 !important;
   padding: 0 5px !important;
   margin-left: 45px;
 }
 
-
-.hidden{
+.hidden {
   display: none;
 }

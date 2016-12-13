@@ -12,13 +12,13 @@
          href="#/login"
          ng-show="!token"
       >
-        <span >Login</span>
+        <span>Login</span>
       </a>
       <a class="link-header-custom"
          href="#/signup"
          ng-show="!token"
       >
-        <span >Sign up</span>
+        <span>Sign up</span>
       </a>
     </ion-nav-buttons>
 
@@ -27,24 +27,27 @@
 
     <div class="support-inputs-wrapper" focus>
       <h3 class="login-header support-header">Support</h3>
-      <p class="padding support-info">If you have any questions about a service on Betting Gods or queries about your current subscriptions or payments then please complete the following form. We endeavour to respond within 24hrs.</p>
+      <p class="padding support-info">If you have any questions about a service on Betting Gods or queries about your
+        current subscriptions or payments then please complete the following form. We endeavour to respond within
+        24hrs.</p>
       <form>
         <label class="item item-input input-support">
-          <span class="input-label" >Name</span>
+          <span class="input-label">Name</span>
           <input type="text" ng-model="data.name" class="logins">
         </label>
         <label class="item item-input input-support">
-          <span class="input-label" >Mail</span>
+          <span class="input-label">Mail</span>
           <input type="text" ng-model="data.email" class="logins">
         </label>
         <label class="item item-input input-support" class="logins">
           <span class="input-label">Subject</span>
           <input type="text" ng-model="data.subject" class="logins">
         </label>
-        <label class="item item-input input-support">
+        <label class="item item-input input-support" class="logins">
           <span class="input-label">Message</span>
-          <input type="text" ng-model="data.message" class="logins">
+          <textarea class="logins textarea-logins" ng-model="data.message"> </textarea>
         </label>
+
       </form>
 
       <button class="login-button-login logins" ng-click="sendToSupport()">

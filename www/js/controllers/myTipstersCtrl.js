@@ -7,7 +7,8 @@ controllers.controller('MyTipstersCtrl', function ($scope, $http, $rootScope, Lo
 
   $scope.getTips = function(page, tips){
     var header = {
-      cookie: $rootScope.token
+      cookie   : $rootScope.token,
+      api_call : true
     };
     var formData = new FormData();
     for (var key in header) {
@@ -18,6 +19,7 @@ controllers.controller('MyTipstersCtrl', function ($scope, $http, $rootScope, Lo
     $http.post(TIPSTERS_CATEGORIES, formData)
       .then(
         function (res) {
+          console.log(res);
           res.data.categories.forEach(function (tip, i) {
             $scope.tips[1 - 1 / tip.id] = {
               id         : tip.id,

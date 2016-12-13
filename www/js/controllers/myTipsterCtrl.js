@@ -10,7 +10,8 @@ controllers.controller("MyTipsterCtrl", function ($scope, $stateParams, Loading,
 
   $scope.getTips = function(page, tips){
     var header = {
-      cookie: $rootScope.token
+      cookie: $rootScope.token,
+      api_call: true
     };
     var formData = new FormData();
     for (var key in header) {

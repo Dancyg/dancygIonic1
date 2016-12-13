@@ -1,0 +1,16 @@
+.platform-ios{
+  .has-subheader {
+    top: 54px !important;
+    .scroll {
+      padding-top: 54px !important;
+    }
+  }
+
+  .scroll-refresher {
+    top: -10px !important;
+  }
+
+  .categories {
+    height: calc(100vh - 147px);
+  }
+}

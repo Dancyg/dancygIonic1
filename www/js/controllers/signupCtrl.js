@@ -16,7 +16,7 @@ controllers.controller('SignupCtrl', function ($scope, $http, Alert, Loading) {
       $http.get(url)
         .then(function (res) {
           Loading.hide();
-          Alert.success('Success', 'Your registration request has been sent. The response will sent to your mail.')
+          Alert.success('Success', 'Your registration request has been sent. The response will be sent to your mail.')
         }, function (err) {
           Loading.hide();
           Alert.failed('Error', 'Request has not been sent.')

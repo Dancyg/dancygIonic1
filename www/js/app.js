@@ -17,8 +17,7 @@ var bet = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
 
     }
     if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
+      StatusBar.hide();
     }
 
     $rootScope.token = window.localStorage.getItem('token');
@@ -38,7 +37,7 @@ var bet = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
   $ionicConfigProvider.tabs.position("bottom"); //Places them at the bottom for all OS
   $ionicConfigProvider.tabs.style("standard"); //Makes them all look the same across all OS
 
-  $ionicConfigProvider.scrolling.jsScrolling(false);
+  // $ionicConfigProvider.scrolling.jsScrolling(false);
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
