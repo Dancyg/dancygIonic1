@@ -41,7 +41,7 @@
                 type="item-text-wrap"
                 href="#/tab/tip/{{tip.id}}"
       >
-        <h2 class="tip-header">{{tip.title}}</h2>
+        <h2 class="tip-header" ng-bind-html="tip.title()"></h2>
         <i class="icon ion-chevron-right icon-accessory icon-tip"></i>
       </ion-item>
 

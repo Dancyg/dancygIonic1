@@ -9910,6 +9910,9 @@ body {
 .hidden {
   display: none; }
 
+.pane {
+  background: #efefef; }
+
 .gambling-responsibly-container {
   font-size: 20px;
   line-height: 30px;
@@ -10148,7 +10151,7 @@ body.bar-subheader-slide-away .has-subheader {
   .platform-ios .has-subheader .scroll {
     padding-top: 54px !important; }
 
-.platform-ios .scroll-refresher {
+.platform-ios .blogs .scroll-refresher {
   top: -10px !important; }
 
 .platform-ios .categories {

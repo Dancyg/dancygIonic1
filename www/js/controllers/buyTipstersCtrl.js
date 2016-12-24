@@ -18,7 +18,7 @@ controllers.controller('BuyTipstersCtrl', function ($scope, $http, $rootScope, L
           res.data.posts.forEach(function (tip, i) {
             $scope.tips[1 - 1 / tip.id] = {
               id         : tip.id,
-              thumbnail  : tip.attachments["0"].images.medium.url,
+              thumbnail  : tip.thumbnail,
               url        : tip.url,
               title      : function () { return $sce.trustAsHtml(tip.title) },
               description: function () {

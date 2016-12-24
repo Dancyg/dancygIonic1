@@ -17,11 +17,12 @@ controllers.controller("BlogCtrl", function ($scope, $http, $ionicPopup, Loading
       .then(
         function (res) {
           Loading.hide();
-
+console.log(res.data);
           res.data.posts.forEach(function (blog, i) {
+            var imgUrl = blog.thumbnail ? blog.thumbnail : blog.attachments["0"].images.medium.url;
             $scope.blogs[1 - 1 / blog.id] = {
               id         : blog.id,
-              thumbnail  : blog.thumbnail_images.medium.url,
+              thumbnail  : imgUrl,
               title      : function () { return $sce.trustAsHtml(blog.title) }
             }
           });

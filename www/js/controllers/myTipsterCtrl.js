@@ -32,7 +32,7 @@ controllers.controller("MyTipsterCtrl", function ($scope, $stateParams, Loading,
             };
             $scope.tips[1 - 1 / tip.id] = {
               id         : tip.id,
-              title      : tip.title
+              title      : function () { return $sce.trustAsHtml(tip.title) }
             }
           });
           $scope.lastPage = res.data.pages;

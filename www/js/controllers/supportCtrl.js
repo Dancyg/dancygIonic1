@@ -9,10 +9,13 @@ controllers.controller('SupportCtrl', function ($scope, $http, Alert, Loading) {
     message:''
   };
   $scope.sendToSupport = function () {
-    if (!$scope.data.message || !$scope.data.email || !$scope.data.name || !$scope.data.subject){
+    if (!$scope.data.message || !$scope.data.email || !$scope.data.name || !$scope.data.subject) {
       Alert.failed('Response Failed', 'All fields are required.')
       console.log($scope.data)
-    }else {
+    } else if (!$scope.data.email.match(EMAIL_CHECK)){
+      Alert.failed('Response Failed', 'Please indicate correct email.')
+      console.log($scope.data)
+    } else {
       console.log($scope.data);
       Loading.start();
       $http.get(SUPPORT +
