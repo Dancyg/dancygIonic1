@@ -32,6 +32,22 @@
   <ion-content class="padding blog-container-custom">
 
     <img ng-src="{{blog.thumbnail}}" class="blog-image" >
+      <span ng-if="blog.thumbnail">
+        <div class="shares-container">
+          <button class="share-button facebook ion-social-facebook" ng-click="shareViaF()">
+              share
+          </button>
+          <button class="share-button twitter ion-social-twitch" ng-click="shareViaTw()">
+              twit
+          </button>
+          <button class="share-button mail ion-email" ng-click="shareViaEm()">
+              email
+          </button>
+          <button class="share-button other" ng-click="shareViaAll()">
+              share via...
+          </button>
+        </div>
+      </span>
     <h3 ng-bind-html="title()"></h3>
     <p  ng-bind-html="content()"></p>
   </ion-content>

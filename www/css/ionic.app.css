@@ -10067,6 +10067,43 @@ body.bar-subheader-slide-away .has-subheader {
 .blog-image {
   width: 100%; }
 
+.shares-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px; }
+
+.share-button {
+  width: 22vw;
+  display: inline-block;
+  height: 25px;
+  color: #ffffff;
+  outline: none;
+  border-radius: 2px;
+  border: none;
+  font-weight: bold;
+  font-size: 11px;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3); }
+
+.share-button:active {
+  box-shadow: none; }
+
+.facebook {
+  background: #3B5998; }
+
+.twitter {
+  background: #55acee; }
+
+.mail {
+  background: #fa6800; }
+
+.other {
+  background: #3cb232; }
+
+.share-with-header {
+  display: inline-block; }
+
 .buy-tips .tip-item {
   position: relative;
   background: linear-gradient(to bottom, white 0%, #131207 100%), #444;
