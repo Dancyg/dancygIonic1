@@ -17,14 +17,18 @@ controllers.controller("OneBlogCtrl", function ($scope, Loading, $stateParams, $
       }
     );
 
+  function onError(err){
+    alert('Please check if social network app is installed on your phone.')
+  }
+
   $scope.shareViaF = function () {
-    window.plugins.socialsharing.shareViaFacebook($scope.blog.title, $scope.blog.thumbnail, $scope.blog.url)
+    window.plugins.socialsharing.shareViaFacebook($scope.blog.title, $scope.blog.thumbnail, $scope.blog.url, null, onError)
   }
   $scope.shareViaTw = function () {
-    window.plugins.socialsharing.shareViaTwitter($scope.blog.title, null, $scope.blog.url)
+    window.plugins.socialsharing.shareViaTwitter($scope.blog.title, null, $scope.blog.url, null, onError)
   }
   $scope.shareViaEm = function () {
-    window.plugins.socialsharing.shareViaEmail(null, $scope.blog.title, null, null, null, $scope.blog.thumbnail)
+    window.plugins.socialsharing.shareViaEmail(null, $scope.blog.title, null, null, null, $scope.blog.thumbnail, null, onError)
   }
   $scope.shareViaAll = function () {
     window.plugins.socialsharing.share(null, $scope.blog.title, $scope.blog.thumbnail, $scope.blog.url)
