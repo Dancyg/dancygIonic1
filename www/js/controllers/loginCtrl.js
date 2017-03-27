@@ -1,12 +1,13 @@
 
 
-controllers.controller("LoginCtrl", function ($scope, $http, $ionicPopup, $state, Loading, $rootScope ) {
+controllers.controller("LoginCtrl", function ($scope, $http, $ionicPopup, $state, Loading, $rootScope, Alert ) {
 
   $scope.data= {
     username :"",
     password :"",
     remember :false,
-    api_call: true
+    api_call: true,
+    device_token: $rootScope.pushToken
   };
 
   $scope.alert = function(text) {

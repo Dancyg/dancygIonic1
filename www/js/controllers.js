@@ -11,3 +11,4 @@ var controllers = angular.module('starter.controllers', ['ngSanitize'])
         //   alert(JSON.stringify(res.data));
         // })
   });
+// sudo ln -s "/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/10.3 (14E5277a)/" "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport"

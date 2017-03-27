@@ -1,4 +1,4 @@
-controllers.controller("BlogCtrl", function ($scope, $http, $ionicPopup, Loading, $sce, $ionicPopover, Categories,  $ionicScrollDelegate, $rootScope, Alert) {
+controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPopup, Loading, $sce, $ionicPopover, Categories,  $ionicScrollDelegate, $rootScope, Alert) {
   Loading.start();
 
   $scope.page = 1;
@@ -87,6 +87,9 @@ console.log(res.data);
     $rootScope.$apply();
   };
 
+  $scope.$on('cloud:push:notification', function(event, data) {
+    var msg   = data.message;
+    Alert.success(msg.title, msg.text);
+  });
 
-
-})
+});

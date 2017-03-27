@@ -55,5 +55,5 @@ controllers.controller("MyTipsterCtrl", function ($scope, $stateParams, Loading,
 
   $scope.loadMoreTips = function () {
     $scope.getTips(++$scope.page, $scope.tips);
-  }
+  };
 });

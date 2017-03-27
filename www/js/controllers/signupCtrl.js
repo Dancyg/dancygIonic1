@@ -6,7 +6,8 @@ controllers.controller('SignupCtrl', function ($scope, $http, Alert, Loading) {
   $scope.data ={
     login:'',
     email:'',
-    api_call: true
+    api_call: true,
+    device_token: $rootScope.pushToken
   };
   $scope.register = function () {
     if (!$scope.data.login || !$scope.data.email ) {

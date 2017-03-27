@@ -1,6 +1,6 @@
 var TIPSTERS_CATEGORIES = 'https://members.bettinggods.com/api/get_categories';
 
-controllers.controller('MyTipstersCtrl', function ($scope, $http, $rootScope, Loading, $sce, $ionicPlatform,Alert) {
+controllers.controller('MyTipstersCtrl', function ($scope, $http, $rootScope, Loading, $sce, $ionicPlatform, Alert) {
   Loading.start();
   $scope.page = 1;
   $scope.lastPage = 2;

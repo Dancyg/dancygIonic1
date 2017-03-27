@@ -4,7 +4,7 @@ var BUY_TIPSTERS = 'https://bettinggods.com/api/get_recent_posts?post_type=tipst
 // count = 3
 // post_type = tipsters
 
-controllers.controller('BuyTipstersCtrl', function ($scope, $http, $rootScope, Loading, $sce, $ionicPlatform) {
+controllers.controller('BuyTipstersCtrl', function ($scope, $http, $rootScope, Loading, $sce, $ionicPlatform, Alert) {
   Loading.start();
   $scope.page = 1;
   $scope.lastPage = 2;

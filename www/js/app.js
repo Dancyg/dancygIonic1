@@ -5,9 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-var bet = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
+var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'starter.services', 'ngCordova'])
 
-.run(function($ionicPlatform, $rootScope, $state, $ionicHistory) {
+.run(function($ionicPlatform, $rootScope, $state, $ionicHistory, $ionicPush, $http, Alert, Loading) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -21,19 +21,51 @@ var bet = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
     }
 
     $rootScope.token = window.localStorage.getItem('token');
+    $rootScope.pushToken = { t: '' };
+
+    $ionicPush.register().then(function(t) {
+      return $ionicPush.saveToken(t);
+    }).then(function(t) {
+      $rootScope.pushToken.t = t.token;
+    })
+      .catch(function (err) {
+        Alert.failed('Push Failed', 'Couldn\'t register app for push notifications' )
+      });
+
     $rootScope.logout = function () {
-      window.localStorage.removeItem('token');
-      $rootScope.token = window.localStorage.getItem('token');
-      var currentTab = $ionicHistory.currentStateName();
-      if (currentTab === 'tab.tipsters' || currentTab === 'tab.tipsters1'|| currentTab === 'tab.tipsters2') {
-        // $state.go('tab.buy-tipsters')
-        $state.go('tab.blogs')
+      var data = {
+        token       : $rootScope.token,
+        device_token: $rootScope.pushToken.t,
+        api_call    : true
+      };
+
+      var formData = new FormData();
+      for (var key in data) {
+        formData.append(key, data[key]);
       }
-    }
+      Loading.start();
+      $http.post('https://members.bettinggods.com/api/logout/', formData)
+        .then(function () {
+          window.localStorage.removeItem('token');
+          $rootScope.token = window.localStorage.getItem('token');
+          var currentTab = $ionicHistory.currentStateName();
+          if (currentTab === 'tab.tipsters' || currentTab === 'tab.tipsters1'|| currentTab === 'tab.tipsters2') {
+            // $state.go('tab.buy-tipsters')
+            $state.go('tab.blogs')
+          }
+          Loading.hide();
+        })
+        .catch(function (error) {
+          Loading.hide();
+          Alert.failed('Logout Failed', 'Please check the internet connection')
+        });
+    };
+
+
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider, $compileProvider) {
+.config(function( $stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider, $compileProvider, $ionicCloudProvider) {
   $ionicConfigProvider.navBar.alignTitle("center"); //Places them at the bottom for all OS
   $ionicConfigProvider.tabs.position("bottom"); //Places them at the bottom for all OS
   $ionicConfigProvider.tabs.style("standard"); //Makes them all look the same across all OS
@@ -52,6 +84,23 @@ var bet = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
 
   // $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|content):|data:image\//);
 
+  $ionicCloudProvider.init({
+    "core": {
+      "app_id": "2ada1795"
+    },
+    "push": {
+      "sender_id": 716852556262,
+      "pluginConfig": {
+        "ios": {
+          "badge": true,
+          "sound": true
+        },
+        "android": {
+          "iconColor": "#343434"
+        }
+      }
+    }
+  });
 
 
   $stateProvider
