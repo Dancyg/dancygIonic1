@@ -9913,6 +9913,9 @@ body {
 .pane {
   background: #efefef; }
 
+.popup-container .popup {
+  background-color: #ffffff !important; }
+
 .gambling-responsibly-container {
   font-size: 20px;
   line-height: 30px;
@@ -10075,7 +10078,7 @@ body.bar-subheader-slide-away .has-subheader {
   height: 40px; }
 
 .share-button {
-  width: 22vw;
+  width: 23vw;
   display: inline-block;
   height: 25px;
   color: #ffffff;

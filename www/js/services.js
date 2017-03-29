@@ -58,6 +58,18 @@ angular.module('starter.services', [])
           }
         ]
       });
+    },
+    pushContent: function (header, text) {
+      var alertPopup = $ionicPopup.alert({
+        title: header,
+        template: text,
+        buttons: [
+          {
+            text: '<b>OK</b>',
+            type: 'button-dark'
+          }
+        ]
+      });
     }
   }
 

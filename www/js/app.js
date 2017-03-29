@@ -1,10 +1,3 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
 var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'starter.services', 'ngCordova'])
 
 .run(function($ionicPlatform, $rootScope, $state, $ionicHistory, $ionicPush, $http, Alert, Loading) {
@@ -21,21 +14,33 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
     }
 
     $rootScope.token = window.localStorage.getItem('token');
-    $rootScope.pushToken = { t: '' };
+    $rootScope.pushToken = {};
 
-    $ionicPush.register().then(function(t) {
-      return $ionicPush.saveToken(t);
-    }).then(function(t) {
-      $rootScope.pushToken.t = t.token;
-    })
-      .catch(function (err) {
-        Alert.failed('Push Failed', 'Couldn\'t register app for push notifications' )
-      });
+    $rootScope.register = function(){
+      $ionicPush.register().then(function(t) {
+        return $ionicPush.saveToken(t);
+      }).then(function(t) {
+        $rootScope.pushToken = t.token;
+      })
+        .catch(function (err) {
+          Alert.failed('Push Failed', 'Couldn\'t register app for push notifications' )
+        });
+    }
+
+    $rootScope.register();
+
+    $rootScope.unregister = function () {
+      $ionicPush.unregister()
+        .catch(function () {
+          Alert.failed('Failed to unregister', 'Device was not unregistered')
+        })
+    }
+    // $ionicPush.unregister();
 
     $rootScope.logout = function () {
       var data = {
         token       : $rootScope.token,
-        device_token: $rootScope.pushToken.t,
+        device_token: $rootScope.pushToken,
         api_call    : true
       };
 
@@ -49,6 +54,7 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
           window.localStorage.removeItem('token');
           $rootScope.token = window.localStorage.getItem('token');
           var currentTab = $ionicHistory.currentStateName();
+          $rootScope.unregister();
           if (currentTab === 'tab.tipsters' || currentTab === 'tab.tipsters1'|| currentTab === 'tab.tipsters2') {
             // $state.go('tab.buy-tipsters')
             $state.go('tab.blogs')
@@ -61,6 +67,20 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
         });
     };
 
+    //define local db
+    localforage.defineDriver(window.cordovaSQLiteDriver).then(function() {
+      return localforage.setDriver([
+        // Try setting cordovaSQLiteDriver if available,
+        window.cordovaSQLiteDriver._driver,
+        // otherwise use one of the default localforage drivers as a fallback.
+        // This should allow you to transparently do your tests in a browser
+        localforage.INDEXEDDB,
+        localforage.WEBSQL,
+        localforage.LOCALSTORAGE
+      ]);
+    }).catch(function(err) {
+      alert(err);
+    });
 
   });
 })

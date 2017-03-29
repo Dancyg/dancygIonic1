@@ -5,8 +5,10 @@ controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPo
   $scope.lastPage = 2;
   $scope.currentCategoryId = '';
 
+
   $scope.loadBlogs = function (page, blogs, catId){
     $scope.blogs = blogs || {};
+    $rootScope.blogsGlobal = $rootScope.blogsGlobal || {};
 
 
     if(catId || catId === ''){
@@ -17,15 +19,27 @@ controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPo
       .then(
         function (res) {
           Loading.hide();
-console.log(res.data);
+
           res.data.posts.forEach(function (blog, i) {
-            var imgUrl = blog.thumbnail ? blog.thumbnail : blog.attachments["0"].images.medium.url;
+            var imgUrl = blog.thumbnail ? blog.thumbnail : blog.attachments.length ? blog.attachments[0].images.medium.url : "";
+
+            $rootScope.blogsGlobal[blog.id] = {
+              id         : blog.id,
+              thumbnail  : imgUrl,
+              title      : blog.title,
+              content    : blog.content,
+              url        : blog.url
+            };
+
             $scope.blogs[1 - 1 / blog.id] = {
               id         : blog.id,
               thumbnail  : imgUrl,
-              title      : function () { return $sce.trustAsHtml(blog.title) }
+              title      : function () { return $sce.trustAsHtml(blog.title) },
+              content    : blog.content
             }
+
           });
+          localforage.setItem('blogsGlobal', $rootScope.blogsGlobal);
 
           $scope.$broadcast('scroll.refreshComplete');
           $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -34,8 +48,26 @@ console.log(res.data);
         },
         function (res) {
           Loading.hide();
-          console.log("error", res.data);
-          Alert.failed('Error', 'Please check your internet connection.')
+
+          localforage.getItem('blogsGlobal')
+            .then(function (blogsGlobal) {
+              alert(JSON.stringify(blogsGlobal));
+              Alert.success('Offline mode', 'Blogs that have been save during previous session are available.');
+              $rootScope.blogsGlobal = blogsGlobal;
+              $rootScope.blogsGlobal.forEach(function (blog, i) {
+
+                $scope.blogs[1 - 1 / blog.id] = {
+                  id         : blog.id,
+                  thumbnail  : 'img/offline_mode.jpg',
+                  title      : function () { return $sce.trustAsHtml(blog.title) },
+                  content    : blog.content
+                }
+              });
+            })
+            .catch(function (error) {
+              Alert.failed('Error', 'Please check your internet connection.')
+            });
+
           $scope.$broadcast('scroll.refreshComplete');
           $scope.$broadcast('scroll.infiniteScrollComplete');
         }
@@ -89,7 +121,7 @@ console.log(res.data);
 
   $scope.$on('cloud:push:notification', function(event, data) {
     var msg   = data.message;
-    Alert.success(msg.title, msg.text);
+    Alert.pushContent(msg.title, msg.text);
   });
 
 });

@@ -1,21 +1,30 @@
-controllers.controller("OneBlogCtrl", function ($scope, Loading, $stateParams, $http, $sce, $rootScope, Alert) {
+controllers.controller("OneBlogCtrl", function ($scope, Loading, $stateParams, $http, $sce, $rootScope, Alert, $state) {
 
-  Loading.start();
-  var url = BLOG + $stateParams.blogID;
-  $http.get(url)
-    .then(
-      function (res) {
-        Loading.hide();
-        $scope.blog = res.data.post;
-        $scope.title = function () { return $sce.trustAsHtml(res.data.post.title) };
-        $scope.content = function() { return $sce.trustAsHtml(res.data.post.content) };
-        console.log($scope.blog);
-      },
-      function (res) {
-        Loading.hide();
-        console.log("error", res.data);
-      }
-    );
+  if(!$rootScope.blogsGlobal || !$rootScope.blogsGlobal[$stateParams.blogID]){
+    Loading.start();
+    var url = BLOG + $stateParams.blogID;
+    $http.get(url)
+      .then(
+        function (res) {
+          Loading.hide();
+          $scope.blog      = res.data.post;
+          $scope.title     = function () { return $sce.trustAsHtml(res.data.post.title) };
+          $scope.content   = function() { return $sce.trustAsHtml(res.data.post.content) };
+        },
+        function (res) {
+          Loading.hide();
+          console.log("error", res.data);
+        }
+      );
+  } else {
+    $scope.blog      = $rootScope.blogsGlobal[$stateParams.blogID];
+    $scope.title     = function() { return $sce.trustAsHtml($scope.blog.title) } ;
+    $scope.content   = function() { return $sce.trustAsHtml($scope.blog.content) };
+  }
+
+  $scope.back = function () {
+    $state.go('tab.blogs')
+  }
 
   function onError(err){
     Alert.failed('Share Failed', 'Please check if social network app is installed on your phone.')
