@@ -1,7 +1,7 @@
 var REGISTER = 'https://members.bettinggods.com/api/registration';
 
 
-controllers.controller('SignupCtrl', function ($scope, $http, Alert, Loading) {
+controllers.controller('SignupCtrl', function ($scope, $http, Alert, Loading, $rootScope) {
 
   $scope.data ={
     login:'',

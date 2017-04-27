@@ -11,7 +11,7 @@ navigation history that also transitions its views in and out.
   </ion-tab>
 
 <!--Tipsters tab-->
-  <ion-tab hidden="{{token === null}}" class="footer-custom " title='My Tipsters'
+  <ion-tab hidden="{{token === null}}" class="footer-custom " title='My Tipsters' on-select="getTipsOnTap()"
            icon-off="ion-arrow-graph-up-right" icon-on="ion-arrow-graph-up-right"
            href='#/tab/tipsters'>
     <ion-nav-view name="tab-tipsters"></ion-nav-view>

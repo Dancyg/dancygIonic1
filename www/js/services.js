@@ -2,17 +2,19 @@ var CATEGORIES = "https://bettinggods.com/api/get_categories";
 
 angular.module('starter.services', [])
 
-.factory('Loading', function ($ionicLoading) {
+.factory('Loading', function ($ionicLoading, $rootScope) {
 
   return {
 
     start: function () {
+      $rootScope.isLoading = true;
       $ionicLoading.show({
         template:'<ion-spinner icon="lines" class="custom-spiner"></ion-spinner>'
       });
     },
 
     hide:function () {
+      $rootScope.isLoading = false;
       $ionicLoading.hide();
     }
   }
@@ -60,16 +62,25 @@ angular.module('starter.services', [])
       });
     },
     pushContent: function (header, text) {
-      var alertPopup = $ionicPopup.alert({
+      return $ionicPopup.confirm({
         title: header,
         template: text,
         buttons: [
           {
-            text: '<b>OK</b>',
-            type: 'button-dark'
+            text: 'Cancel' ,
+            onTap: function(e) {
+              return false;
+            }
+          },
+          {
+            text: '<b>CHECK</b>',
+            type: 'button-dark',
+            onTap: function(e) {
+              return true;
+          }
           }
         ]
-      });
+      })
     }
   }
 

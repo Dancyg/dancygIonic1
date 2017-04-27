@@ -1,69 +1,41 @@
 
 
-controllers.controller("LoginCtrl", function ($scope, $http, $ionicPopup, $state, Loading, $rootScope, Alert ) {
+controllers.controller("LoginCtrl", function ($scope, $http, $ionicPopup, $state, Loading, $rootScope, Alert, $ionicPush ) {
 
-  $scope.data= {
+  $scope.data = {
     username :"",
     password :"",
     remember :false,
-    api_call: true,
-    device_token: $rootScope.pushToken
+    api_call : true
   };
 
-  $scope.alert = function(text) {
-    var alertPopup = $ionicPopup.alert({
-      title: 'Login Failed',
-      template: text,
-      buttons: [
-        {
-          text: '<b>Ok</b>',
-          type: 'button-assertive'
-        }
-      ]
-    });
-  };
+  if ($rootScope.pushToken) {
+    $scope.data.device_token = $rootScope.pushToken;
+  }
 
   $scope.submit = function () {
-    console.log($scope.data);
     if ($scope.data.username === '' || $scope.data.password === '') {
-      $scope.alert('Name and password are required!');
+      Alert.failed('Error','Name and password are required!');
 
     } else {
-      Loading.start();
-      var formData = new FormData();
-      for (var key in $scope.data) {
-        formData.append(key, $scope.data[key]);
-      }
+        Loading.start();
+        var formData = new FormData();
+        for (var key in $scope.data) {
+          formData.append(key, $scope.data[key]);
+        }
 
-      $http.post(LOGIN, formData)
-        .then(
-          function (res) {
-            console.log(res.data);
-            if (res.data.status === 'error'){
-              var text = res.data.error;
-              if (!text) {
-                text = "Please check your credentials and network connection."
-              }
-              Loading.hide();
-              $scope.alert(text);
-            } else {
-              window.localStorage.setItem('token', res.data.cookie);
-              $rootScope.token = window.localStorage.getItem('token');
-
-              Loading.hide();
-              $state.go("tab.blogs");
-            }
-
-          },
-          function (res) {
-            var text = res.data.error;
-            if (!text) {
-              text = "Please check your credentials and network connection."
-            }
+        $http.post(LOGIN, formData)
+          .then(function (res) {
+            window.localStorage.setItem('token', res.data.cookie);
+            $rootScope.token = window.localStorage.getItem('token');
             Loading.hide();
-            $scope.alert(text);
-          }
-        );
+            $state.go("tab.blogs");
+
+          }, function (res) {
+            var text = res.data && res.data.error && res.data.error || "Please check your credentials and network connection.";
+            Loading.hide();
+            Alert.failed('Login Failde', text)
+          });
     }
   }
 

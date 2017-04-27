@@ -15,6 +15,7 @@ controllers.controller('BuyTipstersCtrl', function ($scope, $http, $rootScope, L
     $http.get(BUY_TIPSTERS + page)
       .then(
         function (res) {
+          Loading.hide();
           res.data.posts.forEach(function (tip, i) {
             $scope.tips[1 - 1 / tip.id] = {
               id         : tip.id,
@@ -31,11 +32,8 @@ controllers.controller('BuyTipstersCtrl', function ($scope, $http, $rootScope, L
             }
           });
           $scope.lastPage = res.data.pages;
-          console.log(res);
           $scope.$broadcast('scroll.refreshComplete');
           $scope.$broadcast('scroll.infiniteScrollComplete');
-          Loading.hide();
-
         },
         function (res) {
           Loading.hide();

@@ -1,4 +1,4 @@
-controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPopup, Loading, $sce, $ionicPopover, Categories,  $ionicScrollDelegate, $rootScope, Alert) {
+controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPopup, Loading, $sce, $ionicPopover, Categories,  $ionicScrollDelegate, $rootScope, Alert, $ionicPlatform, $state) {
   Loading.start();
 
   $scope.page = 1;
@@ -7,6 +7,10 @@ controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPo
 
 
   $scope.loadBlogs = function (page, blogs, catId){
+    Categories.get(function (categories) {
+      $scope.categories = categories;
+    });
+
     $scope.blogs = blogs || {};
     $rootScope.blogsGlobal = $rootScope.blogsGlobal || {};
 
@@ -18,61 +22,74 @@ controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPo
     $http.get(url)
       .then(
         function (res) {
-          Loading.hide();
+          $scope.offlineMode = false;
+          $ionicPlatform.ready(function () {
+            localforage.clear()
+              .then(function () {
+                res.data.posts.forEach(function (blog, i) {
+                  var imgUrl = blog.thumbnail ? blog.thumbnail : blog.attachments.length ? blog.attachments[0].images.medium.url : "";
 
-          res.data.posts.forEach(function (blog, i) {
-            var imgUrl = blog.thumbnail ? blog.thumbnail : blog.attachments.length ? blog.attachments[0].images.medium.url : "";
+                  $rootScope.blogsGlobal[blog.id] = {
+                    id: blog.id,
+                    thumbnail: imgUrl,
+                    title: blog.title,
+                    content: blog.content,
+                    url: blog.url
+                  };
 
-            $rootScope.blogsGlobal[blog.id] = {
-              id         : blog.id,
-              thumbnail  : imgUrl,
-              title      : blog.title,
-              content    : blog.content,
-              url        : blog.url
-            };
+                  $scope.blogs[1 - 1 / blog.id] = {
+                    id: blog.id,
+                    thumbnail: imgUrl,
+                    title: function () {
+                      return $sce.trustAsHtml(blog.title)
+                    },
+                    content: blog.content
+                  }
 
-            $scope.blogs[1 - 1 / blog.id] = {
-              id         : blog.id,
-              thumbnail  : imgUrl,
-              title      : function () { return $sce.trustAsHtml(blog.title) },
-              content    : blog.content
-            }
+                });
+                localforage.setItem('blogsGlobal', $rootScope.blogsGlobal);
+                Loading.hide();
 
+                $scope.$broadcast('scroll.refreshComplete');
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+                $scope.lastPage = res.data.pages;
+              });
           });
-          localforage.setItem('blogsGlobal', $rootScope.blogsGlobal);
-
-          $scope.$broadcast('scroll.refreshComplete');
-          $scope.$broadcast('scroll.infiniteScrollComplete');
-          $scope.lastPage = res.data.pages;
-
         },
         function (res) {
-          Loading.hide();
+          $scope.offlineMode = true;
+          $ionicPlatform.ready(function () {
 
-          localforage.getItem('blogsGlobal')
-            .then(function (blogsGlobal) {
-              alert(JSON.stringify(blogsGlobal));
-              Alert.success('Offline mode', 'Blogs that have been save during previous session are available.');
-              $rootScope.blogsGlobal = blogsGlobal;
-              $rootScope.blogsGlobal.forEach(function (blog, i) {
+            Loading.hide();
+            localforage.getItem('blogsGlobal')
+              .then(function (blogsGlobal) {
+                Alert.success('Offline mode', 'Blogs that were saved during previous session are available.');
+                $rootScope.blogsGlobal = blogsGlobal;
+                Object.keys($rootScope.blogsGlobal).reverse().forEach(function (key, i) {
+                  var blog = $rootScope.blogsGlobal[key];
 
-                $scope.blogs[1 - 1 / blog.id] = {
-                  id         : blog.id,
-                  thumbnail  : 'img/offline_mode.jpg',
-                  title      : function () { return $sce.trustAsHtml(blog.title) },
-                  content    : blog.content
-                }
+                  $scope.blogs[1 - 1 / blog.id] = {
+                    id: blog.id,
+                    thumbnail: 'img/offline_mode.jpg',
+                    title: function () {
+                      return $sce.trustAsHtml(blog.title)
+                    },
+                    content: blog.content
+                  };
+
+                  $rootScope.blogsGlobal[key].thumbnail = 'img/offline_mode.jpg'
+                });
+
+              })
+              .catch(function (error) {
+                Alert.failed('Error', 'Please check your internet connection.')
               });
-            })
-            .catch(function (error) {
-              Alert.failed('Error', 'Please check your internet connection.')
-            });
 
-          $scope.$broadcast('scroll.refreshComplete');
-          $scope.$broadcast('scroll.infiniteScrollComplete');
-        }
-      );
-  }
+            $scope.$broadcast('scroll.refreshComplete');
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+          });
+        });
+  };
 
   $scope.loadBlogs(1);
 
@@ -88,10 +105,6 @@ controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPo
     $scope.loadBlogs($scope.page, $scope.blogs, id);
     Loading.start();
   };
-
-  Categories.get(function (categories) {
-    $scope.categories = categories;
-  });
 
   $rootScope.slideHeader = false;
   $rootScope.slideHeaderPrevious = 0;
@@ -119,9 +132,40 @@ controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPo
     $rootScope.$apply();
   };
 
+  $rootScope.routeOnPush = function (payload) {
+    if (payload.type === 'tip') {
+      var timerId = setTimeout(function tick() {
+
+        if (!$rootScope.tipsList) {
+          timerId = setTimeout(tick, 1000);
+        }
+        if (!$rootScope.isLoading) {
+          Loading.start()
+        }
+        if($rootScope.tipsList ){
+          Loading.hide()
+        }
+      }, 1000);
+      $state.go('tab.tipsters1', { recent: payload.id });
+    } else {
+      $state.go('tab.blog', { blogID: payload.id })
+    }
+  };
+
   $scope.$on('cloud:push:notification', function(event, data) {
     var msg   = data.message;
-    Alert.pushContent(msg.title, msg.text);
+    var payload = msg.payload;
+    var app     = msg.app;
+    if (app.closed){
+      $rootScope.routeOnPush(payload);
+    } else {
+      Alert.pushContent(msg.title, msg.text)
+        .then(function (resp) {
+          if (resp) {
+            $rootScope.routeOnPush(payload);
+          }
+        });
+    }
   });
 
 });

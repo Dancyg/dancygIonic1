@@ -70,7 +70,7 @@
     <ion-infinite-scroll spinner="lines"
                          on-infinite="loadMoreBlogs()"
                          distance="1%"
-                         ng-if="page < lastPage && page != lastPage"
+                         ng-if="page < lastPage && page != lastPage && !offlineMode"
                          immediate-check="false"
     ></ion-infinite-scroll>
   </ion-content>

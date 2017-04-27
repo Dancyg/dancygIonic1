@@ -1,6 +1,6 @@
 var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'starter.services', 'ngCordova'])
 
-.run(function($ionicPlatform, $rootScope, $state, $ionicHistory, $ionicPush, $http, Alert, Loading) {
+.run(function($ionicPlatform, $rootScope, $state, $ionicHistory, $ionicPush, $http, Alert, Loading, $q) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -13,29 +13,60 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
       StatusBar.hide();
     }
 
-    $rootScope.token = window.localStorage.getItem('token');
+    $rootScope.token     = window.localStorage.getItem('token');
     $rootScope.pushToken = {};
 
-    $rootScope.register = function(){
-      $ionicPush.register().then(function(t) {
-        return $ionicPush.saveToken(t);
-      }).then(function(t) {
-        $rootScope.pushToken = t.token;
-      })
+    $rootScope.updateDeviceToken = function () {
+      var data= {
+        api_call    : true,
+        device_token: $rootScope.pushToken,
+        token       : $rootScope.token
+      };
+
+      var formData = new FormData();
+      for (var key in data) {
+        formData.append(key, data[key]);
+      }
+      // alert(JSON.stringify(data));
+      $http.post(LOGIN, formData)
+        .then(function (resp) {
+          // alert(JSON.stringify(resp))
+        })
+        .catch(function(err){
+          // alert(JSON.stringify(err))
+        })
+    };
+
+    $rootScope.register = function(showErrAlert){
+      $ionicPush.register()
+        .then(function(t) {
+          return $ionicPush.saveToken(t);
+        })
+        .then(function(t) {
+          $rootScope.pushToken = t.token;
+          // alert(JSON.stringify(t.token));
+
+          if ($rootScope.token){
+            $rootScope.updateDeviceToken();
+          }
+        })
         .catch(function (err) {
-          Alert.failed('Push Failed', 'Couldn\'t register app for push notifications' )
+          if (showErrAlert) {
+            // Alert.failed('Push Registration Failed', 'Couldn\'t register app for push notifications.');
+          }
         });
-    }
+    };
 
     $rootScope.register();
 
-    $rootScope.unregister = function () {
+    $rootScope.unregister = function (showErrAlert) {
       $ionicPush.unregister()
         .catch(function () {
-          Alert.failed('Failed to unregister', 'Device was not unregistered')
+          if (showErrAlert) {
+            Alert.failed('Failed to unregister', 'Device was not unregistered.');
+          }
         })
-    }
-    // $ionicPush.unregister();
+    };
 
     $rootScope.logout = function () {
       var data = {
@@ -62,11 +93,17 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
           Loading.hide();
         })
         .catch(function (error) {
+          window.localStorage.removeItem('token');
+          $rootScope.token = window.localStorage.getItem('token');
+          var currentTab = $ionicHistory.currentStateName();
+          $rootScope.unregister();
+          if (currentTab === 'tab.tipsters' || currentTab === 'tab.tipsters1'|| currentTab === 'tab.tipsters2') {
+            // $state.go('tab.buy-tipsters')
+            $state.go('tab.blogs')
+          }
           Loading.hide();
-          Alert.failed('Logout Failed', 'Please check the internet connection')
         });
     };
-
     //define local db
     localforage.defineDriver(window.cordovaSQLiteDriver).then(function() {
       return localforage.setDriver([
@@ -83,8 +120,34 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
     });
 
   });
-})
 
+  $rootScope.checkIfAndroid = function (callback){
+    setTimeout(function () {
+      if (document.getElementsByClassName('platform-android').length) {
+        callback && callback();
+      }
+    }, 10)
+  };
+
+  console.log($rootScope.checkIfAndroid());
+
+  $rootScope.setEventOnA = function setEventOnA() {
+    $rootScope.checkIfAndroid( function () {
+      $ionicPlatform.ready(function onDeviceReady() {
+        var aList = document.getElementById('blogContent').getElementsByTagName('a');
+        setTimeout(function () {
+          console.log('android');
+          angular.forEach(aList, function (el, i) {
+            el.addEventListener('click', function (e) {
+              var ref = cordova.InAppBrowser.open(e.target.href, '_blank', 'location=yes');
+            })
+          });
+        }, 10);
+      });
+    })
+  };
+
+})
 .config(function( $stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider, $compileProvider, $ionicCloudProvider) {
   $ionicConfigProvider.navBar.alignTitle("center"); //Places them at the bottom for all OS
   $ionicConfigProvider.tabs.position("bottom"); //Places them at the bottom for all OS
@@ -116,7 +179,9 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
           "sound": true
         },
         "android": {
-          "iconColor": "#343434"
+          "iconColor": "#343434",
+          "sound": true,
+          "vibrate": true
         }
       }
     }

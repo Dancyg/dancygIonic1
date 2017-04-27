@@ -1,14 +1,14 @@
 var GET_TIPSTER = 'https://members.bettinggods.com/api/get_recent_posts?count=15&cat=';
 
 
-controllers.controller("MyTipsterCtrl", function ($scope, $stateParams, Loading, Alert, $http, $sce, $rootScope) {
+controllers.controller("MyTipsterCtrl", function ($scope, $stateParams, Loading, Alert, $http, $sce, $rootScope, $state) {
   console.log($stateParams.recent);
   Loading.start();
   $scope.page = 1;
   $scope.lastPage = 2;
 
 
-  $scope.getTips = function(page, tips){
+  $scope.getTip = function(page, tips){
     var header = {
       cookie: $rootScope.token,
       api_call: true
@@ -44,16 +44,26 @@ controllers.controller("MyTipsterCtrl", function ($scope, $stateParams, Loading,
         },
         function (res) {
           Loading.hide();
-          Alert.failed('Error', 'Please check your internet connection.');
+          var message = res.data && res.data.error && res.data.error || 'Please check your internet connection or login again';
+          Alert.failed('Error', message);
           $scope.$broadcast('scroll.refreshComplete');
           $scope.$broadcast('scroll.infiniteScrollComplete');
+          if(res.status === 401){
+            window.localStorage.removeItem('token');
+            $rootScope.token = window.localStorage.getItem('token');
+            $state.go('login')
+          }
         }
       );
   };
 
-  $scope.getTips(1);
+  $scope.getTip(1);
 
-  $scope.loadMoreTips = function () {
-    $scope.getTips(++$scope.page, $scope.tips);
+  $scope.backToMyTipsters = function () {
+    $state.go('tab.tipsters')
+  };
+
+  $scope.loadMoreTip = function () {
+    $scope.getTip(++$scope.page, $scope.tips);
   };
 });

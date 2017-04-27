@@ -1,11 +1,11 @@
 var TIPSTERS_CATEGORIES = 'https://members.bettinggods.com/api/get_categories';
 
-controllers.controller('MyTipstersCtrl', function ($scope, $http, $rootScope, Loading, $sce, $ionicPlatform, Alert) {
+controllers.controller('MyTipstersCtrl', function ($scope, $http, $rootScope, Loading, $sce, $ionicPlatform, Alert, $state) {
   Loading.start();
   $scope.page = 1;
   $scope.lastPage = 2;
 
-  $scope.getTips = function(page, tips){
+  $rootScope.getTips = function(page, tips){
     var header = {
       cookie   : $rootScope.token,
       api_call : true
@@ -19,7 +19,6 @@ controllers.controller('MyTipstersCtrl', function ($scope, $http, $rootScope, Lo
     $http.post(TIPSTERS_CATEGORIES, formData)
       .then(
         function (res) {
-          console.log(res);
           res.data.categories.forEach(function (tip, i) {
             $scope.tips[1 - 1 / tip.id] = {
               id         : tip.id,
@@ -29,26 +28,36 @@ controllers.controller('MyTipstersCtrl', function ($scope, $http, $rootScope, Lo
             }
           });
           $scope.lastPage = res.data.pages;
-          console.log(res);
           $scope.$broadcast('scroll.refreshComplete');
           $scope.$broadcast('scroll.infiniteScrollComplete');
           Loading.hide();
-
         },
         function (res) {
           Loading.hide();
-          Alert.failed('Error', 'Please check your internet connection.');
+          var message = res.data && res.data.error && res.data.error || 'Please check your internet connection or login again';
+          Alert.failed('Error', message);
           $scope.$broadcast('scroll.refreshComplete');
           $scope.$broadcast('scroll.infiniteScrollComplete');
+          if (res.status === 401) {
+            window.localStorage.removeItem('token');
+            $rootScope.token = window.localStorage.getItem('token');
+            $state.go('login')
+          }
         }
       );
   };
 
   $scope.getTips(1);
 
+  $rootScope.getTipsOnTap = function () {
+    if ( Object.keys($scope.tips).length === 0){
+      Loading.start();
+      $scope.getTips(1)
+    }
+  }
+
   $scope.loadMoreTips = function () {
     $scope.getTips(++$scope.page, $scope.tips);
   };
-
 
 });

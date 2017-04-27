@@ -1,4 +1,4 @@
-controllers.controller("OneBlogCtrl", function ($scope, Loading, $stateParams, $http, $sce, $rootScope, Alert, $state) {
+controllers.controller("OneBlogCtrl", function ($scope, Loading, $stateParams, $http, $sce, $rootScope, Alert, $state, $ionicPlatform) {
 
   if(!$rootScope.blogsGlobal || !$rootScope.blogsGlobal[$stateParams.blogID]){
     Loading.start();
@@ -10,6 +10,7 @@ controllers.controller("OneBlogCtrl", function ($scope, Loading, $stateParams, $
           $scope.blog      = res.data.post;
           $scope.title     = function () { return $sce.trustAsHtml(res.data.post.title) };
           $scope.content   = function() { return $sce.trustAsHtml(res.data.post.content) };
+          $rootScope.setEventOnA();
         },
         function (res) {
           Loading.hide();
@@ -20,11 +21,12 @@ controllers.controller("OneBlogCtrl", function ($scope, Loading, $stateParams, $
     $scope.blog      = $rootScope.blogsGlobal[$stateParams.blogID];
     $scope.title     = function() { return $sce.trustAsHtml($scope.blog.title) } ;
     $scope.content   = function() { return $sce.trustAsHtml($scope.blog.content) };
+    $rootScope.setEventOnA();
   }
 
   $scope.back = function () {
     $state.go('tab.blogs')
-  }
+  };
 
   function onError(err){
     Alert.failed('Share Failed', 'Please check if social network app is installed on your phone.')
@@ -32,13 +34,13 @@ controllers.controller("OneBlogCtrl", function ($scope, Loading, $stateParams, $
 
   $scope.shareViaF = function () {
     window.plugins.socialsharing.shareViaFacebook($scope.blog.title, null, $scope.blog.url, null, onError)
-  }
+  };
   $scope.shareViaTw = function () {
     window.plugins.socialsharing.shareViaTwitter($scope.blog.title, null, $scope.blog.url, null, onError)
-  }
+  };
   $scope.shareViaEm = function () {
     window.plugins.socialsharing.shareViaEmail($scope.blog.url, $scope.blog.title, null, null, null, $scope.blog.thumbnail, null, onError)
-  }
+  };
   $scope.shareViaAll = function () {
     window.plugins.socialsharing.share(null, $scope.blog.title, $scope.blog.thumbnail, $scope.blog.url, null, onError)
   };
