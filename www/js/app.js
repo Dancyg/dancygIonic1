@@ -129,7 +129,6 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
     }, 10)
   };
 
-  console.log($rootScope.checkIfAndroid());
 
   $rootScope.setEventOnA = function setEventOnA() {
     $rootScope.checkIfAndroid( function () {

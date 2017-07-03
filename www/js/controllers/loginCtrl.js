@@ -29,6 +29,7 @@ controllers.controller("LoginCtrl", function ($scope, $http, $ionicPopup, $state
             window.localStorage.setItem('token', res.data.cookie);
             $rootScope.token = window.localStorage.getItem('token');
             Loading.hide();
+            $rootScope.register();
             $state.go("tab.blogs");
 
           }, function (res) {

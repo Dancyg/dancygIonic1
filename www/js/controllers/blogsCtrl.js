@@ -27,7 +27,7 @@ controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPo
             localforage.clear()
               .then(function () {
                 res.data.posts.forEach(function (blog, i) {
-                  var imgUrl = blog.thumbnail ? blog.thumbnail : blog.attachments.length ? blog.attachments[0].images.medium.url : "";
+                  var imgUrl = blog.thumbnail ? blog.thumbnail : blog.attachments.length && blog.attachments[0].images.medium ? blog.attachments[0].images.medium.url : "";
 
                   $rootScope.blogsGlobal[blog.id] = {
                     id: blog.id,
