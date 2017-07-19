@@ -5,7 +5,7 @@ body {
 .header-custom {
   color: $orange;
   box-shadow: 0 0 5px rgba(0, 0, 0, .5);
-  background: url(../img/logo-horse.png) 5px center no-repeat, #696969;
+  background: url(../img/logo-horse.png) center center no-repeat, #696969;
   background-size: 43px;
 }
 
@@ -52,7 +52,6 @@ body {
   display: block !important;
   color: #ff9500 !important;
   padding: 0 5px !important;
-  margin-left: 45px;
 }
 
 .hidden {
@@ -67,4 +66,9 @@ body {
   .popup{
     background-color: #ffffff!important;
   }
+}
+
+.settings-icon{
+  font-size: 20px;
+  padding: 0 5px 0 0 ;
 }

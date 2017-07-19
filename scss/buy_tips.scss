@@ -6,11 +6,14 @@ $green:#1CA721;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgb(19, 18, 7) 100%), #444;
     color: #fff;
     border: none;
+    min-height: 250px;
+    background-size: cover;
 
     .tip-header {
       font-size: 1.6em;
       margin: 10px 0;
       color: #fff;
+      text-shadow: 1px 1px 2px rgba(0,0,0,.5);
     }
 
     img {
@@ -25,8 +28,9 @@ $green:#1CA721;
       text-overflow: initial;
       white-space: normal;
       color: #fff;
-      margin: 10px 0 !important;
+      margin: 35px 0 21px !important;
       padding: 10px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     }
 
     .tip-profit {
@@ -34,7 +38,6 @@ $green:#1CA721;
     }
 
     .visit-tip-button {
-      margin-bottom: 40px;
       background: $orange-dark;
       color: #fff;
       font-size: 1.05em;

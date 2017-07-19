@@ -1,4 +1,8 @@
 {
   "name": "Bettinggods",
-  "app_id": "c4c9e2c8"
+  "app_id": "c4c9e2c8",
+  "type": "ionic1",
+  "watchPatterns": [
+    "scss/**/*"
+  ]
 }

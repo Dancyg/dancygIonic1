@@ -52,21 +52,31 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
         })
         .catch(function (err) {
           if (showErrAlert) {
-            // Alert.failed('Push Registration Failed', 'Couldn\'t register app for push notifications.');
+            Alert.failed('Push Registration Failed', 'Couldn\'t register app for push notifications.' + JSON.stringify(err));
           }
         });
     };
 
-    $rootScope.register();
+    $rootScope.register(true);
 
     $rootScope.unregister = function (showErrAlert) {
       $ionicPush.unregister()
         .catch(function () {
           if (showErrAlert) {
+            Loading.hide();
             Alert.failed('Failed to unregister', 'Device was not unregistered.');
           }
         })
     };
+
+    $rootScope.historyBack = function () {
+      if (history.previous === undefined){
+
+        $state.go('tab.blogs')
+      } else {
+        history.back()
+      }
+    }
 
     $rootScope.logout = function () {
       var data = {
@@ -85,7 +95,7 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
           window.localStorage.removeItem('token');
           $rootScope.token = window.localStorage.getItem('token');
           var currentTab = $ionicHistory.currentStateName();
-          $rootScope.unregister();
+          $rootScope.unregister(true);
           if (currentTab === 'tab.tipsters' || currentTab === 'tab.tipsters1'|| currentTab === 'tab.tipsters2') {
             // $state.go('tab.buy-tipsters')
             $state.go('tab.blogs')
@@ -116,6 +126,7 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
         localforage.LOCALSTORAGE
       ]);
     }).catch(function(err) {
+      Loading.hide();
       alert(err);
     });
 
@@ -195,99 +206,111 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
       controller:'LoginCtrl'
     })
 
+    .state('menu', {
+      url: '/menu',
+      templateUrl: 'templates/side-menu.html',
+      // controller:'LoginCtrl'
+    })
+
+    .state('settings', {
+      url: '/settings',
+      templateUrl: 'templates/settings.html',
+      controller:'SettingsCtrl'
+    })
+
     .state('signup', {
       url: '/signup',
       templateUrl: 'templates/signup.html',
       controller:'SignupCtrl'
     })
 
-  // setup an abstract state for the tabs directive
-  .state('tab', {
-    url: '/tab',
-    abstract: true,
-    templateUrl: 'templates/tabs.html'
-  })
+    // setup an abstract state for the tabs directive
+    .state('tab', {
+      url: '/tab',
+      abstract: true,
+      templateUrl: 'templates/tabs.html'
+    })
 
-  // Each tab has its own nav history stack:
+    // Each tab has its own nav history stack:
 
-  .state('tab.blogs', {
-    url: '/home',
-    views: {
-      'tab-home': {
-        templateUrl: 'templates/tab-blogs.html',
-        controller: 'BlogCtrl'
+    .state('tab.blogs', {
+      url: '/home',
+      views: {
+        'tab-home': {
+          templateUrl: 'templates/tab-blogs.html',
+          controller: 'BlogCtrl'
+        }
       }
-    }
-  })
+    })
     .state('tab.blog', {
-    url: '/home/:blogID',
-    views: {
-      'tab-home': {
-        templateUrl: 'templates/blog.html',
-        controller: 'OneBlogCtrl'
-      }
-    }
-  })
-//BUY TIPSTERS
-  .state('tab.buy-tipsters', {
-      url: '/buy-tipsters',
+      url: '/home/:blogID',
       views: {
-        'tab-buy-tipsters': {
-          templateUrl: 'templates/tab-buy-tipsters.html',
-          controller: 'BuyTipstersCtrl'
+        'tab-home': {
+          templateUrl: 'templates/blog.html',
+          controller: 'OneBlogCtrl'
         }
       }
     })
+    //BUY TIPSTERS
+    .state('tab.buy-tipsters', {
+        url: '/buy-tipsters',
+        views: {
+          'tab-buy-tipsters': {
+            templateUrl: 'templates/tab-buy-tipsters.html',
+            controller: 'BuyTipstersCtrl'
+          }
+        }
+      })
     //OWN TIPSTERS
-  .state('tab.tipsters', {
-      url: '/tipsters',
+    .state('tab.tipsters', {
+        url: '/tipsters',
+        views: {
+          'tab-tipsters': {
+            templateUrl: 'templates/tab-my-tipsters.html',
+            controller: 'MyTipstersCtrl'
+          }
+        }
+      })
+    .state('tab.tipsters1', {
+        url: '/tipst/:recent',
+        views: {
+          'tab-tipsters': {
+            templateUrl: 'templates/tab-my-tipster.html',
+            controller: 'MyTipsterCtrl'
+          }
+        }
+     })
+    .state('tab.tipsters2', {
+        url: '/tip/:id',
+        views: {
+          'tab-tipsters': {
+            templateUrl: 'templates/tab-my-tipster-tip.html',
+            controller: 'OneTipsterCtrl'
+          }
+        }
+      })
+      //SUPPORT
+    .state('tab.support', {
+        url: '/support',
+        views: {
+          'tab-support': {
+            templateUrl: 'templates/tab-support.html',
+            controller: 'SupportCtrl'
+          }
+        }
+      })
+    //RESPONSIBILITY
+    .state('tab.rules', {
+      url: '/rules',
       views: {
-        'tab-tipsters': {
-          templateUrl: 'templates/tab-my-tipsters.html',
-          controller: 'MyTipstersCtrl'
+        'tab-rules': {
+          templateUrl: 'templates/tab-rules.html',
+          controller: 'ResponsibleCtrl'
         }
       }
-    })
-  .state('tab.tipsters1', {
-      url: '/tipst/:recent',
-      views: {
-        'tab-tipsters': {
-          templateUrl: 'templates/tab-my-tipster.html',
-          controller: 'MyTipsterCtrl'
-        }
-      }
-    })
-  .state('tab.tipsters2', {
-      url: '/tip/:id',
-      views: {
-        'tab-tipsters': {
-          templateUrl: 'templates/tab-my-tipster-tip.html',
-          controller: 'OneTipsterCtrl'
-        }
-      }
-    })
-    //SUPPORT
-  .state('tab.support', {
-      url: '/support',
-      views: {
-        'tab-support': {
-          templateUrl: 'templates/tab-support.html',
-          controller: 'SupportCtrl'
-        }
-      }
-    })
-//RESPONSIBILITY
-  .state('tab.rules', {
-    url: '/rules',
-    views: {
-      'tab-rules': {
-        templateUrl: 'templates/tab-rules.html',
-        controller: 'ResponsibleCtrl'
-      }
-    }
-  });
+    });
 
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/home');
+    // if none of the above states are matched, use this as the fallback
+    $urlRouterProvider.otherwise('/tab/home');
 
 });

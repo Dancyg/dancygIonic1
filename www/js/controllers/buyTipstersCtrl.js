@@ -23,11 +23,11 @@ controllers.controller('BuyTipstersCtrl', function ($scope, $http, $rootScope, L
               url        : tip.url,
               title      : function () { return $sce.trustAsHtml(tip.title) },
               description: function () {
-                return $sce.trustAsHtml("<p class='tip-content'>Earn an Average Monthly Profit of " + "<span class='tip-profit'>" +
-                  tip.custom_fields.average_profit["0"] + "</span>" +
-                  " Using £10 Stakes with a " +
-                  tip.custom_fields.total_strike_rate["0"] +
-                  " Strike Rate and ROI of " + tip.custom_fields.return_on_investment["0"] + "</p>")
+                return $sce.trustAsHtml(`<p class='tip-content'>Earn an Average Monthly Profit of  <span class='tip-profit'> 
+                  ${tip.custom_fields.average_profit[0]}  </span> 
+                    Using £10 Stakes with a  
+                  ${tip.custom_fields.total_strike_rate["0"]}
+                   Strike Rate and ROI of ${tip.custom_fields.return_on_investment["0"]}  </p>`)
               }
             }
           });

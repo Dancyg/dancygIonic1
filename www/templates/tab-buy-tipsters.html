@@ -35,19 +35,18 @@
       <ion-item class="item-image tip-item"
                 ng-repeat="tip in tips"
                 type="item-text-wrap"
+                style="background-image: {{'linear-gradient(to top, rgba(89, 89, 89, 0) 40%,' +
+                    'rgba(89, 89, 89, 0.45) 60%,' +
+                    'rgba(0, 0, 0, 0.98) 100%), ' +
+                    'url(' + tip.thumbnail + ')'}}"
       >
-
-        <img ng-src="{{tip.thumbnail}}"
-             class=""
-        />
-        <h2 ng-bind-html="tip.title()" class="tip-header"></h2>
-        <div ng-bind-html="tip.description()"></div>
-        <button class="button visit-tip-button"
-                ng-click="buyTipster(tip.url)"
-        >
-          Visit This Tipster
-        </button>
-
+            <h2 ng-bind-html="tip.title()" class="tip-header"></h2>
+            <div ng-bind-html="tip.description()"></div>
+            <button class="button visit-tip-button"
+                    ng-click="buyTipster(tip.url)"
+            >
+              Visit This Tipster
+            </button>
       </ion-item>
 
     </div>

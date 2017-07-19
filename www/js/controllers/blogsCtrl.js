@@ -1,9 +1,14 @@
-controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPopup, Loading, $sce, $ionicPopover, Categories,  $ionicScrollDelegate, $rootScope, Alert, $ionicPlatform, $state) {
+controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPopup, Loading, $sce, $ionicPopover, Categories,  $ionicScrollDelegate, $rootScope, Alert, $ionicPlatform, $state, $ionicSideMenuDelegate) {
   Loading.start();
 
   $scope.page = 1;
   $scope.lastPage = 2;
   $scope.currentCategoryId = '';
+
+  $scope.showMenu = function () {
+    console.log('buton closke');
+    $ionicSideMenuDelegate.toggleLeft();
+  };
 
 
   $scope.loadBlogs = function (page, blogs, catId){
