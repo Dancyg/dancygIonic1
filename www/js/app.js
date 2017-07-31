@@ -200,40 +200,56 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
 
   $stateProvider
 
-    .state('login', {
-      url: '/login',
-      templateUrl: 'templates/login.html',
-      controller:'LoginCtrl'
+    .state('sidemenu', {
+      url: '/sidemenu',
+      abstract: true,
+      templateUrl: 'templates/side-menu.html'
+      // controller:'LoginCtrl'
     })
 
-    .state('menu', {
-      url: '/menu',
-      templateUrl: 'templates/side-menu.html',
-      // controller:'LoginCtrl'
+    .state('login', {
+      url: '/login',
+      views: {
+        'menuContent' :{
+          templateUrl: 'templates/login.html',
+          controller:'LoginCtrl'
+        }
+      }
     })
 
     .state('settings', {
       url: '/settings',
-      templateUrl: 'templates/settings.html',
-      controller:'SettingsCtrl'
+      views: {
+        'menuContent' :{
+          templateUrl: 'templates/settings.html',
+          controller:'SettingsCtrl'
+        }
+      }
     })
 
     .state('signup', {
       url: '/signup',
-      templateUrl: 'templates/signup.html',
-      controller:'SignupCtrl'
+      views: {
+        'menuContent' :{
+          templateUrl: 'templates/signup.html',
+          controller:'SignupCtrl'
+        }
+      }
     })
 
     // setup an abstract state for the tabs directive
-    .state('tab', {
+    .state('sidemenu.tab', {
       url: '/tab',
-      abstract: true,
-      templateUrl: 'templates/tabs.html'
+      views: {
+        'menuContent' :{
+          templateUrl: 'templates/tabs.html'
+        }
+      }
     })
 
     // Each tab has its own nav history stack:
 
-    .state('tab.blogs', {
+    .state('sidemenu.tab.blogs', {
       url: '/home',
       views: {
         'tab-home': {
@@ -242,8 +258,8 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
         }
       }
     })
-    .state('tab.blog', {
-      url: '/home/:blogID',
+    .state('sidemenu.tab.blog', {
+      url: '/sidemenu/tab/home/:blogID',
       views: {
         'tab-home': {
           templateUrl: 'templates/blog.html',
@@ -252,8 +268,8 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
       }
     })
     //BUY TIPSTERS
-    .state('tab.buy-tipsters', {
-        url: '/buy-tipsters',
+    .state('sidemenu.tab.buy-tipsters', {
+        url: '/sidemenu/tab/buy-tipsters',
         views: {
           'tab-buy-tipsters': {
             templateUrl: 'templates/tab-buy-tipsters.html',
@@ -262,7 +278,7 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
         }
       })
     //OWN TIPSTERS
-    .state('tab.tipsters', {
+    .state('sidemenu.tab.tipsters', {
         url: '/tipsters',
         views: {
           'tab-tipsters': {
@@ -271,7 +287,7 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
           }
         }
       })
-    .state('tab.tipsters1', {
+    .state('sidemenu.tab.tipsters1', {
         url: '/tipst/:recent',
         views: {
           'tab-tipsters': {
@@ -280,7 +296,7 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
           }
         }
      })
-    .state('tab.tipsters2', {
+    .state('sidemenu.tab.tipsters2', {
         url: '/tip/:id',
         views: {
           'tab-tipsters': {
@@ -290,7 +306,7 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
         }
       })
       //SUPPORT
-    .state('tab.support', {
+    .state('sidemenu.tab.support', {
         url: '/support',
         views: {
           'tab-support': {
@@ -300,7 +316,7 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
         }
       })
     //RESPONSIBILITY
-    .state('tab.rules', {
+    .state('sidemenu.tab.rules', {
       url: '/rules',
       views: {
         'tab-rules': {
@@ -311,6 +327,6 @@ var bet = angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controller
     });
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/home');
+    $urlRouterProvider.otherwise('sidemenu/tab/home');
 
 });
