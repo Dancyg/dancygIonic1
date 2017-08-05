@@ -6,30 +6,30 @@ navigation history that also transitions its views in and out.
 <ion-tabs class="tabs-icon-top">
 
   <!-- Home Tab -->
-  <ion-tab class="footer-custom" title="Blogs" icon-off="ion-document-text" icon-on="ion-document-text"   href="#/tab/home">
+  <ion-tab class="footer-custom" title="Blogs" icon-off="ion-document-text" icon-on="ion-document-text"   href="#/sidemenu/tab/home">
     <ion-nav-view name="tab-home"></ion-nav-view>
   </ion-tab>
 
 <!--Tipsters tab-->
   <ion-tab hidden="{{token === null}}" class="footer-custom " title='My Tipsters' on-select="getTipsOnTap()"
            icon-off="ion-arrow-graph-up-right" icon-on="ion-arrow-graph-up-right"
-           href='#/tab/tipsters'>
+           href='#/sidemenu/tab/tipsters'>
     <ion-nav-view name="tab-tipsters"></ion-nav-view>
   </ion-tab>
 
   <ion-tab hidden="{{token !== null}}" class="footer-custom " title='Tipsters'
            icon-off="ion-arrow-graph-up-right" icon-on="ion-arrow-graph-up-right"
-           href='#/tab/buy-tipsters'>
+           href='#/sidemenu/tab/buy-tipsters'>
     <ion-nav-view name="tab-buy-tipsters"></ion-nav-view>
   </ion-tab>
 
   <!-- Rules Tab -->
-  <ion-tab class="footer-custom" title="Be Responsible" icon-off="ion-alert" icon-on="ion-alert"  href="#/tab/rules">
+  <ion-tab class="footer-custom" title="Be Responsible" icon-off="ion-alert" icon-on="ion-alert" on-select="showCurrentUrl()"  href="#/sidemenu/tab/rules">
     <ion-nav-view name="tab-rules"></ion-nav-view>
   </ion-tab>
 
   <!-- Help Tab -->
-  <ion-tab class="footer-custom" title="Support"  icon-off="ion-information-circled" icon-on="ion-information-circled" href="#/tab/support">
+  <ion-tab class="footer-custom" title="Support"  icon-off="ion-information-circled" icon-on="ion-information-circled" href="#/sidemenu/tab/support">
     <ion-nav-view name="tab-support"></ion-nav-view>
   </ion-tab>
 

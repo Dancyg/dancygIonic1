@@ -1,14 +1,9 @@
-controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPopup, Loading, $sce, $ionicPopover, Categories,  $ionicScrollDelegate, $rootScope, Alert, $ionicPlatform, $state, $ionicSideMenuDelegate) {
+controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPopup, Loading, $sce, $ionicPopover, Categories,  $ionicScrollDelegate, $rootScope, Alert, $ionicPlatform, $state) {
   Loading.start();
 
   $scope.page = 1;
   $scope.lastPage = 2;
   $scope.currentCategoryId = '';
-
-  $scope.showMenu = function () {
-    console.log('buton closke');
-    $ionicSideMenuDelegate.toggleLeft();
-  };
 
 
   $scope.loadBlogs = function (page, blogs, catId){
@@ -151,9 +146,9 @@ controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPo
           Loading.hide()
         }
       }, 1000);
-      $state.go('tab.tipsters1', { recent: payload.id });
+      $state.go('sidemenu.tab.tipsters1', { recent: payload.id });
     } else {
-      $state.go('tab.blog', { blogID: payload.id })
+      $state.go('sidemenu.tab.blog', { blogID: payload.id })
     }
   };
 

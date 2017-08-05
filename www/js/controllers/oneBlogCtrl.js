@@ -25,7 +25,7 @@ controllers.controller("OneBlogCtrl", function ($scope, Loading, $stateParams, $
   }
 
   $scope.back = function () {
-    $state.go('tab.blogs')
+    $state.go('sidemenu.tab.blogs')
   };
 
   function onError(err){

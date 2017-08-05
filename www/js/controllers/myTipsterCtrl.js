@@ -60,7 +60,7 @@ controllers.controller("MyTipsterCtrl", function ($scope, $stateParams, Loading,
   $scope.getTip(1);
 
   $scope.backToMyTipsters = function () {
-    $state.go('tab.tipsters')
+    $state.go('sidemenu.tab.tipsters')
   };
 
   $scope.loadMoreTip = function () {

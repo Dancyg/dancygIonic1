@@ -2,6 +2,11 @@
 
   <ion-nav-bar class="header-custom">
 
+    <ion-nav-buttons side="left">
+      <button class="button button-icon button-clear ion-navicon sandwich" ng-click="showMenu()">
+      </button>
+    </ion-nav-buttons>
+
     <ion-nav-back-button
             ng-click="backToMyTipsters()"
             class="button-clear back-button-custom"
@@ -42,7 +47,7 @@
       <ion-item class="tip-item item-icon-right"
                 ng-repeat="tip in tips"
                 type="item-text-wrap"
-                href="#/tab/tip/{{tip.id}}"
+                href="#/sidemenu/tab/tip/{{tip.id}}"
       >
         <h2 class="tip-header" ng-bind-html="tip.title()"></h2>
         <i class="icon ion-chevron-right icon-accessory icon-tip"></i>

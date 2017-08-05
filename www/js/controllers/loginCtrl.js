@@ -30,7 +30,7 @@ controllers.controller("LoginCtrl", function ($scope, $http, $ionicPopup, $state
             $rootScope.token = window.localStorage.getItem('token');
             Loading.hide();
             $rootScope.register();
-            $state.go("tab.blogs");
+            $state.go("sidemenu.tab.blogs");
 
           }, function (res) {
             var text = res.data && res.data.error && res.data.error || "Please check your credentials and network connection.";
