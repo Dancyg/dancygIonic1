@@ -1,3 +1,40 @@
 .side-menu-header{
+  color: #696969 !important;
+  font-weight: bold !important;
+}
+
+.settings-item{
+  color: #696969 !important;
+  font-weight: bold !important;
+}
+
+.logout-item{
+  color: #ff0649 !important;
+  font-weight: bold !important;
+}
+
+.login-item{
+  color: #696969 !important;
+  font-weight: bold !important;
+}
+
+.signup-item{
+  color: #696969 !important;
+  font-weight: bold !important;
+}
+
+.change-password-item{
+  margin: 20px 0;
+}
+
+.settings-back-buttons{
+  margin: 20px 0;
+}
+
+.settings-back-tips, .settings-back-blogs{
+  width:50%;
+  text-decoration: none;
+  display: inline-block;
   color: #696969;
+  text-align: center;
 }

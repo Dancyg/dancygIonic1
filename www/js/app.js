@@ -209,12 +209,13 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
       })
       .state('settings', {
         url  : '/settings',
-        views: {
-          'menuContent': {
-            templateUrl: 'templates/settings.html',
-            controller : 'SettingsCtrl'
-          }
-        }
+        templateUrl: 'templates/settings.html',
+        controller : 'SettingsCtrl'
+      })
+      .state('changePassword', {
+        url  : '/change-password',
+        templateUrl: 'templates/change-password.html',
+        controller : 'ChangePassCtrl'
       })
       // setup an abstract state for the tabs directive
 
@@ -226,7 +227,6 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
       })
       .state('sidemenu.tab', {
         url     : '/tab',
-        // abstract: true,
         views   : {
           'menuContent': {
             templateUrl: 'templates/tabs.html'
@@ -312,6 +312,6 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
       });
 
     // if none of the above states are matched, use this as the fallback
-    // $urlRouterProvider.otherwise('sidemenu/tab/home');
+    $urlRouterProvider.otherwise('sidemenu/tab/home');
 
   });

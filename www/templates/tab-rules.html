@@ -5,27 +5,6 @@
       <button class="button button-icon button-clear ion-navicon sandwich" ng-click="showMenu()">
       </button>
     </ion-nav-buttons>
-
-    <ion-nav-buttons class="buttons-header-custom" side="right">
-
-      <span class="link-header-custom"
-            ng-show="token"
-            ng-click="logout()"
-      >Logout</span>
-
-      <a class="link-header-custom"
-         href="#/login"
-         ng-show="!token"
-      >
-        <span >Login</span>
-      </a>
-      <a class="link-header-custom"
-         href="#/signup"
-         ng-show="!token"
-      >
-        <span >Sign up</span>
-      </a>
-    </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content class="contact-wrapper">
 

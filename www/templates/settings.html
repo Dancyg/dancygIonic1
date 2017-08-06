@@ -1,24 +1,35 @@
-<ion-view view-title="Account">
-    <ion-content class="login-wrapper">
+</ion-view>
 
-        <div class="logo"></div>
-        <div class="login-inputs-wrapper" focus>
+  <ion-nav-bar title="Settings">
+    <h1 class="header">Settings</h1>
+  </ion-nav-bar>
 
-            <h3 class="login-header">Settings</h3>
+  <ion-header-bar align-title="center" class="bar-dark">
+    <h2 class="title">Settings</h2>
+  </ion-header-bar>
 
-            <ion-checkbox ng-model="data.blogNotif" checked="data.blogNotif" ng-click="click('blog')" class="input-login logins" focus>
-                Receive new blog notification
-            </ion-checkbox>
-            <ion-checkbox ng-model="data.tipNotif" checked="data.tipNotif" ng-click="click('tip')"class="input-login logins" focus>
-                Receive new tip notification
-            </ion-checkbox>
+  <ion-content class="has-header">
+    <ul class="list">
+      <a class="item item-icon-right change-password-item" href="#/change-password">
+        Change Password
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </a>
+      <ion-checkbox class="item item-checkbox-right" ng-model="data.blogNotif" checked="data.blogNotif" ng-click="click('blog')" focus>
+        Receive Blog Notification
+      </ion-checkbox>
 
-            <div>
-                <a href="#/sidemenu/tab/tipsters"><span class="login-forgot-sign-up text-center">Return to tips</span></a>
-                <a href="#/sidemenu/tab/home"><span class="login-forgot-sign-up text-center">Return to Blogs</span></a>
-            </div>
+      <ion-checkbox class="item item-checkbox-right" ng-model="data.tipNotif" checked="data.tipNotif" ng-click="click('tip')" focus>
+          Receive Tip Notification
+      </ion-checkbox>
 
-        </div>
-
-    </ion-content>
+      <span class="item settings-back-buttons">
+        <a href="#/sidemenu/tab/tipsters" class="settings-back-tips">
+          <span class="text-center">Return to tips</span>
+        </a>
+        <a href="#/sidemenu/tab/home" class="settings-back-blogs">
+          <span class="text-center">Return to Blogs</span>
+        </a>
+      </span>
+    </ul>
+  </ion-content>
 </ion-view>
