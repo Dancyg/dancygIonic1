@@ -24,7 +24,7 @@ controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPo
         function (res) {
           $scope.offlineMode = false;
           $ionicPlatform.ready(function () {
-            localforage.clear()
+            localforage.removeItem('blogsGlobal')
               .then(function () {
                 res.data.posts.forEach(function (blog, i) {
                   var imgUrl = blog.thumbnail ? blog.thumbnail : blog.attachments.length && blog.attachments[0].images.medium ? blog.attachments[0].images.medium.url : "";

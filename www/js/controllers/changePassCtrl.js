@@ -1,50 +1,51 @@
 controllers.controller('ChangePassCtrl', function ($scope, $state, $http, Alert, Loading, $rootScope) {
-  localforage.getItem('settingsData')
-    .then(data => {
-
-      $scope.data = {
-        blogNotif: data ? data.blogNotif : true,
-        tipNotif : data ? data.tipNotif : true
-      };
-
-      localforage.setItem('settingsData', $scope.data)
-    });
-
   $scope.back = function () {
-    $state.go('settings')
+    $state.go('sidemenu.settings')
   };
 
   $scope.data = {
-    showPass: 'password',
-    password: ''
-  }
-
-  $scope.showPass = function () {
-    $scope.data.showPass = $scope.data.showPass === "password" ? "text" : "password";
-    console.log($scope.data.showPass);
+    showPass: false,
+    password: '',
+    type    : 'password',
+    api_call: true
   };
 
-  $scope.click = function (param) {
-    console.log(param);
+  $scope.changeType = function () {
+    $scope.data.type = $scope.data.showPass ? 'text' : 'password';
+  };
 
-    // $http.post(REGISTER, formData)
-    //   .then(function (res) {
-    //     Loading.hide();
-    //     Alert.success('Success', 'Your registration request has been sent. The response will be sent to your mail.')
-    //   }, function (err) {
-    //     var errText = '';
-    //     if(err.data.error.errors){
-    //       errText = Object.keys(err.data.error.errors).map(function (elem, i) {
-    //         return err.data.error.errors[elem];
-    //       })[0];
-    //     } else {
-    //       errText = 'Request has not been sent.';
-    //     }
-    //     Loading.hide();
-    //     Alert.failed('Error', errText);
-    //   })
+  $scope.changePassword = function () {
+    $scope.data.token = $rootScope.token;
+    if ($scope.data.password === '') {
+      Alert.failed('Error', 'Password is required!');
+      return;
+    }
 
-
+    if (!$scope.data.token) {
+      Alert.failed('Error', 'Please login before changing password.');
+      return;
+    }
+    Loading.start();
+    var formData = new FormData();
+    for (var key in $scope.data) {
+      formData.append(key, $scope.data[key]);
+    }
+    $http.post('https://members.bettinggods.com/api/change_password', formData)
+      .then(function (res) {
+        Loading.hide();
+        Alert.success('Success', 'Your password has been changed.')
+      }, function (err) {
+        var errText = '';
+        if (err.data.error.errors) {
+          errText = Object.keys(err.data.error.errors).map(function (elem, i) {
+            return err.data.error.errors[elem];
+          })[0];
+        } else {
+          errText = 'Changing password failed';
+        }
+        Loading.hide();
+        Alert.failed('Error', errText);
+      })
   }
 
 });

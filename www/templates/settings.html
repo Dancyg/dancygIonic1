@@ -1,24 +1,28 @@
-</ion-view>
+<ion-view>
 
   <ion-nav-bar title="Settings">
     <h1 class="header">Settings</h1>
   </ion-nav-bar>
 
   <ion-header-bar align-title="center" class="bar-dark">
-    <h2 class="title">Settings</h2>
+    <h3 class="title">Settings</h3>
   </ion-header-bar>
+  <ion-nav-buttons side="left">
+    <button class="button button-icon button-clear ion-navicon sandwich" ng-click="showMenu()">
+    </button>
+  </ion-nav-buttons>
 
   <ion-content class="has-header">
-    <ul class="list">
-      <a class="item item-icon-right change-password-item" href="#/change-password">
+    <ion-list>
+      <ion-item class="item-icon-right change-password-item" href="#/sidemenu/change-password">
         Change Password
         <i class="icon ion-chevron-right icon-accessory"></i>
-      </a>
-      <ion-checkbox class="item item-checkbox-right" ng-model="data.blogNotif" checked="data.blogNotif" ng-click="click('blog')" focus>
+      </ion-item>
+      <ion-checkbox class="item item-checkbox-right" ng-model="data.blogNotif" checked="data.blogNotif" ng-click="click('blogNotif')">
         Receive Blog Notification
       </ion-checkbox>
 
-      <ion-checkbox class="item item-checkbox-right" ng-model="data.tipNotif" checked="data.tipNotif" ng-click="click('tip')" focus>
+      <ion-checkbox class="item item-checkbox-right" ng-model="data.tipNotif" checked="data.tipNotif" ng-click="click('tipNotif')">
           Receive Tip Notification
       </ion-checkbox>
 
@@ -30,6 +34,6 @@
           <span class="text-center">Return to Blogs</span>
         </a>
       </span>
-    </ul>
+    </ion-list>
   </ion-content>
 </ion-view>

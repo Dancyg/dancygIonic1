@@ -1,16 +1,23 @@
 .platform-ios{
-  .has-subheader {
-    top: 54px !important;
-    .scroll {
-      padding-top: 54px !important;
-    }
+  .header-custom {
+    background-size: 45px;
+    background-position: center bottom;
   }
-  .blogs {
-    .scroll-refresher {
-      top: -10px !important;
-    }
-  }
-  .categories {
-    height: calc(100vh - 147px);
-  }
+  //.has-subheader {
+  //  top: 42px !important;
+  //  .scroll {
+  //    padding-top: 42px !important;
+  //  }
+  //}
+  ////.blogs {
+  ////  .scroll-refresher {
+  ////    top: -10px !important;
+  ////  }
+  ////}
+  ////.categories {
+  ////  height: calc(100vh - 147px);
+  ////}
+  //.header-custom{
+  //  height:42px !important;
+  //}
 }

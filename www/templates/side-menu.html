@@ -1,39 +1,34 @@
 <ion-side-menus>
 
-  <ion-side-menu-content>
-    <ion-nav-bar>
-      <ion-nav-back-button class="button-icon ion-arrow-left-c">
-      </ion-nav-back-button>
-    </ion-nav-bar>
-    <ion-nav-buttons side="left">
-      <button class="button button-icon button-clear ion-navicon" ng-click="toggleLeft()">
-      </button>
-    </ion-nav-buttons>
-    <ion-nav-view name="menuContent"></ion-nav-view>
-  </ion-side-menu-content>
-
   <ion-side-menu side="left">
-    <ion-header-bar class="bar-clear">
-      <h1 class="title side-menu-header">Settings</h1>
+    <ion-header-bar class="bar-dark">
+      <h1 class="title side-menu-header">Preferences</h1>
     </ion-header-bar>
     <ion-content class="side-menu-content">
       <ul class="list">
-        <a class="item settings-item" href="#/settings">
+        <ion-item class="settings-item" ng-href="#/sidemenu/tab/blogs" ng-click="showMenu()">
+          Home
+        </ion-item>
+        <ion-item class="settings-item" ng-href="#/sidemenu/settings" ng-click="showMenu()">
           Settings
-        </a>
-        <span class="item logout-item" ng-show="token" ng-click="logout()">
+        </ion-item>
+        <ion-item class="logout-item" ng-show="token" ng-click="logout()">
           Logout
-        </span>
+        </ion-item>
 
-        <a class="item login-item" href="#/login" ng-show="!token">
+        <ion-item class="login-item" ng-href="#/sidemenu/login" ng-show="!token" ng-click="showMenu()">
           Login
-        </a>
-        <a class="item signup-item" href="#/signup" ng-show="!token">
+        </ion-item>
+        <ion-item class="signup-item" ng-href="#/sidemenu/signup" ng-show="!token" ng-click="showMenu()">
           Sign up
-        </a>
+        </ion-item>
 
       </ul>
     </ion-content>
   </ion-side-menu>
+
+  <ion-side-menu-content>
+    <ion-nav-view name="menuContent"></ion-nav-view>
+  </ion-side-menu-content>
 
 </ion-side-menus>

@@ -1,5 +1,4 @@
 angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'starter.services', 'ngCordova'])
-
   .run(function ($ionicPlatform, $rootScope, $state, $ionicHistory, $ionicPush, $http, Alert, Loading, $ionicSideMenuDelegate) {
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -9,7 +8,7 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
         cordova.plugins.Keyboard.disableScroll(true);
 
       }
-      if (window.StatusBar) {
+      if (window.StatusBar && document.getElementsByClassName('platform-android').length) {
         StatusBar.hide();
       }
 
@@ -74,6 +73,7 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
         console.log($ionicHistory.currentStateName());
       }
       $rootScope.logout         = function () {
+        $rootScope.showMenu();
         var data = {
           token       : $rootScope.token,
           device_token: $rootScope.pushToken,
@@ -120,7 +120,11 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
           localforage.WEBSQL,
           localforage.LOCALSTORAGE
         ]);
-      }).catch(function (err) {
+      })
+        .then(function (data) {
+          alert(JSON.stringify(data));
+        })
+        .catch(function (err) {
         Loading.hide();
         alert(err);
       });
@@ -197,37 +201,52 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
     });
 
     $stateProvider
-      .state('login', {
-        url  : '/login',
-        templateUrl: 'templates/login.html',
-        controller : 'LoginCtrl'
+      .state('sidemenu', {
+        url        : '/sidemenu',
+        templateUrl: 'templates/side-menu.html'
       })
-      .state('signup', {
-        url  : '/signup',
-        templateUrl: 'templates/signup.html',
-        controller : 'SignupCtrl'
+      .state('sidemenu.login', {
+        url        : '/login',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/login.html',
+            controller : 'LoginCtrl'
+          }
+        }
       })
-      .state('settings', {
-        url  : '/settings',
-        templateUrl: 'templates/settings.html',
-        controller : 'SettingsCtrl'
+      .state('sidemenu.signup', {
+        url        : '/signup',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/signup.html',
+            controller : 'SignupCtrl'
+          }
+        }
       })
-      .state('changePassword', {
-        url  : '/change-password',
-        templateUrl: 'templates/change-password.html',
-        controller : 'ChangePassCtrl'
+      .state('sidemenu.settings', {
+        url        : '/settings',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/settings.html',
+            controller : 'SettingsCtrl'
+          }
+        }
+      })
+      .state('sidemenu.changePassword', {
+        url        : '/change-password',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/change-password.html',
+            controller : 'ChangePassCtrl'
+          }
+        }
       })
       // setup an abstract state for the tabs directive
 
-
-      .state('sidemenu', {
-        url        : '/sidemenu',
-        // abstract: true,
-        templateUrl: 'templates/side-menu.html'
-      })
       .state('sidemenu.tab', {
-        url     : '/tab',
-        views   : {
+        url  : '/tab',
+        abstract: true,
+        views: {
           'menuContent': {
             templateUrl: 'templates/tabs.html'
           }

@@ -65,6 +65,7 @@
     "scripts": {
         "android": "ionic cordova run android",
         "ios": "ionic cordova run ios",
-        "res": "ionic cordova resources"
+        "res": "ionic cordova resources",
+        "emulator": "$ANDROID_HOME/tools/emulator -avd Pixel_API_22"
     }
 }
