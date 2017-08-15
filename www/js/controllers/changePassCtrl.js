@@ -5,9 +5,11 @@ controllers.controller('ChangePassCtrl', function ($scope, $state, $http, Alert,
 
   $scope.data = {
     showPass: false,
-    password: '',
     type    : 'password',
-    api_call: true
+    password: '',
+    confirm : '',
+    api_call: true,
+    token   : $rootScope.token
   };
 
   $scope.changeType = function () {
@@ -18,6 +20,11 @@ controllers.controller('ChangePassCtrl', function ($scope, $state, $http, Alert,
     $scope.data.token = $rootScope.token;
     if ($scope.data.password === '') {
       Alert.failed('Error', 'Password is required!');
+      return;
+    }
+
+    if ($scope.data.password !== $scope.data.confirm ) {
+      Alert.failed('Error', 'Passwords are not matching!');
       return;
     }
 
@@ -32,11 +39,13 @@ controllers.controller('ChangePassCtrl', function ($scope, $state, $http, Alert,
     }
     $http.post('https://members.bettinggods.com/api/change_password', formData)
       .then(function (res) {
+        window.localStorage.setItem('token', res.data.cookie);
+        $rootScope.token = window.localStorage.getItem('token');
         Loading.hide();
         Alert.success('Success', 'Your password has been changed.')
       }, function (err) {
         var errText = '';
-        if (err.data.error.errors) {
+        if (err && err.data && err.data.error && err.data.error.errors) {
           errText = Object.keys(err.data.error.errors).map(function (elem, i) {
             return err.data.error.errors[elem];
           })[0];

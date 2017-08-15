@@ -1,8 +1,10 @@
 var CATEGORIES = "https://bettinggods.com/api/get_categories";
 
+var timeOutAnchor;
+
 angular.module('starter.services', [])
 
-.factory('Loading', function ($ionicLoading, $rootScope) {
+.factory('Loading', function ($ionicLoading, $rootScope, Alert) {
 
   return {
 
@@ -11,9 +13,13 @@ angular.module('starter.services', [])
       $ionicLoading.show({
         template:'<ion-spinner icon="lines" class="custom-spiner"></ion-spinner>'
       });
+      timeOutAnchor = setTimeout(function () {
+        $ionicLoading.hide();
+      }, 60000)
     },
 
     hide:function () {
+      clearTimeout(timeOutAnchor);
       $rootScope.isLoading = false;
       $ionicLoading.hide();
     }

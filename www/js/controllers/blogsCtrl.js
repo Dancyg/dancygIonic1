@@ -5,7 +5,7 @@ controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPo
   $scope.lastPage = 2;
   $scope.currentCategoryId = '';
 
-
+  $rootScope.checkBlogsHeight && $rootScope.checkBlogsHeight();
   $scope.loadBlogs = function (page, blogs, catId){
     Categories.get(function (categories) {
       $scope.categories = categories;
@@ -27,7 +27,11 @@ controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPo
             localforage.removeItem('blogsGlobal')
               .then(function () {
                 res.data.posts.forEach(function (blog, i) {
-                  var imgUrl = blog.thumbnail ? blog.thumbnail : blog.attachments.length && blog.attachments[0].images.medium ? blog.attachments[0].images.medium.url : "";
+                  var imgUrl = blog.thumbnail ?
+                    blog.thumbnail :
+                    blog.attachments.length && blog.attachments[0].images && blog.attachments[0].images.medium ?
+                      blog.attachments[0].images.medium.url :
+                      "";
 
                   $rootScope.blogsGlobal[blog.id] = {
                     id: blog.id,
@@ -53,13 +57,14 @@ controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPo
                 $scope.$broadcast('scroll.refreshComplete');
                 $scope.$broadcast('scroll.infiniteScrollComplete');
                 $scope.lastPage = res.data.pages;
+                $rootScope.checkBlogsHeight && $rootScope.checkBlogsHeight();
               });
           });
         },
         function (res) {
           $scope.offlineMode = true;
           $ionicPlatform.ready(function () {
-
+            $rootScope.checkBlogsHeight && $rootScope.checkBlogsHeight();
             Loading.hide();
             localforage.getItem('blogsGlobal')
               .then(function (blogsGlobal) {

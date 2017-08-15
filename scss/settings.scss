@@ -16,3 +16,31 @@
   font-size: 1.1em;
   font-weight: bold;
 }
+
+.settings-settings{
+  margin: 20px 0;
+}
+
+.dark-background{
+  background: #6f6e68;
+  color: $orange !important;
+}
+
+.tab-item{
+  max-width: 100% !important;
+}
+
+.settings-input, .settings-input span, .settings-input a, .settings-input input{
+  border-width: 1px 0;
+  color: $orange !important;
+  background-color: #565656 !important;
+  border-color: #6f6e68 !important;
+}
+
+.item{
+  //background-color: rgba(255, 255, 255, 0.7) !important;
+  //border-color: #6b6b6b;
+  border-width: 1px 0;
+}
+
+

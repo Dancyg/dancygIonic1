@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'starter.services', 'ngCordova'])
+angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'starter.services', 'ngCordova', 'ui.router'])
   .run(function ($ionicPlatform, $rootScope, $state, $ionicHistory, $ionicPush, $http, Alert, Loading, $ionicSideMenuDelegate) {
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -12,14 +12,61 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
         StatusBar.hide();
       }
 
-      $rootScope.token     = window.localStorage.getItem('token');
-      $rootScope.pushToken = {};
+      //define local db
+      localforage.defineDriver(window.cordovaSQLiteDriver).then(function () {
+        return localforage.setDriver([
+          // Try setting cordovaSQLiteDriver if available,
+          window.cordovaSQLiteDriver._driver,
+          // otherwise use one of the default localforage drivers as a fallback.
+          // This should allow you to transparently do your tests in a browser
+          localforage.INDEXEDDB,
+          localforage.WEBSQL,
+          localforage.LOCALSTORAGE
+        ]);
+      })
+        .catch(function (err) {
+          Loading.hide();
+          // alert(err);
+        });
 
-      $rootScope.updateDeviceToken = function () {
-        var data = {
+      $rootScope.token        = window.localStorage.getItem('token');
+      $rootScope.device_token = '';
+
+      $rootScope.updateDeviceTokenForBlogs = function () {
+
+        var settingsData = JSON.parse(window.localStorage.getItem('settingsData'));
+        var data         = {
           api_call    : true,
-          device_token: $rootScope.pushToken,
-          token       : $rootScope.token
+          device_token: $rootScope.device_token,
+          status      : settingsData ?
+            settingsData.blogNotif ? 1 : 0 :
+            1
+        };
+
+        var formData = new FormData();
+        for (var key in data) {
+          formData.append(key, data[key]);
+        }
+        // alert(JSON.stringify(data));
+        $http.post(UPDATE_DEVICE_TOKEN, formData)
+          .then(function (resp) {
+            // alert(JSON.stringify(resp))
+          })
+          .catch(function (err) {
+            // alert(JSON.stringify(err))
+          })
+      };
+
+      $rootScope.updateDeviceTokenForTips = function () {
+
+        var settingsData = JSON.parse(window.localStorage.getItem('settingsData'));
+        var data         = {
+          api_call    : true,
+          device_token: $rootScope.device_token,
+          token       : $rootScope.token,
+          status      : settingsData ?
+            settingsData.tipNotif ? 1 : 0 :
+            1
         };
 
         var formData = new FormData();
@@ -42,12 +89,14 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
             return $ionicPush.saveToken(t);
           })
           .then(function (t) {
-            $rootScope.pushToken = t.token;
+            $rootScope.device_token = t.token;
             // alert(JSON.stringify(t.token));
+            $rootScope.updateDeviceTokenForBlogs();
 
             if ($rootScope.token) {
-              $rootScope.updateDeviceToken();
+              $rootScope.updateDeviceTokenForTips();
             }
+
           })
           .catch(function (err) {
             if (showErrAlert) {
@@ -56,7 +105,7 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
           });
       };
 
-      $rootScope.register(true);
+      $rootScope.register();
 
       $rootScope.unregister = function (showErrAlert) {
         $ionicPush.unregister()
@@ -68,98 +117,127 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
           })
       };
 
-      $rootScope.showCurrentUrl = function () {
-        console.log(window.location.href);
-        console.log($ionicHistory.currentStateName());
+      $rootScope.checkBlogsHeight = function () {
+        var footer = window.document.getElementsByClassName('tab-nav');
+        var tabs   = window.document.getElementsByClassName('tabs');
+        var blogs  = window.document.getElementsByClassName('blogs');
+
+        if (!$rootScope.token && !window.document.getElementsByClassName('platform-android').length) {
+          footer.length && Array.prototype.forEach.call(footer, function (el) {
+            el.style.height = '0px'
+          });
+          tabs.length && Array.prototype.forEach.call(tabs, function (el) {
+            el.style.height = '0px'
+          });
+          blogs.length && Array.prototype.forEach.call(blogs, function (el) {
+            el.style.height = 'calc(100vh - 43px)'
+          });
+        } else {
+          footer.length && Array.prototype.forEach.call(footer, function (el) {
+            el.style.height = '49px'
+          });
+          tabs.length && Array.prototype.forEach.call(tabs, function (el) {
+            el.style.height = '49px'
+          });
+          blogs.length && Array.prototype.forEach.call(blogs, function (el) {
+            el.style.height = 'auto'
+          });
+        }
       }
-      $rootScope.logout         = function () {
-        $rootScope.showMenu();
-        var data = {
-          token       : $rootScope.token,
-          device_token: $rootScope.pushToken,
-          api_call    : true
+
+        $rootScope.checkOneBlogHeight = function () {
+          var blogContainerCustom = window.document.getElementsByClassName('blog-container-custom');
+
+          if (!$rootScope.token && !window.document.getElementsByClassName('platform-android').length) {
+            blogContainerCustom.length && Array.prototype.forEach.call(blogContainerCustom, function (el) {
+              el.style.height = 'calc(100vh - 43px)';
+            });
+          } else {
+            blogContainerCustom.length && Array.prototype.forEach.call(blogContainerCustom, function (el) {
+              el.style.height = 'auto';
+            });
+          }
+        };
+        $rootScope.checkBlogsHeight();
+
+        $rootScope.logout = function () {
+          $rootScope.showMenu();
+          var data = {
+            token       : $rootScope.token,
+            device_token: $rootScope.device_token,
+            api_call    : true
+          };
+
+          var formData = new FormData();
+          for (var key in data) {
+            formData.append(key, data[key]);
+          }
+          Loading.start();
+          $http.post('https://members.bettinggods.com/api/logout/', formData)
+            .then(function () {
+              window.localStorage.removeItem('token');
+              $rootScope.token = window.localStorage.getItem('token');
+              console.log('$rootScope.token', $rootScope.token);
+
+              var currentTab = $ionicHistory.currentStateName();
+              $rootScope.unregister(true);
+              if (currentTab === 'sidemenu.tab.tipsters' || currentTab === 'sidemenu.tab.tipsters1' || currentTab === 'sidemenu.tab.tipsters2') {
+                // $state.go('sidemenu.tab.buy-tipsters')
+                $state.go('sidemenu.tab.blogs');
+              }
+              $rootScope.checkBlogsHeight();
+              Loading.hide();
+            })
+            .catch(function (error) {
+              window.localStorage.removeItem('token');
+              $rootScope.token = window.localStorage.getItem('token');
+              var currentTab   = $ionicHistory.currentStateName();
+              $rootScope.unregister();
+              if (currentTab === 'sidemenu.tab.tipsters' || currentTab === 'sidemenu.tab.tipsters1' || currentTab === 'sidemenu.tab.tipsters2') {
+                $rootScope.checkBlogsHeight();
+                // $state.go('sidemenu.tab.buy-tipsters')
+                $state.go('sidemenu.tab.blogs');
+              }
+              $rootScope.checkBlogsHeight();
+              Loading.hide();
+            });
         };
 
-        var formData = new FormData();
-        for (var key in data) {
-          formData.append(key, data[key]);
-        }
-        Loading.start();
-        $http.post('https://members.bettinggods.com/api/logout/', formData)
-          .then(function () {
-            window.localStorage.removeItem('token');
-            $rootScope.token = window.localStorage.getItem('token');
-            var currentTab   = $ionicHistory.currentStateName();
-            $rootScope.unregister(true);
-            if (currentTab === 'sidemenu.tab.tipsters' || currentTab === 'sidemenu.tab.tipsters1' || currentTab === 'sidemenu.tab.tipsters2') {
-              // $state.go('sidemenu.tab.buy-tipsters')
-              $state.go('sidemenu.tab.blogs')
-            }
-            Loading.hide();
-          })
-          .catch(function (error) {
-            window.localStorage.removeItem('token');
-            $rootScope.token = window.localStorage.getItem('token');
-            var currentTab   = $ionicHistory.currentStateName();
-            $rootScope.unregister();
-            if (currentTab === 'sidemenu.tab.tipsters' || currentTab === 'sidemenu.tab.tipsters1' || currentTab === 'sidemenu.tab.tipsters2') {
-              // $state.go('sidemenu.tab.buy-tipsters')
-              $state.go('sidemenu.tab.blogs')
-            }
-            Loading.hide();
-          });
-      };
-      //define local db
-      localforage.defineDriver(window.cordovaSQLiteDriver).then(function () {
-        return localforage.setDriver([
-          // Try setting cordovaSQLiteDriver if available,
-          window.cordovaSQLiteDriver._driver,
-          // otherwise use one of the default localforage drivers as a fallback.
-          // This should allow you to transparently do your tests in a browser
-          localforage.INDEXEDDB,
-          localforage.WEBSQL,
-          localforage.LOCALSTORAGE
-        ]);
-      })
-        .then(function (data) {
-          alert(JSON.stringify(data));
-        })
-        .catch(function (err) {
-        Loading.hide();
-        alert(err);
-      });
-
-    });
-
-    $rootScope.checkIfAndroid = function (callback) {
-      setTimeout(function () {
-        if (document.getElementsByClassName('platform-android').length) {
-          callback && callback();
-        }
-      }, 10)
-    };
-
-
-    $rootScope.setEventOnA = function setEventOnA() {
-      $rootScope.checkIfAndroid(function () {
-        $ionicPlatform.ready(function onDeviceReady() {
-          var aList = document.getElementById('blogContent').getElementsByTagName('a');
+        $rootScope.checkIfAndroid = function (callback) {
           setTimeout(function () {
-            console.log('android');
-            angular.forEach(aList, function (el, i) {
-              el.addEventListener('click', function (e) {
-                var ref = cordova.InAppBrowser.open(e.target.href, '_blank', 'location=yes');
-              })
+            if (window.document.getElementsByClassName('platform-android').length) {
+              callback && callback();
+            }
+          }, 10)
+        };
+
+        // var scrollContent = document.getElementsByClassName('scroll-content')[0];
+        // console.log(scrollContent);
+        // scrollContent.style.heigh = '8px';
+
+
+        $rootScope.setEventOnA = function setEventOnA() {
+          $rootScope.checkIfAndroid(function () {
+            $ionicPlatform.ready(function onDeviceReady() {
+              var aList = window.document.getElementById('blogContent').getElementsByTagName('a');
+              setTimeout(function () {
+                console.log('android');
+                angular.forEach(aList, function (el, i) {
+                  el.addEventListener('click', function (e) {
+                    var ref = cordova.InAppBrowser.open(e.target.href, '_blank', 'location=yes');
+                  })
+                });
+              }, 10);
             });
-          }, 10);
-        });
-      })
-    };
+          })
+        };
 
-    $rootScope.showMenu = function () {
-      $ionicSideMenuDelegate.toggleLeft();
-    };
+        $rootScope.showMenu = function () {
+          $ionicSideMenuDelegate.toggleLeft();
+        };
 
+      }
+      );
   })
   .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider, $compileProvider, $ionicCloudProvider) {
     $ionicConfigProvider.navBar.alignTitle("center"); //Places them at the bottom for all OS
@@ -202,11 +280,23 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
 
     $stateProvider
       .state('sidemenu', {
-        url        : '/sidemenu',
-        templateUrl: 'templates/side-menu.html'
+        url     : '/sidemenu',
+        abstract: true,
+        views   : {
+          "body": { templateUrl: "templates/side-menu.html" }
+        }
+      })
+      .state('sidemenu.settings', {
+        url  : '/settings',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/settings.html',
+            controller : 'SettingsCtrl'
+          }
+        }
       })
       .state('sidemenu.login', {
-        url        : '/login',
+        url  : '/login',
         views: {
           'menuContent': {
             templateUrl: 'templates/login.html',
@@ -215,7 +305,7 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
         }
       })
       .state('sidemenu.signup', {
-        url        : '/signup',
+        url  : '/signup',
         views: {
           'menuContent': {
             templateUrl: 'templates/signup.html',
@@ -223,17 +313,8 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
           }
         }
       })
-      .state('sidemenu.settings', {
-        url        : '/settings',
-        views: {
-          'menuContent': {
-            templateUrl: 'templates/settings.html',
-            controller : 'SettingsCtrl'
-          }
-        }
-      })
       .state('sidemenu.changePassword', {
-        url        : '/change-password',
+        url  : '/change-password',
         views: {
           'menuContent': {
             templateUrl: 'templates/change-password.html',
@@ -245,7 +326,6 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
 
       .state('sidemenu.tab', {
         url  : '/tab',
-        abstract: true,
         views: {
           'menuContent': {
             templateUrl: 'templates/tabs.html'
@@ -310,20 +390,20 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
         }
       })
       //SUPPORT
-      .state('sidemenu.tab.support', {
+      .state('sidemenu.support', {
         url  : '/support',
         views: {
-          'tab-support': {
+          'menuContent': {
             templateUrl: 'templates/tab-support.html',
             controller : 'SupportCtrl'
           }
         }
       })
       //RESPONSIBILITY
-      .state('sidemenu.tab.rules', {
+      .state('sidemenu.rules', {
         url  : '/rules',
         views: {
-          'tab-rules': {
+          'menuContent': {
             templateUrl: 'templates/tab-rules.html',
             controller : 'ResponsibleCtrl'
           }

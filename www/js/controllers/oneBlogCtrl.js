@@ -11,6 +11,8 @@ controllers.controller("OneBlogCtrl", function ($scope, Loading, $stateParams, $
           $scope.title     = function () { return $sce.trustAsHtml(res.data.post.title) };
           $scope.content   = function() { return $sce.trustAsHtml(res.data.post.content) };
           $rootScope.setEventOnA();
+          $rootScope.checkBlogsHeight();
+          $rootScope.checkOneBlogHeight();
         },
         function (res) {
           Loading.hide();
@@ -22,6 +24,8 @@ controllers.controller("OneBlogCtrl", function ($scope, Loading, $stateParams, $
     $scope.title     = function() { return $sce.trustAsHtml($scope.blog.title) } ;
     $scope.content   = function() { return $sce.trustAsHtml($scope.blog.content) };
     $rootScope.setEventOnA();
+    $rootScope.checkBlogsHeight();
+    $rootScope.checkOneBlogHeight()
   }
 
   $scope.back = function () {

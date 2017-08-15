@@ -12,25 +12,25 @@
     </button>
   </ion-nav-buttons>
 
-  <ion-content class="has-header">
+  <ion-content class="has-header dark-background">
     <ion-list>
-      <ion-item class="item-icon-right change-password-item" href="#/sidemenu/change-password">
+      <ion-item class="item-icon-right change-password-item settings-input" href="#/sidemenu/change-password">
         Change Password
         <i class="icon ion-chevron-right icon-accessory"></i>
       </ion-item>
-      <ion-checkbox class="item item-checkbox-right" ng-model="data.blogNotif" checked="data.blogNotif" ng-click="click('blogNotif')">
+      <ion-checkbox class="item item-checkbox-right settings-input" ng-model="settingsData.blogNotif" checked="settingsData.blogNotif" ng-click="notificationSettings('blogNotif')">
         Receive Blog Notification
       </ion-checkbox>
 
-      <ion-checkbox class="item item-checkbox-right" ng-model="data.tipNotif" checked="data.tipNotif" ng-click="click('tipNotif')">
+      <ion-checkbox class="item item-checkbox-right settings-input" ng-model="settingsData.tipNotif" checked="settingsData.tipNotif" ng-click="notificationSettings('tipNotif')">
           Receive Tip Notification
       </ion-checkbox>
 
-      <span class="item settings-back-buttons">
-        <a href="#/sidemenu/tab/tipsters" class="settings-back-tips">
+      <span class="item settings-back-buttons settings-input">
+        <a href="#/sidemenu/tab/tipsters" class="settings-back-tips settings-input">
           <span class="text-center">Return to tips</span>
         </a>
-        <a href="#/sidemenu/tab/home" class="settings-back-blogs">
+        <a href="#/sidemenu/tab/home" class="settings-back-blogs settings-input">
           <span class="text-center">Return to Blogs</span>
         </a>
       </span>

@@ -11,6 +11,7 @@
         "cordova-ios": "^4.4.0",
         "cordova-plugin-console": "~1.0.4",
         "cordova-plugin-device": "~1.1.3",
+        "cordova-plugin-inappbrowser": "^1.7.1",
         "cordova-plugin-splashscreen": "~4.0.0",
         "cordova-plugin-statusbar": "~2.2.0",
         "cordova-plugin-whitelist": "~1.3.0",
@@ -29,7 +30,7 @@
         "validator": "^6.1.0"
     },
     "devDependencies": {
-        "@ionic/cli-plugin-cordova": "^1.4.1",
+        "@ionic/cli-plugin-cordova": "1.4.1",
         "@ionic/cli-plugin-gulp": "1.1.1",
         "@ionic/cli-plugin-ionic1": "2.1.1",
         "bower": "^1.3.3",
@@ -55,7 +56,8 @@
             "ionic-plugin-keyboard": {},
             "phonegap-plugin-push": {
                 "SENDER_ID": "716852556262"
-            }
+            },
+            "cordova-plugin-inappbrowser": {}
         },
         "platforms": [
             "android",
@@ -65,7 +67,6 @@
     "scripts": {
         "android": "ionic cordova run android",
         "ios": "ionic cordova run ios",
-        "res": "ionic cordova resources",
-        "emulator": "$ANDROID_HOME/tools/emulator -avd Pixel_API_22"
+        "res": "ionic cordova resources"
     }
 }

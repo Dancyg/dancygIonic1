@@ -77,3 +77,8 @@ body {
   color: #FF9500 !important;
   z-index: 100 !important;
 }
+
+.no-height{
+  height:0;
+  overflow: hidden;
+}

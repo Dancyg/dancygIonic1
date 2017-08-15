@@ -7,7 +7,7 @@ controllers.controller('SignupCtrl', function ($scope, $http, Alert, Loading, $r
     login:'',
     email:'',
     api_call: true,
-    device_token: $rootScope.pushToken
+    device_token: $rootScope.device_token
   };
   $scope.register = function () {
     if (!$scope.data.login || !$scope.data.email ) {
@@ -28,7 +28,7 @@ controllers.controller('SignupCtrl', function ($scope, $http, Alert, Loading, $r
           Alert.success('Success', 'Your registration request has been sent. The response will be sent to your mail.')
         }, function (err) {
           var errText = '';
-          if(err.data.error.errors){
+          if(err && err.data && err.data.error && err.data.error.errors){
             errText = Object.keys(err.data.error.errors).map(function (elem, i) {
               return err.data.error.errors[elem];
             })[0];

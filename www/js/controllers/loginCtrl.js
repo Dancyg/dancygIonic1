@@ -4,12 +4,18 @@ controllers.controller("LoginCtrl", function ($scope, $http, $ionicPopup, $state
     username: "",
     password: "",
     remember: false,
-    api_call: true
+    api_call: true,
+    showPass: false,
+    type    : 'password'
   };
 
-  if ($rootScope.pushToken) {
-    $scope.data.device_token = $rootScope.pushToken;
+  if ($rootScope.device_token) {
+    $scope.data.device_token = $rootScope.device_token;
   }
+
+  $scope.changeType = function () {
+    $scope.data.type = $scope.data.showPass ? 'text' : 'password';
+  };
 
   $scope.submit = function () {
     if ($scope.data.username === '' || $scope.data.password === '') {
@@ -29,10 +35,14 @@ controllers.controller("LoginCtrl", function ($scope, $http, $ionicPopup, $state
           Loading.hide();
           $rootScope.register();
           $state.go("sidemenu.tab.blogs");
+          $rootScope.checkBlogsHeight();
+          $rootScope.checkOneBlogHeight();
 
         }, function (res) {
           var text = res.data && res.data.error && res.data.error || "Please check your credentials and network connection.";
           Loading.hide();
+          $rootScope.checkBlogsHeight();
+          $rootScope.checkOneBlogHeight();
           Alert.failed('Login Failde', text)
         });
     }

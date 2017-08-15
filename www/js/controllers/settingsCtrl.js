@@ -1,47 +1,60 @@
 controllers.controller('SettingsCtrl', function ($scope, $http, Alert, Loading, $rootScope) {
-    var URL     = {
-      tipNotif : 'https://members.bettinggods.com/api/toggle_notification_status',
-      blogNotif: 'https://bettinggods.com/api/toggle_notification_status'
-    };
-    $scope.data = {
-      blogNotif: false,
-      tipNotif : false
+  var URL = {
+    tipNotif : 'https://members.bettinggods.com/api/toggle_notification_status',
+    blogNotif: 'https://bettinggods.com/api/register_device_token'
+  };
+
+  $scope.settingsData = {
+    blogNotif: false,
+    tipNotif : false
+  }
+
+  var settingsData = JSON.parse(window.localStorage.getItem('settingsData'));
+
+  $scope.settingsData = {
+    blogNotif: settingsData ? Boolean(settingsData.blogNotif) : true,
+    tipNotif : settingsData ? Boolean(settingsData.tipNotif) : true
+  };
+
+  window.localStorage.setItem('settingsData', JSON.stringify($scope.settingsData));
+
+  $scope.notificationSettings = function (name) {
+
+
+    var data = {
+      status      : $scope.settingsData[name] ? 1 : 0,
+      api_call    : true,
+      device_token: $rootScope.device_token
     };
 
-    $scope.click = function (name) {
-      Loading.start();
-      let data     = {
-        status      : $scope.data[name] ? 1 : 0,
-        api_call    : true,
-        device_token: $rootScope.device_token
-      };
-      var formData = new FormData();
-      for (var key in data) {
-        formData.append(key, data[key]);
-      }
-      $http.post(URL[name], formData)
-        .then(function (res) {
-          Loading.hide();
-          Alert.success('Success', 'Your push notifications settings for has been changed');
-          localforage.setItem('settingsData', $scope.data)
-        }, function (err) {
-          var errText = '';
-          if (err.data.error.errors) {
-            errText = Object.keys(err.data.error.errors).map(function (elem, i) {
-              return err.data.error.errors[elem];
-            })[0];
-          } else {
-            errText = 'Request has not been sent.';
-          }
-          Loading.hide();
-          Alert.failed('Error', errText);
-        })
-    };
+    if (name === 'tipNotif' && !$rootScope.token) {
+      Alert.failed('Warning', 'To manage tips notifications please login first.');
+      $scope.settingsData[name] = !$scope.settingsData[name];
+      return;
+    }
 
-    localforage.getItem('settingsData')
-      .then(function (data) {
-        $scope.data.blogNotif = data ? Boolean(data.blogNotif) : true;
-        $scope.data.tipNotif  = data ? Boolean(data.tipNotif) : true;
-        localforage.setItem('settingsData', $scope.data)
-      });
+    if (name === 'tipNotif' && $rootScope.token) {
+      data.token = $rootScope.token
+    }
+
+    Loading.start();
+
+    var formData = new FormData();
+    for (var key in data) {
+      formData.append(key, data[key]);
+    }
+
+    var blogOrTip = name === 'blogNotif' ? 'bogs' : 'tipsters';
+
+    $http.post(URL[name], formData)
+      .then(function (res) {
+        Loading.hide();
+        Alert.success('Success', 'Your push notifications settings for ' + blogOrTip + ' have been changed');
+        window.localStorage.setItem('settingsData', JSON.stringify($scope.settingsData));
+      }, function (err) {
+        $scope.settingsData[name] = !$scope.settingsData[name];
+        Loading.hide();
+        Alert.failed('Error', 'Request has not been sent.' + JSON.stringify(err));
+      })
+  };
 });

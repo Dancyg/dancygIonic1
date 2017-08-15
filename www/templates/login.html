@@ -13,8 +13,17 @@
 
       <label class="item item-input input-login">
         <span class="input-label" >Password</span>
-        <input type="password" ng-model="data.password"  class="logins"/>
+        <input type="{{data.type}}" ng-model="data.password"  class="logins"/>
       </label>
+
+      <ion-checkbox
+        class="input-login item-checkbox-right logins"
+        ng-model="data.showPass"
+        checked="data.showPass"
+        ng-click="changeType()"
+      >
+        Show Password
+      </ion-checkbox>
 
       <ion-checkbox ng-model="data.remember" checked="data.remember" class="input-login item-checkbox-right logins" focus>
         Remember me
@@ -25,7 +34,7 @@
       </button>
 
       <div>
-        <a href="#/signup"><span class="login-forgot-sign-up text-center">Sign Up</span></a>
+        <a href="#/sidemenu/signup"><span class="login-forgot-sign-up text-center">Sign Up</span></a>
         <a href="#/sidemenu/tab/home"><span class="login-forgot-sign-up text-center">Return to Blogs</span></a>
       </div>
 

@@ -1,6 +1,6 @@
 .login-wrapper{
-  background: url(../img/login.jpg) no-repeat center center;
-  background-size: cover;
+  background: url(../img/login.jpg) no-repeat center center !important;
+  background-size: cover !important;
   z-index:-1;
 }
 
@@ -15,8 +15,8 @@
 
 .logo{
   min-height: 100px;
-  background: url(../img/logo.png) no-repeat center center, rgba(255, 255,255,0.4);
-  background-size: contain;
+  background: url(../img/logo.png) no-repeat center center, rgba(255, 255,255,0.4) !important;
+  background-size: contain !important;
   margin-bottom: 10vh;
 }
 
@@ -43,10 +43,9 @@
   color: #ffffff;
   width: 100%;
   border: none;
-  height: 45px;
+  min-height: 45px;
   outline: none;
   margin: 25px 0 10px;
-  line-height: 45px;
 }
 
 .checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before {

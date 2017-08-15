@@ -4,26 +4,37 @@
     <ion-header-bar class="bar-dark">
       <h1 class="title side-menu-header">Preferences</h1>
     </ion-header-bar>
-    <ion-content class="side-menu-content">
-      <ul class="list">
-        <ion-item class="settings-item" ng-href="#/sidemenu/tab/blogs" ng-click="showMenu()">
+    <ion-content class="side-menu-content dark-background">
+      <ion-list >
+        <ion-item class=" settings-input" ng-href="#/sidemenu/tab/blogs" ng-click="showMenu()">
           Home
         </ion-item>
-        <ion-item class="settings-item" ng-href="#/sidemenu/settings" ng-click="showMenu()">
+
+        <ion-item class=" settings-input" title="Be Responsible" href="#/sidemenu/rules" ng-click="showMenu()">
+          Be Responsible
+        </ion-item>
+
+        <ion-item class=" settings-input" title="Support" ng-href="#/sidemenu/support" ng-click="showMenu()">
+          Support
+        </ion-item>
+
+
+        <ion-item class=" settings-settings settings-input" ng-href="#/sidemenu/settings" ng-click="showMenu()">
           Settings
         </ion-item>
-        <ion-item class="logout-item" ng-show="token" ng-click="logout()">
+
+        <ion-item class="logout-item settings-input" ng-show="token" ng-click="logout()">
           Logout
         </ion-item>
 
-        <ion-item class="login-item" ng-href="#/sidemenu/login" ng-show="!token" ng-click="showMenu()">
+        <ion-item class="login-item settings-input" ng-href="#/sidemenu/login" ng-show="!token" ng-click="showMenu()">
           Login
         </ion-item>
-        <ion-item class="signup-item" ng-href="#/sidemenu/signup" ng-show="!token" ng-click="showMenu()">
+        <ion-item class="signup-item settings-input" ng-href="#/sidemenu/signup" ng-show="!token" ng-click="showMenu()">
           Sign up
         </ion-item>
 
-      </ul>
+      </ion-list>
     </ion-content>
   </ion-side-menu>
 

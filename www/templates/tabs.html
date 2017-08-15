@@ -3,7 +3,7 @@ Create tabs with an icon and label, using the tabs-positive style.
 Each tab's child <ion-nav-view> directive will have its own
 navigation history that also transitions its views in and out.
 -->
-<ion-tabs class="tabs-icon-top">
+<ion-tabs class="tabs-icon-top" ng-class="{'no-height': false}">
 
   <!-- Home Tab -->
   <ion-tab class="footer-custom" title="Blogs" icon-off="ion-document-text" icon-on="ion-document-text"   href="#/sidemenu/tab/home">
@@ -17,20 +17,10 @@ navigation history that also transitions its views in and out.
     <ion-nav-view name="tab-tipsters"></ion-nav-view>
   </ion-tab>
 
-  <ion-tab hidden="{{token !== null}}" class="footer-custom " title='Tipsters'
-           icon-off="ion-arrow-graph-up-right" icon-on="ion-arrow-graph-up-right"
-           href='#/sidemenu/tab/buy-tipsters'>
-    <ion-nav-view name="tab-buy-tipsters"></ion-nav-view>
-  </ion-tab>
-
-  <!-- Rules Tab -->
-  <ion-tab class="footer-custom" title="Be Responsible" icon-off="ion-alert" icon-on="ion-alert" on-select="showCurrentUrl()"  href="#/sidemenu/tab/rules">
-    <ion-nav-view name="tab-rules"></ion-nav-view>
-  </ion-tab>
-
-  <!-- Help Tab -->
-  <ion-tab class="footer-custom" title="Support"  icon-off="ion-information-circled" icon-on="ion-information-circled" href="#/sidemenu/tab/support">
-    <ion-nav-view name="tab-support"></ion-nav-view>
-  </ion-tab>
+  <!--<ion-tab hidden="{{token !== null}}" class="footer-custom " title='Tipsters'-->
+           <!--icon-off="ion-arrow-graph-up-right" icon-on="ion-arrow-graph-up-right"-->
+           <!--href='#/sidemenu/tab/buy-tipsters'>-->
+    <!--<ion-nav-view name="tab-buy-tipsters"></ion-nav-view>-->
+  <!--</ion-tab>-->
 
 </ion-tabs>
