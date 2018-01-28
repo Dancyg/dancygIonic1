@@ -1,149 +1,225 @@
 angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'starter.services', 'ngCordova', 'ui.router'])
-  .run(function ($ionicPlatform, $rootScope, $state, $ionicHistory, $ionicPush, $http, Alert, Loading, $ionicSideMenuDelegate) {
+  .run(function ($ionicPlatform, $rootScope, $state, $ionicHistory, $http, Alert, Loading, $ionicSideMenuDelegate) {
     $ionicPlatform.ready(function () {
-      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-      // for form inputs)
-      if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-        cordova.plugins.Keyboard.disableScroll(true);
+        // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+        // for form inputs)
+        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+          cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+          cordova.plugins.Keyboard.disableScroll(true);
 
-      }
-      if (window.StatusBar && document.getElementsByClassName('platform-android').length) {
-        StatusBar.hide();
-      }
+        }
+        if (window.StatusBar && document.getElementsByClassName('platform-android').length) {
+          StatusBar.hide();
+        }
 
-      //define local db
-      localforage.defineDriver(window.cordovaSQLiteDriver).then(function () {
-        return localforage.setDriver([
-          // Try setting cordovaSQLiteDriver if available,
-          window.cordovaSQLiteDriver._driver,
-          // otherwise use one of the default localforage drivers as a fallback.
-          // This should allow you to transparently do your tests in a browser
-          localforage.INDEXEDDB,
-          localforage.WEBSQL,
-          localforage.LOCALSTORAGE
-        ]);
-      })
-        .catch(function (err) {
-          Loading.hide();
-          // alert(err);
-        });
+        //define local db
+        localforage.defineDriver(window.cordovaSQLiteDriver).then(function () {
+          return localforage.setDriver([
+            // Try setting cordovaSQLiteDriver if available,
+            window.cordovaSQLiteDriver._driver,
+            // otherwise use one of the default localforage drivers as a fallback.
+            // This should allow you to transparently do your tests in a browser
+            localforage.INDEXEDDB,
+            localforage.WEBSQL,
+            localforage.LOCALSTORAGE
+          ]);
+        })
+          .catch(function (err) {
+            Loading.hide();
+            // alert(err);
+          });
 
-      $rootScope.token        = window.localStorage.getItem('token');
-      $rootScope.device_token = '';
+        $rootScope.token = window.localStorage.getItem('token');
+        $rootScope.device_token = '';
 
-      $rootScope.updateDeviceTokenForBlogs = function () {
+        $rootScope.updateDeviceTokenForBlogs = function () {
 
-        var settingsData = JSON.parse(window.localStorage.getItem('settingsData'));
-        var data         = {
-          api_call    : true,
-          device_token: $rootScope.device_token,
-          status      : settingsData ?
-            settingsData.blogNotif ? 1 : 0 :
-            1
+          var settingsData = JSON.parse(window.localStorage.getItem('settingsData'));
+          var data = {
+            api_call: true,
+            device_token: $rootScope.device_token,
+            status: settingsData ?
+              settingsData.blogNotif ? 1 : 0 :
+              1
+          };
+
+          var formData = new FormData();
+          for (var key in data) {
+            formData.append(key, data[key]);
+          }
+          // alert(JSON.stringify(data));
+          $http.post(UPDATE_DEVICE_TOKEN, formData)
+            .then(function (resp) {
+              // alert(JSON.stringify(resp))
+            })
+            .catch(function (err) {
+              // alert(JSON.stringify(err))
+            })
         };
 
-        var formData = new FormData();
-        for (var key in data) {
-          formData.append(key, data[key]);
-        }
-        // alert(JSON.stringify(data));
-        $http.post(UPDATE_DEVICE_TOKEN, formData)
-          .then(function (resp) {
-            // alert(JSON.stringify(resp))
-          })
-          .catch(function (err) {
-            // alert(JSON.stringify(err))
-          })
-      };
+        $rootScope.updateDeviceTokenForTips = function () {
 
-      $rootScope.updateDeviceTokenForTips = function () {
+          var settingsData = JSON.parse(window.localStorage.getItem('settingsData'));
+          var data = {
+            api_call: true,
+            device_token: $rootScope.device_token,
+            token: $rootScope.token,
+            status: settingsData ?
+              settingsData.tipNotif ? 1 : 0 :
+              1
+          };
 
-        var settingsData = JSON.parse(window.localStorage.getItem('settingsData'));
-        var data         = {
-          api_call    : true,
-          device_token: $rootScope.device_token,
-          token       : $rootScope.token,
-          status      : settingsData ?
-            settingsData.tipNotif ? 1 : 0 :
-            1
+          var formData = new FormData();
+          for (var key in data) {
+            formData.append(key, data[key]);
+          }
+          // alert(JSON.stringify(data));
+          $http.post(LOGIN, formData)
+            .then(function (resp) {
+              // alert(JSON.stringify(resp))
+            })
+            .catch(function (err) {
+              // alert(JSON.stringify(err))
+            })
         };
 
-        var formData = new FormData();
-        for (var key in data) {
-          formData.append(key, data[key]);
-        }
-        // alert(JSON.stringify(data));
-        $http.post(LOGIN, formData)
-          .then(function (resp) {
-            // alert(JSON.stringify(resp))
-          })
-          .catch(function (err) {
-            // alert(JSON.stringify(err))
-          })
-      };
+        $rootScope.register = function (showErrAlert) {
+          // $ionicPush.register()
+          //   .then(function (t) {
+          //     return $ionicPush.saveToken(t);
+          //   })
+          //   .then(function (t) {
+          //     $rootScope.device_token = t.token;
+          //     // alert(JSON.stringify(t.token));
+          //     $rootScope.updateDeviceTokenForBlogs();
+          //
+          //     if ($rootScope.token) {
+          //       $rootScope.updateDeviceTokenForTips();
+          //     }
+          //
+          //   })
+          //   .catch(function (err) {
+          //     if (showErrAlert) {
+          //       Alert.failed('Push Registration Failed', 'Couldn\'t register app for push notifications.' + JSON.stringify(err));
+          //     }
+          //   });
 
-      $rootScope.register = function (showErrAlert) {
-        $ionicPush.register()
-          .then(function (t) {
-            return $ionicPush.saveToken(t);
-          })
-          .then(function (t) {
-            $rootScope.device_token = t.token;
+          $rootScope.push = PushNotification.init({
+            "IOS": {
+              "badge": true,
+              "sound": true,
+              "alert": false,
+            },
+            "android": {
+              "senderID": 716852556262,
+              "forceShow": true,
+              "sound": true,
+              "vibrate": true,
+              "payload": { "content-available": "1" }
+            }
+          });
+
+          $rootScope.push.on('registration', function (data) {
+            // Alert.success('DeviceId', JSON.stringify(data.registrationId));
+            console.log('data.registrationId', data.registrationId);
+            $rootScope.device_token = data.registrationId;
             // alert(JSON.stringify(t.token));
             $rootScope.updateDeviceTokenForBlogs();
 
             if ($rootScope.token) {
               $rootScope.updateDeviceTokenForTips();
             }
+          });
 
-          })
-          .catch(function (err) {
+          $rootScope.push.on('error', function (error) {
             if (showErrAlert) {
-              Alert.failed('Push Registration Failed', 'Couldn\'t register app for push notifications.' + JSON.stringify(err));
+              Alert.success('Error', JSON.stringify(data.registrationId));
             }
+            console.log('error', error);
           });
-      };
 
-      $rootScope.register();
+          $rootScope.routeOnPush = function (payload) {
+            if (payload.type === 'tip') {
+              var timerId = setTimeout(function tick() {
 
-      $rootScope.unregister = function (showErrAlert) {
-        $ionicPush.unregister()
-          .catch(function () {
+                if (!$rootScope.tipsList) {
+                  timerId = setTimeout(tick, 1000);
+                }
+                if (!$rootScope.isLoading) {
+                  Loading.start()
+                }
+                if($rootScope.tipsList ){
+                  Loading.hide()
+                }
+              }, 1000);
+              $state.go('sidemenu.tab.tipsters1', { recent: payload.id });
+            } else {
+              $state.go('sidemenu.tab.blog', { blogID: payload.id })
+            }
+          };
+
+
+
+          $rootScope.push.on('notification', function (data) {
+            // Alert.success('notification received', JSON.stringify(data));
+            console.log('data', data);
+
+            var msg     = data.message;
+            var payload = data.payload ? data.payload  : { type: 'blog', id: 300 };
+            // var appOpen = data.additionalData.foreground;
+            // if (!appOpen){
+            //   $rootScope.routeOnPush(payload);
+            // } else {
+              Alert.pushContent(msg, '')
+                .then(function (resp) {
+                  if (resp) {
+                    $rootScope.routeOnPush(payload);
+                  }
+                });
+            // }
+          });
+        };
+
+        $rootScope.register();
+
+        $rootScope.unregister = function (showErrAlert) {
+          $rootScope.push.unregister(() => {
+            console.log('success');
+          }, () => {
             if (showErrAlert) {
-              Loading.hide();
-              Alert.failed('Failed to unregister', 'Device was not unregistered.');
+              Alert.failed('Error', 'Failed to switch off push notifications');
             }
+            console.log('error');
           })
-      };
+        };
 
-      $rootScope.checkBlogsHeight = function () {
-        var footer = window.document.getElementsByClassName('tab-nav');
-        var tabs   = window.document.getElementsByClassName('tabs');
-        var blogs  = window.document.getElementsByClassName('blogs');
+        $rootScope.checkBlogsHeight = function () {
+          var footer = window.document.getElementsByClassName('tab-nav');
+          var tabs = window.document.getElementsByClassName('tabs');
+          var blogs = window.document.getElementsByClassName('blogs');
 
-        if (!$rootScope.token && !window.document.getElementsByClassName('platform-android').length) {
-          footer.length && Array.prototype.forEach.call(footer, function (el) {
-            el.style.height = '0px'
-          });
-          tabs.length && Array.prototype.forEach.call(tabs, function (el) {
-            el.style.height = '0px'
-          });
-          blogs.length && Array.prototype.forEach.call(blogs, function (el) {
-            el.style.height = 'calc(100vh - 43px)'
-          });
-        } else {
-          footer.length && Array.prototype.forEach.call(footer, function (el) {
-            el.style.height = '49px'
-          });
-          tabs.length && Array.prototype.forEach.call(tabs, function (el) {
-            el.style.height = '49px'
-          });
-          blogs.length && Array.prototype.forEach.call(blogs, function (el) {
-            el.style.height = 'auto'
-          });
+          if (!$rootScope.token && !window.document.getElementsByClassName('platform-android').length) {
+            footer.length && Array.prototype.forEach.call(footer, function (el) {
+              el.style.height = '0px'
+            });
+            tabs.length && Array.prototype.forEach.call(tabs, function (el) {
+              el.style.height = '0px'
+            });
+            blogs.length && Array.prototype.forEach.call(blogs, function (el) {
+              el.style.height = 'calc(100vh - 43px)'
+            });
+          } else {
+            footer.length && Array.prototype.forEach.call(footer, function (el) {
+              el.style.height = '49px'
+            });
+            tabs.length && Array.prototype.forEach.call(tabs, function (el) {
+              el.style.height = '49px'
+            });
+            blogs.length && Array.prototype.forEach.call(blogs, function (el) {
+              el.style.height = 'auto'
+            });
+          }
         }
-      }
 
         $rootScope.checkOneBlogHeight = function () {
           var blogContainerCustom = window.document.getElementsByClassName('blog-container-custom');
@@ -163,9 +239,9 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
         $rootScope.logout = function () {
           $rootScope.showMenu();
           var data = {
-            token       : $rootScope.token,
+            token: $rootScope.token,
             device_token: $rootScope.device_token,
-            api_call    : true
+            api_call: true
           };
 
           var formData = new FormData();
@@ -191,7 +267,7 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
             .catch(function (error) {
               window.localStorage.removeItem('token');
               $rootScope.token = window.localStorage.getItem('token');
-              var currentTab   = $ionicHistory.currentStateName();
+              var currentTab = $ionicHistory.currentStateName();
               $rootScope.unregister();
               if (currentTab === 'sidemenu.tab.tipsters' || currentTab === 'sidemenu.tab.tipsters1' || currentTab === 'sidemenu.tab.tipsters2') {
                 $rootScope.checkBlogsHeight();
@@ -237,7 +313,7 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
         };
 
       }
-      );
+    );
   })
   .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider, $compileProvider, $ionicCloudProvider) {
     $ionicConfigProvider.navBar.alignTitle("center"); //Places them at the bottom for all OS
@@ -252,80 +328,80 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
     // Each state's controller can be found in controllers.js
 
     $httpProvider.defaults.headers.common = {};
-    $httpProvider.defaults.headers.post   = {};
-    $httpProvider.defaults.headers.put    = {};
-    $httpProvider.defaults.headers.patch  = {};
+    $httpProvider.defaults.headers.post = {};
+    $httpProvider.defaults.headers.put = {};
+    $httpProvider.defaults.headers.patch = {};
 
     // $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|content):|data:image\//);
 
-    $ionicCloudProvider.init({
-      "core": {
-        "app_id": "2ada1795"
-      },
-      "push": {
-        "sender_id"   : 716852556262,
-        "pluginConfig": {
-          "ios"    : {
-            "badge": true,
-            "sound": true
-          },
-          "android": {
-            "iconColor": "#343434",
-            "sound"    : true,
-            "vibrate"  : true
-          }
-        }
-      }
-    });
+    // $ionicCloudProvider.init({
+    //   "core": {
+    //     "app_id": "2ada1795"
+    //   },
+    //   "push": {
+    //     "sender_id"   : 716852556262,
+    //     "pluginConfig": {
+    //       "ios"    : {
+    //         "badge": true,
+    //         "sound": true
+    //       },
+    //       "android": {
+    //         "iconColor": "#343434",
+    //         "sound"    : true,
+    //         "vibrate"  : true
+    //       }
+    //     }
+    //   }
+    // });
 
     $stateProvider
       .state('sidemenu', {
-        url     : '/sidemenu',
+        url: '/sidemenu',
         abstract: true,
-        views   : {
+        views: {
           "body": { templateUrl: "templates/side-menu.html" }
         }
       })
       .state('sidemenu.settings', {
-        url  : '/settings',
+        url: '/settings',
         views: {
           'menuContent': {
             templateUrl: 'templates/settings.html',
-            controller : 'SettingsCtrl'
+            controller: 'SettingsCtrl'
           }
         }
       })
       .state('sidemenu.login', {
-        url  : '/login',
+        url: '/login',
         views: {
           'menuContent': {
             templateUrl: 'templates/login.html',
-            controller : 'LoginCtrl'
+            controller: 'LoginCtrl'
           }
         }
       })
       .state('sidemenu.signup', {
-        url  : '/signup',
+        url: '/signup',
         views: {
           'menuContent': {
             templateUrl: 'templates/signup.html',
-            controller : 'SignupCtrl'
+            controller: 'SignupCtrl'
           }
         }
       })
       .state('sidemenu.changePassword', {
-        url  : '/change-password',
+        url: '/change-password',
         views: {
           'menuContent': {
             templateUrl: 'templates/change-password.html',
-            controller : 'ChangePassCtrl'
+            controller: 'ChangePassCtrl'
           }
         }
       })
       // setup an abstract state for the tabs directive
 
       .state('sidemenu.tab', {
-        url  : '/tab',
+        url: '/tab',
         views: {
           'menuContent': {
             templateUrl: 'templates/tabs.html'
@@ -334,78 +410,78 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
       })
       // Each tab has its own nav history stack:
       .state('sidemenu.tab.blogs', {
-        url  : '/home',
+        url: '/home',
         views: {
           'tab-home': {
             templateUrl: 'templates/tab-blogs.html',
-            controller : 'BlogCtrl'
+            controller: 'BlogCtrl'
           }
         }
       })
       .state('sidemenu.tab.blog', {
-        url  : '/home/:blogID',
+        url: '/home/:blogID',
         views: {
           'tab-home': {
             templateUrl: 'templates/blog.html',
-            controller : 'OneBlogCtrl'
+            controller: 'OneBlogCtrl'
           }
         }
       })
       //BUY TIPSTERS
       .state('sidemenu.tab.buy-tipsters', {
-        url  : '/buy-tipsters',
+        url: '/buy-tipsters',
         views: {
           'tab-buy-tipsters': {
             templateUrl: 'templates/tab-buy-tipsters.html',
-            controller : 'BuyTipstersCtrl'
+            controller: 'BuyTipstersCtrl'
           }
         }
       })
       //OWN TIPSTERS
       .state('sidemenu.tab.tipsters', {
-        url  : '/tipsters',
+        url: '/tipsters',
         views: {
           'tab-tipsters': {
             templateUrl: 'templates/tab-my-tipsters.html',
-            controller : 'MyTipstersCtrl'
+            controller: 'MyTipstersCtrl'
           }
         }
       })
       .state('sidemenu.tab.tipsters1', {
-        url  : '/tipst/:recent',
+        url: '/tipst/:recent',
         views: {
           'tab-tipsters': {
             templateUrl: 'templates/tab-my-tipster.html',
-            controller : 'MyTipsterCtrl'
+            controller: 'MyTipsterCtrl'
           }
         }
       })
       .state('sidemenu.tab.tipsters2', {
-        url  : '/tip/:id',
+        url: '/tip/:id',
         views: {
           'tab-tipsters': {
             templateUrl: 'templates/tab-my-tipster-tip.html',
-            controller : 'OneTipsterCtrl'
+            controller: 'OneTipsterCtrl'
           }
         }
       })
       //SUPPORT
       .state('sidemenu.support', {
-        url  : '/support',
+        url: '/support',
         views: {
           'menuContent': {
             templateUrl: 'templates/tab-support.html',
-            controller : 'SupportCtrl'
+            controller: 'SupportCtrl'
           }
         }
       })
       //RESPONSIBILITY
       .state('sidemenu.rules', {
-        url  : '/rules',
+        url: '/rules',
         views: {
           'menuContent': {
             templateUrl: 'templates/tab-rules.html',
-            controller : 'ResponsibleCtrl'
+            controller: 'ResponsibleCtrl'
           }
         }
       });

@@ -1,4 +1,4 @@
-controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPopup, Loading, $sce, $ionicPopover, Categories,  $ionicScrollDelegate, $rootScope, Alert, $ionicPlatform, $state) {
+controllers.controller("BlogCtrl", function ($scope, $http, $ionicPopup, Loading, $sce, $ionicPopover, Categories,  $ionicScrollDelegate, $rootScope, Alert, $ionicPlatform, $state) {
   Loading.start();
 
   $scope.page = 1;
@@ -136,41 +136,5 @@ controllers.controller("BlogCtrl", function ($ionicPush, $scope, $http, $ionicPo
     $rootScope.slideHeaderPrevious = top - start;
     $rootScope.$apply();
   };
-
-  $rootScope.routeOnPush = function (payload) {
-    if (payload.type === 'tip') {
-      var timerId = setTimeout(function tick() {
-
-        if (!$rootScope.tipsList) {
-          timerId = setTimeout(tick, 1000);
-        }
-        if (!$rootScope.isLoading) {
-          Loading.start()
-        }
-        if($rootScope.tipsList ){
-          Loading.hide()
-        }
-      }, 1000);
-      $state.go('sidemenu.tab.tipsters1', { recent: payload.id });
-    } else {
-      $state.go('sidemenu.tab.blog', { blogID: payload.id })
-    }
-  };
-
-  $scope.$on('cloud:push:notification', function(event, data) {
-    var msg   = data.message;
-    var payload = msg.payload;
-    var app     = msg.app;
-    if (app.closed){
-      $rootScope.routeOnPush(payload);
-    } else {
-      Alert.pushContent(msg.title, msg.text)
-        .then(function (resp) {
-          if (resp) {
-            $rootScope.routeOnPush(payload);
-          }
-        });
-    }
-  });
 
 });

@@ -1,4 +1,4 @@
-controllers.controller("LoginCtrl", function ($scope, $http, $ionicPopup, $state, Loading, $rootScope, Alert, $ionicPush) {
+controllers.controller("LoginCtrl", function ($scope, $http, $ionicPopup, $state, Loading, $rootScope, Alert) {
 
   $scope.data = {
     username: "",
