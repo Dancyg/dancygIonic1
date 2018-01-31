@@ -8,9 +8,13 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
           cordova.plugins.Keyboard.disableScroll(true);
 
         }
-        if (window.StatusBar && document.getElementsByClassName('platform-android').length) {
+        // if (window.StatusBar && document.getElementsByClassName('platform-android').length) {
           StatusBar.hide();
-        }
+        // } else {
+        //   StatusBar.overlaysWebView(true);
+        //   StatusBar.backgroundColorByHexString('#696969');
+        // }
+        //#696969
 
         //define local db
         localforage.defineDriver(window.cordovaSQLiteDriver).then(function () {
@@ -38,10 +42,12 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
           var data = {
             api_call: true,
             device_token: $rootScope.device_token,
+            device_platform: window.document.getElementsByClassName('platform-android').length ? 'GCM' : 'APNS',
             status: settingsData ?
               settingsData.blogNotif ? 1 : 0 :
               1
           };
+          console.log('update blog token', JSON.stringify(data));
 
           var formData = new FormData();
           for (var key in data) {
@@ -63,11 +69,15 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
           var data = {
             api_call: true,
             device_token: $rootScope.device_token,
+            device_platform: window.document.getElementsByClassName('platform-android').length ? 'GCM' : 'APNS',
             token: $rootScope.token,
             status: settingsData ?
               settingsData.tipNotif ? 1 : 0 :
               1
           };
+
+          console.log('===========');
+          console.log('update TIP token', JSON.stringify(data));
 
           var formData = new FormData();
           for (var key in data) {
@@ -108,11 +118,11 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
             "IOS": {
               "badge": true,
               "sound": true,
-              "alert": false,
+              "alert": true,
             },
             "android": {
               "senderID": 716852556262,
-              "forceShow": true,
+              "forceShow": false,
               "sound": true,
               "vibrate": true,
               "payload": { "content-available": "1" }
@@ -163,14 +173,14 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
           $rootScope.push.on('notification', function (data) {
             // Alert.success('notification received', JSON.stringify(data));
             console.log('data', data);
-
             var msg     = data.message;
-            var payload = data.payload ? data.payload  : { type: 'blog', id: 300 };
+            var title   = data.title;
+            var payload = data.additionalData;
             // var appOpen = data.additionalData.foreground;
             // if (!appOpen){
             //   $rootScope.routeOnPush(payload);
             // } else {
-              Alert.pushContent(msg, '')
+              Alert.pushContent(title, msg)
                 .then(function (resp) {
                   if (resp) {
                     $rootScope.routeOnPush(payload);
@@ -279,10 +289,12 @@ angular.module('starter', ['ionic', 'ionic.cloud', 'starter.controllers', 'start
             });
         };
 
-        $rootScope.checkIfAndroid = function (callback) {
+        $rootScope.checkIfAndroid = function (callback, appleCallback) {
           setTimeout(function () {
             if (window.document.getElementsByClassName('platform-android').length) {
               callback && callback();
+            } else {
+              appleCallback && appleCallback()
             }
           }, 10)
         };

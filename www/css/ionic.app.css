@@ -9800,8 +9800,8 @@ a.button {
   transition-duration: 0s; }
 
 .login-wrapper {
-  background: url(../img/login.jpg) no-repeat center center;
-  background-size: cover;
+  background: url(../img/login.jpg) no-repeat center center !important;
+  background-size: cover !important;
   z-index: -1; }
 
 .login-inputs-wrapper {
@@ -9814,8 +9814,8 @@ a.button {
 
 .logo {
   min-height: 100px;
-  background: url(../img/logo.png) no-repeat center center, rgba(255, 255, 255, 0.4);
-  background-size: contain;
+  background: url(../img/logo.png) no-repeat center center, rgba(255, 255, 255, 0.4) !important;
+  background-size: contain !important;
   margin-bottom: 10vh; }
 
 .login-header {
@@ -9838,10 +9838,9 @@ a.button {
   color: #ffffff;
   width: 100%;
   border: none;
-  height: 45px;
+  min-height: 45px;
   outline: none;
-  margin: 25px 0 10px;
-  line-height: 45px; }
+  margin: 25px 0 10px; }
 
 .checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before {
   background: #fa6800;
@@ -9855,8 +9854,8 @@ a.button {
   color: #464646; }
 
 .signup-wrapper {
-  background: url(../img/signup.jpg) no-repeat center center;
-  background-size: cover;
+  background: url(../img/signup.jpg) no-repeat center center !important;
+  background-size: cover !important;
   z-index: -1; }
 
 body {
@@ -9866,7 +9865,7 @@ body {
   color: #FF9500;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   background: url(../img/logo-horse.png) center center no-repeat, #696969;
-  background-size: 43px; }
+  background-size: 52px; }
 
 .footer-custom {
   background: #696969;
@@ -9919,6 +9918,14 @@ body {
   font-size: 20px;
   padding: 0 5px 0 0; }
 
+.sandwich {
+  color: #FF9500 !important;
+  z-index: 100 !important; }
+
+.no-height {
+  height: 0;
+  overflow: hidden; }
+
 .gambling-responsibly-container {
   font-size: 20px;
   line-height: 30px;
@@ -9940,7 +9947,8 @@ p:first-letter {
   background-size: cover !important;
   color: #ffffff;
   font-weight: bold;
-  font-size: 47px; }
+  font-size: 47px;
+  margin: 0 !important; }
 
 .support-wrapper {
   background: #f8f8f8; }
@@ -9948,7 +9956,7 @@ p:first-letter {
 .support-inputs-wrapper {
   background: #444;
   overflow: hidden;
-  min-height: calc(100vh - 93px); }
+  min-height: calc(100vh - 43px); }
 
 .support-info {
   color: #f8f8f8; }
@@ -10080,6 +10088,10 @@ body.bar-subheader-slide-away .has-subheader {
   justify-content: space-between;
   height: 40px; }
 
+.blog-content {
+  margin-bottom: 40px !important;
+  padding-bottom: 30px !important; }
+
 .share-button {
   width: 23vw;
   display: inline-block;
@@ -10195,13 +10207,69 @@ body.bar-subheader-slide-away .has-subheader {
   font-size: 1.3em;
   line-height: 150%; }
 
-.platform-ios .has-subheader {
-  top: 54px !important; }
-  .platform-ios .has-subheader .scroll {
-    padding-top: 54px !important; }
+.platform-ios .header-custom {
+  background-size: 45px;
+  background-position: center bottom; }
 
-.platform-ios .blogs .scroll-refresher {
-  top: -10px !important; }
+.side-menu-header {
+  color: #fff !important;
+  font-weight: bold !important; }
 
-.platform-ios .categories {
-  height: calc(100vh - 147px); }
+.logout-item {
+  color: #ff0649 !important;
+  font-weight: bold !important; }
+
+.login-item {
+  color: #696969 !important;
+  font-weight: bold !important; }
+
+.signup-item {
+  color: #696969 !important;
+  font-weight: bold !important; }
+
+.change-password-item {
+  margin: 20px 0; }
+
+.settings-back-buttons {
+  margin: 20px 0; }
+
+.settings-back-tips, .settings-back-blogs {
+  width: 50%;
+  text-decoration: none;
+  display: inline-block;
+  color: #696969;
+  text-align: center; }
+
+.input-change-pass-label {
+  margin: 40px 0 -1px; }
+
+.input-change-pass {
+  border: none; }
+
+.checkbox-change-pass {
+  margin: 0 0 20px; }
+
+.change-password-button {
+  background: #fa6800;
+  color: #ffffff;
+  font-size: 1.1em;
+  font-weight: bold; }
+
+.settings-settings {
+  margin: 20px 0; }
+
+.dark-background {
+  background: #6f6e68;
+  color: #FF9500 !important; }
+
+.tab-item {
+  max-width: 100% !important; }
+
+.settings-input, .settings-input span, .settings-input a, .settings-input input {
+  border-width: 1px 0;
+  color: #FF9500 !important;
+  background-color: #565656 !important;
+  border-color: #6f6e68 !important; }
+
+.item {
+  border-width: 1px 0; }
